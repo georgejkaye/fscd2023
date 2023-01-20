@@ -1,0 +1,715 @@
+% !TeX root = ../main-conf.tex
+\section{Hypergraphs}
+
+Hypergraphs are formally defined as objects in a functor category.
+
+\begin{definition}[Hypergraph]
+    Let \(\mathbf{X}\) be the category containing objects \((k, l)\) for
+    \(k, l \in \nat\) and one additional object \(\star\).
+    For each \((k, l)\) there are \(k + l\) morphisms from \((k, l) \to \star\).
+    Let \(\hyp\) be the functor category \([\mathbf{X},\set]\).
+\end{definition}
+
+An object in \(\hyp\) maps \(\star\) to a set of vertices, and each \((k,l)\) to
+a set of hyperedges with \(k\) sources and \(l\) targets,
+Given a hypergraph \(H \in \hyp\), we write \(\vertices{H}\) for its set of
+vertices and \(\edges{H}{k}{l}\) for the set of edges with \(k\) sources and
+\(l\) targets.
+
+\begin{definition}[Hypergraph signature]
+    For a given monoidal signature \(\Sigma\), its corresponding
+    \emph{hypergraph signature} \(\hypsignature{\Sigma}\) is the hypergraph with
+    edges \(\phi \in \edges{\hypsignature{\Sigma}}{k}{l}\) for each
+    \((\phi, k, l) \in \sigma\), and a single vertex acting as the source and
+    target of all edges.
+\end{definition}
+
+\begin{definition}[Labelled hypergraph]
+    For a monoidal signature \(\Sigma\), let the category \(\hypsigma\) be
+    defined as the slice category \(\hyp \setminus \hypsignature{\Sigma}\).
+\end{definition}
+
+While (labelled) hypergraphs may have dangling vertices, they do not have \emph{interfaces}.
+These can be provided using \emph{cospans}.
+
+\begin{definition}[Categories of cospans~\cite{bonchi2021string}]\label{def:cospans}
+    For a finitely cocomplete category \(\mcc\), a \emph{cospan} from \(X \to Y\) is a pair of arrows \(X \to A \leftarrow Y\).
+    A \emph{cospan morphism} \((X \to A \leftarrow Y) \to (X \to B \leftarrow Y)\) is a morphism in \(C \to D \in \mcc\) such that the following diagram commutes:
+
+    \begin{center}
+        \includestandalone{figures/graphs/cospans/morphism}
+    \end{center}
+
+    \noindent
+    Two cospans \(\cospan{X}{A}{Y}\) and \(\cospan{X}{B}{Y}\) are \emph{isomorphic} if there exists a morphism of cospans as above where \(\alpha\) is an isomorphism.
+    Composition is by pushout:
+
+    \begin{center}
+        \includestandalone{figures/graphs/cospans/composition}
+    \end{center}
+
+    \noindent
+    The identity is \(X \xrightarrow{\id[X]} X \xleftarrow{\id[X]} X\).
+    The category of cospans over \(\mcc\), denoted \(\csp{\mcc}\) has as objects the objects of \(\mcc\) and as morphisms the isomorphism classes of cospans.
+    This category has monoidal product given by the coproduct in \(\mcc\) with unit the initial object \(0 \in \mcc\).
+\end{definition}
+
+\begin{definition}[Discrete hypergraph]
+    A hypergraph is called \emph{discrete} if it has no edges.
+\end{definition}
+
+\noindent
+A discrete hypergraph \(H\) with \(|\vertices{H}| = n\) is often written as \(n\) when clear from context.
+Discrete hypergraphs are used as the `legs' of a cospan to select the inputs and outputs of hypergraphs.
+There still needs to be a notion of \emph{ordering} on the interfaces, which is obtained using a functor from \(\finset\), the prop of finite sets and functions.
+
+\begin{theorem}[\cite{bonchi2022string}, Thm. 3.8]
+    \label{thm:cospan-homomorphism}
+    Let \(\mathbb{X}\) be a prop whose monoidal product is a coproduct, \(\mcc\) a category with finite colimits, and \(\morph{F}{\mathbb{X}}{\mcc}\) a coproduct-preserving functor.
+    Then there is a homomorphism of props \(\morph{\tilde{F}}{\csp{\mathbb{X}}}{\csp[F]{\mcc}}\) that sends \(\cospan{m}[f]{X}[g]{n}\) to \(\cospan{Fm}[Ff]{FX}[Fg]{Fn}\).
+    If \(F\) is full and faithful, then \(\tilde{F}\) is faithful.
+\end{theorem}
+
+\begin{definition}
+    Let \(\morph{D}{\finset}{\hypsigma}\) be the faithful, coproduct-preserving functor that sends each object \(m \in \finset\) to the discrete hypergraph \(m \in \hypsigma\) and each morphism to the induced homomorphism of discrete hypergraphs.
+\end{definition}
+
+\noindent
+From this we define the category \(\cspdhyp\) with objects \emph{discrete cospans of hypergraphs}.
+Since the legs of each cospan are discrete hypergraphs containing some number of vertices, the objects of this category can be viewed as natural numbers, making this a prop.
+
+\subsection{Adding a trace}
+
+Our goal is to adapt this hypergraph framework for a setting with a \emph{trace}.
+Fortunately, the category of interfaced hypergraphs we have just defined already contains a great deal of useful structure.
+
+\begin{definition}[Hypergraph category \cite{fong2019hypergraph}]
+    A \emph{hypergraph category} is a symmetric monoidal category in which each object \(X\) is equipped with a Frobenius structure.
+\end{definition}
+
+\begin{proposition}
+    \(\cspdhyp\) is a hypergraph category.
+\end{proposition}
+\begin{proof}
+    The Frobenius structure is defined as follows:
+    \begin{gather*}
+        \iltikzfig{strings/structure/monoid/merge}[white]
+        :=
+        \cospan{m + m}{m}{m}
+        \quad
+        \iltikzfig{strings/structure/monoid/init}[white]
+        :=
+        \cospan{0}{m}{m}
+        \\
+        \iltikzfig{strings/structure/comonoid/copy}[white]
+        :=
+        \cospan{m}{m}{m+m}
+        \quad
+        \iltikzfig{strings/structure/comonoid/discard}[white]
+        :=
+        \cospan{m}{m}{0}
+    \end{gather*}
+    It is a simple exercise to check the axioms are satisfied.
+\end{proof}
+
+\begin{corollary}[\cite{carboni1987cartesian}]
+    \(\cspdhyp\) is compact closed.
+\end{corollary}
+
+It is well known that every compact closed category is equipped with a \emph{canonical trace}~\cite{joyal1996traced}, constructed by combining the cup, cap and an identity.
+So in some sense, \(\cspfihyp\) is already traced.
+However, it is useful to consider a(n equivalent) formulation in which the trace is constructed directly.
+
+To take the \((f,g)\)-trace of a cospan \(\cospan{x+m}[f+h]{H}[g+k]{x+n}\), we coalesce the \(i\)th elements of the image of \(f\) and \(g\).
+\[
+    \trace{1}{\iltikzfig{graphs/trace/before-trace}}
+    \equiv
+    \iltikzfig{graphs/trace/after-trace}
+\]
+This is defined formally using a pushout, in a similar vein to~\cite{dixon2013opengraphs}.
+
+\begin{definition}
+    For a cospan of hypergraphs \[\cospan{x+m}[f+h]{H}[g+k]{x+n},\] its trace on \(x\) is \[\cospan{m}[h \seq p]{H^\prime}[k \seq p]{n},\] where \(p\) and \(H^\prime\) are computed by the following pushout:
+    \begin{center}
+        \tikzfig{graphs/trace/trace-pushout}
+    \end{center}
+\end{definition}
+
+\begin{example}
+    Below is an example of tracing a simple hypergraph in this manner.
+    \begin{center}
+        \iltikzfig{graphs/trace/trace-pushout-example}
+    \end{center}
+\end{example}
+
+\subsection{Monogamy}
+
+In~\cite{bonchi2016rewriting}, it is shown that terms in a (non-traced) symmetric monoidal category are interpreted as monogamous acyclic graphs, in which each vertex has an `in' connection and an 'out' connection, be it to an edge or the interface.
+Clearly, to model trace we must drop the acyclicity condition.
+However, we must also tweak the monogamicity condition.
+This stems from considering the trace of the identity:
+\[
+    \trace{1}{\iltikzfig{strings/category/identity}[white]}
+    =
+    \iltikzfig{strings/traced/trace-id}
+\]
+\noindent
+One might think that a closed loop can be discarded.
+However, this is not always the case, such as the category of finite dimensional vector spaces~\cite[Sec. 6.1]{hasegawa1997recursion}.
+This means that closed loops must be represented in the hypergraph framework: there is a natural representation of such a loop as a lone vertex disconnected from either interface.
+This is not compatible with monogamy, so a weakening must be considered.
+
+\begin{definition}
+    For a hypergraph \(H \in \hyp\), the \emph{degree} of a vertex \(v \in \vertices{H}\) is a tuple \((i,o)\) where \(i\) is the number of pairs \((e,i)\) where \(e\) is a hyperedge with \(v\) as its \(i\)th target, and \(o\) is similarly the number of pairs \((e,j)\) where \(e\) is a hyperedge with \(v\) as its \(j\)th target.
+\end{definition}
+
+\begin{definition}
+    For a cospan \(\cospan{m}[f]{H}[g]{n}\), we say it is \emph{partial monogamous} if \(f\) and \(g\) are mono and, for all nodes \(v \in H_\star\),
+    \begin{center}
+        the degree of \(v\) is $\begin{cases}
+            (0,0) & \text{if}\ v \in f_\star \wedge v \in g_\star \\
+            (0,1) & \text{if}\ v \in f_\star \\
+            (1,0) & \text{if}\ v \in g_\star \\
+            (0,0) \text{ or } (1,1) & otherwise \\
+        \end{cases}$
+    \end{center}
+\end{definition}
+
+\begin{lemma}\label{lem:trace-degree}
+    Given a cospan \(\cospan{x+m}[f+h]{F}[g+k]{x+n}\), and its corresponding traced cospan \(\cospan{m}[g \seq p]{F^\prime}[h \seq p]{n}\).
+    For \(i < x\), let \((k_1,l_1)\) be the degree of \(f(i)\) and \((k_2,l_2)\) be the degree of \(g(i)\).
+    Then, the degree of \(p(f(i)) = p(h(i))\) is \((k_1 + k_2, l_1 + l_2)\).
+\end{lemma}
+\begin{proof}
+    \(p(f(i))\) and \(p(g(i))\) are coalesced by the pushout.
+    The pushout cannot coalesce the edges in \(H\) as \(x\) contains no edges, so the degree of \(f(i)\) and \(h(i)\) must be preserved.
+\end{proof}
+
+\begin{lemma}\label{lem:trace-interface}
+    Given a partial monogamous cospan \[\cospan{x+m}[f+h]{F}[g+k]{x+n}\] and its trace \[\cospan{m}[h \seq p]{F^\prime}[k \seq p]{n},\] any vertex in the image of \(f\) is not in the image of \(h \seq p\), and similarly any vertex in the image of \(g\) is not in the image of \(k \seq p\).
+\end{lemma}
+\begin{proof}
+    Since this is a partial monogamous cospan, the images of \(f\) and \(h\) are disjoint, as are the images of \(g\) and \(k\).
+    Therefore, \(f(v)\) is not in the image of \(h\), so it cannot be in the image of \(h \seq p\), and similarly for \(g(v)\) and \(k\).
+\end{proof}
+
+\begin{lemma}~\label{lem:partial monogamous-ops}
+    Let \(\cospan{m}{F}{n}\), \(\cospan{n}{G}{p}\), \(\cospan{p}{H}{q}\) and \(\cospan{x+m}{K}{x+n}\) be partial monogamous cospans.
+    Then,
+    \begin{itemize}
+        \item Identities and symmetries are partial monogamous.
+        \item \(\cospan{m}{F}{n} \seq \cospan{n}{G}{p}\) is partial monogamous.
+        \item \(\cospan{m}{F}{n} \tensor \cospan{p}{H}{q}\) is partial monogamous.
+        \item \(\trace{x}{\cospan{x+m}[f+h]{K}[g+k]{x+n}} = \cospan{m}[h \seq p]{pK}[k \seq p]{n}\) is partial monogamous.
+    \end{itemize}
+\end{lemma}
+\begin{proof}
+    Since any monogamous hypergraph is also partial monogamous, the first three points hold due to~\cite[Prop.16]{bonchi2022string}, dropping the acyclicity condition.
+    For the final condition, consider the image of \(f\) and \(g\).
+    For each \(i \in x\), there are two cases to consider: \(f(i) = g(i)\) and \(f(i) \neq g(i)\).
+
+    In the former, the degree of \(v^\prime = f(v) = h(v)\) must be \((0,0)\) by definition of semi-monogamicity.
+    Therefore in the traced hypergraph \(\cospan{m}[g \seq p]{K^\prime}[h \seq p]{n}\), \(v^\prime\) will still have degree \((0,0)\), and will not be in the image of \(g \seq p\) or \(h \seq p\) by \cref{lem:trace-interface}.
+    So the cospan is partial monogamous.
+
+    In the latter case, \(f(i)\) must have degree of \((0,0)\) if it in the image of \(k\) or \((0,1)\) otherwise.
+    Similarly \(g(i)\) either has degree \((0,0)\) or \((1,0)\).
+    Let \(v := p(f(i)) = p(g(i))\); we now consider the degree of \(v\) computed using \cref{lem:trace-degree}:
+    \begin{itemize}
+        \item If \(f(i)\) is in the image of \(k\) and \(g(i)\) is in the image of \(h\), then \(v\) has degree \((0,0)\).
+        \(v\) is in the image of \(h \seq p\) and \(h \seq p\), so the cospan is partial monogamous.
+        \item If \(f(i)\) is in the image of \(k\), then \(v\) has degree \((1, 0)\); since \(v\) is in the image of \(k \seq p\), the cospan is partial monogamous.
+        \item If \(g(i)\) is in the image of \(h\), then \(v\) has degree \((0, 1)\); since \(v\) is in the image of \(h \seq p\), the cospan is partial monogamous.
+        \item Otherwise, \(v\) will have degree \((1, 1)\), and is not in the image of either interface so the cospan is partial monogamous.
+    \end{itemize}
+\end{proof}
+
+\noindent
+This means that the partial monogamous hypergraphs form a sub-prop of \(\cspfihyp\), which we name \(\pmcspfihyp\).
+
+\subsection{From terms to graphs}
+
+Since \(\stmc{\Sigma}\) and \(\pmcspfihyp\) are freely generated, to define a morphism between them it suffices to define it on the generators in the former.
+
+\begin{definition}
+    Let \(\morph{\termtohyp{\Sigma}}{\stmc{\Sigma}}{\pmcspfihyp}\) be a prop morphism defined on the generators of \(\Sigma\) as shown in \cref{fig:termtohyp}.
+    \begin{figure}
+        \begin{gather*}
+            \termtohyp[\iltikzfig{strings/category/phi-widths}]{\Sigma}
+            \quad
+            :=
+            \quad
+            \iltikzfig{graphs/terms/generator} \\
+            \termtohyp[\iltikzfig{strings/category/identity}[white][m][n]]{\Sigma}
+            \quad
+            :=
+            \quad \iltikzfig{graphs/terms/identity}[white] \\
+            \termtohyp[\iltikzfig{strings/symmetric/symmetry}[white][m][n]]{\Sigma}
+            \quad
+            :=
+            \quad
+            \iltikzfig{graphs/terms/symmetry}[white]
+        \end{gather*}
+        \caption{Definition of \(\termtohyp{\Sigma}\) on generators in \(\smc{\Sigma}\).}
+        \label{fig:termtohyp}
+    \end{figure}
+\end{definition}
+
+\noindent
+Recall one of the key theorems from~\cite{bonchi2021string}.
+
+\begin{theorem}[\cite{bonchi2021string}, Corollary 20]\label{thm:smc-graph-iso}
+    \(\smc{\Sigma} \cong \macspfihyp\).
+\end{theorem}
+
+\noindent
+Our goal is to extend this to terms in \(\stmcsigma\) and \emph{partial monogamous hypergraphs}.
+We first characterise the image of \(\termtohypsigma\) and show that it is exactly \(\pmcspfihyp\).
+Before progressing to the main theorem, we must show some results about terms in \(\smc{}\), i.e.\ terms constructed from just symmetries and identities.
+In particular, there is a correspondence between \(\smc{}\) and \(\perms\), the subprop of the prop of finite sets and functions containing only the bijective functions.
+
+
+\begin{lemma}\label{lem:symmetries-prop}
+    \(\smc{} \cong \perms\).
+\end{lemma}
+\begin{proof}
+    The morphism \(\morph{\phi}{\smc{}}{\perms}\) is defined over generators in \(\smc{}\) as
+    \[\phi(\iltikzfig{strings/monoidal/empty}) = \{\} \quad \phi(\iltikzfig{strings/category/identity}[white]) = \{0 \mapsto 0\} \quad \phi(\iltikzfig{strings/symmetric/symmetry}[white]) = \{0 \mapsto 1, 1 \mapsto 0\}\]
+    Since any term in \(\smc{}\) can be expressed using these generators, this defines the complete transformation.
+
+    The reverse morphism \(\morph{\psi}{\finset}{\smc{}}\) is inductively over the size of \(m\).
+    For the base case \(\morph{f}{[0]}{[0]}\), let \(\phi(f) := \iltikzfig{strings/monoidal/empty}\).
+    For \(\morph{f}{[k+1]}{[k+1]}\), let \(i\) such that \(f(i) = k+1\), and define the function \(\morph{f^\prime}{\nat_{k}}{\nat_{k}}\) as the function such that \(f^\prime(j) = f(j)\) if \(j < i\), and \(f(j+1)\) otherwise.
+    Then \[\psi(f) := \iltikzfig{strings/symmetric/f-construction}.\]
+
+    \noindent
+    These are shown to be inverses by a simple induction in both directions.
+\end{proof}
+
+\noindent
+This allows us to establish a correspondence between terms in \(\smc{}\) and cospans of discrete hypergraphs.
+
+\begin{lemma}\label{lem:monog-discrete-cospan}
+    Given a monogamous cospan \(\cospan{m}[f]{m}[g]{m}\), there exists a unique term \(\morph{h}{m}{m} \in \smc{}\) up to the axioms of SMCs such that \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
+\end{lemma}
+\begin{proof}
+    Since the cospan is monogamous, \(f\) and \(g\) are mono.
+    As the cospan is also discrete, there exists a (unique) bijective function \(\morph{h^\prime}{[m]}{[m]}\) such that \(h^\prime(i) = j\) if \(f(i) = g(j)\).
+    By \cref{lem:symmetries-prop}, there is a corresponding term \(h \in \smc{}\) that is unique up to SMC axioms: a simple induction shows that \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
+\end{proof}
+
+\noindent
+We now proceed to the first main result.
+
+\begin{proposition}\label{prop:termtohyp-image}
+    A cospan \(\cospan{m}{H}{n}\) is in the image of \(\termtohyp{\Sigma}\) if and only if it is partial monogamous.
+\end{proposition}
+\begin{proof}
+    To show that \(\termtohyp[f]{\Sigma}\) is partial monogamous for any \(f \in \smc{\Sigma}\) we use induction on the structure of \(f\).
+    Generators, identities and symmetries are partial monogamous, as semi-monogamicity is preserved by composition, tensor and trace by \cref{lem:partial monogamous-ops}.
+    So \(\termtohyp[f]{\Sigma}\) is partial monogamous.
+
+    Now we show that any partial monogamous cospan \(\cospan{m}[f]{F}[g]{n}\) must be in the image of \(\termtohyp{\Sigma}\).
+    To do this, we will now construct a cospan that is isomorphic to \(\cospan{m}[f]{F}[g]{n}\), but from which it is possible to read off a unique term in \(\smc{\Sigma}\).
+    The components of the new cospan are as follows:
+    \begin{itemize}
+        \item let \(L\) be the hypergraph containing vertices with degree \((0,0)\) that are not in the image of \(f\) or \(g\);
+        \item let \(E\) be the hypergraph containing hyperedges of \(F\) and their source and target vertices, but disconnected;
+        \item let \(V\) be the discrete hypergraph containing all the vertices of \(F\); and
+        \item let \(S\) and \(T\) be the discrete hypergraphs containing the source and target vertices of hyperedges in \(F\) respectively, with the ordering determined by some order \(e_1,e_2,\cdots,e_n\) on the edges in \(F\).
+    \end{itemize}
+
+    \noindent
+    These parts can be composed and a trace applied to obtain the follow cospan:
+    \begin{gather}
+        \trace{T}{\cospan{T + m}[\id + f]{V}[\id + g]{S + n} \,\seq\, \cospan{\emptyset + S + n}[\id]{L + E + n}[\id]{\emptyset + T + n}}\label{gat:cospan}
+    \end{gather}
+
+    \noindent
+    This can be checked to be isomorphic to the original cospan \(\cospan{m}[f]{F}[g]{n}\) by applying the pushouts.
+    From this we can read off a term in \(\smc{\Sigma}\):
+    Since the first cospan is monogamous, it corresponds to a term \(\iltikzfig{graphs/isomorphism/construction-f}\) by \cref{lem:monog-discrete-cospan}.
+    The second cospan corresponds to \(\iltikzfig{graphs/isomorphism/construction-g} := \bigtensor_{v \in \vertices{L}} \iltikzfig{strings/traced/trace-id} \tensor \bigtensor_{e \in 0 \leq i \leq n} \iltikzfig{graphs/isomorphism/label-e} \tensor \iltikzfig{strings/category/identity-n}\).
+    Putting this all together yields \(h := \termtohypsigma[\iltikzfig{graphs/isomorphism/construction}]\).
+    While there may be multiple orderings on the edges, the possible terms are equal by sliding and the naturality of symmetry, so there is one unique term \(\iltikzfig{strings/category/f}[H][white]\) that corresponds to cospan (\ref{gat:cospan}).
+
+    It is clear by definition that \(\termtohypsigma[\iltikzfig{strings/category/f}[H][white]]\) produces (\ref{gat:cospan}), which is isomorphic to the original cospan \(\cospan{m}[f]{F}[g]{n}\), so it is in the image of \(\termtohypsigma\).
+\end{proof}
+
+\noindent
+The final step is to show that \(\termtohypsigma\) is \emph{faithful}, i.e.\ each unique term in \(\stmcsigma\) up to the equations of STMCs corresponds to a unique cospan of hypergraphs.
+First we show that any term in \(\stmcsigma\) not equal to a term in \(\smcsigma\) cannot correspond to a cospan in \(\macspdhyp\).
+
+\begin{lemma}
+    If \(\iltikzfig{strings/category/f}[H][white]\) is a term in \(\stmc{\Sigma} \setminus \smc{\Sigma}\), then \(\termtohypsigma[\iltikzfig{strings/category/f}[H][white]]\) either fails to be monogamous, acyclic, or both.
+\end{lemma}
+\begin{proof}
+    Assume that \(\iltikzfig{strings/category/f}[H][white]\) is monogamous acyclic, so it is in \(\macspfihyp\).
+    By \cref{thm:smc-graph-iso}, any graph in \(\macspfihyp\) corresponds to a unique term in \(\smc{\Sigma}\) up to axioms of SMCs: a contradiction, as \(\iltikzfig{strings/category/f}[H][white] \in \stmc{\Sigma} \setminus \smc{\Sigma}\).
+\end{proof}
+
+\begin{corollary}
+    The images of \(\smc{\Sigma}\) and \(\stmc{\Sigma} \setminus \smc{\Sigma} \) are disjoint under \(\termtohypsigma\).
+\end{corollary}
+
+\begin{corollary}[\cite{bonchi2022string}, Corollary 3.11]\label{cor:termtohyp-faithful-smc}
+    \(\morph{\termtohypsigma}{\stmc{\Sigma}}{\pmcspfihyp}\) is faithful when the domain is restricted to \(\smc{\Sigma}\).
+\end{corollary}
+
+\begin{theorem}
+    \(\termtohypsigma\) is faithful when the domain is restricted to \(\stmc{\Sigma} \setminus \smc{\Sigma}\).
+\end{theorem}
+\begin{proof}
+    Let \(\iltikzfig{strings/category/f}[F][white]\) and \(\iltikzfig{strings/category/f}[F][white]\) be terms in \(\stmc{\Sigma}\) such that \(\iltikzfig{strings/category/f}[F][white] \neq \iltikzfig{strings/category/f}[F][white]\).
+    By applying axioms of STMCs, these terms can be rewritten as \(\iltikzfig{strings/traced/fprime-traced}\) and \(\iltikzfig{strings/traced/gprime-traced}\) respectively, where \(\iltikzfig{strings/traced/fprime}\) and \(\iltikzfig{strings/traced/gprime}\) are terms in \(\smc{\Sigma}\).
+    Since \(\iltikzfig{strings/category/f}[F][white] \neq \iltikzfig{strings/category/f}[F][white]\), then \(\iltikzfig{strings/traced/fprime} \neq \iltikzfig{strings/traced/gprime}\).
+    Assume that \(\termtohypsigma[\iltikzfig{strings/category/f}[F][white]]\) and \(\termtohypsigma[\iltikzfig{strings/category/f}[F][white]]\) are isomorphic as cospans.
+    Then \(\termtohypsigma[\iltikzfig{strings/traced/fprime-traced}]\) and \(\termtohypsigma[\iltikzfig{strings/traced/gprime-traced}]\) are also isomorphic.
+    However, since \(\termtohypsigma\) is faithful on terms in \(\smc{\Sigma}\)
+    by \cref{cor:termtohyp-faithful-smc}, \(
+        \termtohypsigma[\iltikzfig{strings/traced/fprime}]
+    \) and \(
+        \termtohypsigma[\iltikzfig{strings/traced/gprime}]
+    \) are not isomorphic.
+
+    The only axiom of STMCs that allows for the trace of non-equal morphisms to be equal is the sliding axiom.
+    But for such a situation to be valid here, the original terms must also be equal by sliding, a contradiction.
+    So \(\termtohypsigma[\iltikzfig{strings/category/f}[F][white]]\) and \(\termtohypsigma[\iltikzfig{strings/category/f}[F][white]]\) are not isomorphic: \(\termtohypsigma\) is faithful.
+\end{proof}
+
+\begin{corollary}
+    \(\termtohypsigma\) is faithful.
+\end{corollary}
+
+\begin{corollary}
+    \(\stmc{\Sigma} \cong \pmcspfihyp\).
+\end{corollary}
+
+\section{Graph rewriting}
+
+\begin{definition}[Rewrite rule]
+    Given cospans \(\cospan{i}[a_1]{L}[a_2]{j}\) and \(\cospan{i}[b_1]{R}[b_2]{j}\), their rewrite rule is a span in \(\hypsigma\) \(\spann{L}[[a_1,a_2]]{i+j}[[b_1,b_2]]{R}\).
+\end{definition}
+
+\begin{lemma}
+    Given terms \(\iltikzfig{strings/rewriting/l}\), \(\iltikzfig{strings/rewriting/r}\) in \(\stmcsigma\) and their corresponding rewrite rule \[
+        \spann{
+            \termtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/l}]]
+        }[[a_1, a_2]]{
+            i + j
+        }[[b_1, b_2]]{
+            \termtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/r}]]
+        }
+    \] in \(\hypsigma\), \(a_1\), \(a_2\), \(b_1\) and \(b_2\) are mono.
+\end{lemma}
+\begin{proof}
+    By definition of partial monogamous cospan.
+\end{proof}
+
+\begin{definition}[DPO]
+    \begin{gather}
+        \label{gath:dpo}
+        \includestandalone{figures/graphs/dpo/dpo}
+    \end{gather}
+\end{definition}
+
+\begin{definition}[Boundary complement \cite{bonchi2021string}, Definition 23]\label{def:boundary-complement}
+    For \(\cospan{i}[a_1]{L}[a_2]{j}\) and \(\cospan{n}[b_1]{G}[b_2]{m} \in \macspfihyp\) and mono \(\morph{f}{L}{G} \in \hypsigma\), a pushout complement as below
+    \begin{gather}
+        \includestandalone{figures/graphs/dpo/boundary-complement}
+    \end{gather}
+    is called a \emph{boundary complement in \(\mathcal{C}\)} if \([c_1, c_2]\) is mono and there exist morphisms \(\morph{d_1}{n}{\pushoutcomplement{L}}\) and \(\morph{d_2}{m}{\pushoutcomplement{L}}\) making the above triangle commute and such that \[\cospan{j+n}[[c_2,d_1]]{\pushoutcomplement{L}}[[c_1,d_2]]{{m+i}}\] is a monogamous cospan.
+\end{definition}
+
+\begin{proposition}[\cite{bonchi2021string}, Proposition 24]\label{prop:boundary-complement-unique}
+    Boundary complements in \(\macspfihyp\) are unique, when they exist.
+\end{proposition}
+
+\noindent
+Crucially, boundary complements rely on the matching \(L \to G\) being mono.
+But restricting to these matchings cuts off potential rewrites in the \emph{traced} setting, such as the occurrence of a rewrite rule inside a loop:
+\[
+    \iltikzfig{graphs/dpo/matchings/non-mono-matching}
+\]
+\begin{definition}
+    For partial monogamous cospans \(\cospan{i}[a_1]{L}[a_2]{j}\) and \(\cospan{n}[b_1]{G}[b_2]{m} \in \mathcal{C}\) and (not necessarily mono) \(\morph{f}{L}{G} \in \hypsigma\), a pushout complement as below
+    \begin{gather}
+        \label{gath:traced-boundary complement}
+        \includestandalone{figures/graphs/dpo/boundary-complement}
+    \end{gather}
+    is called a \emph{traced boundary complement} if \(c_1\) and \(c_2\) are mono, \(f\) is injective on edges and vertices not in the image of \(a\), and there exist morphisms \(\morph{d_1}{m}{\pushoutcomplement{L}}\) and \(\morph{d_2}{n}{\pushoutcomplement{L}}\) making the above triangle commute such that
+    \begin{gather}
+        \cospan{j+m}[[c_2,d_1]]{\pushoutcomplement{L}}[[d_2,c_1]]{{n+i}} \label{gat:traced-complement}
+    \end{gather} is a partial monogamous cospan.
+\end{definition}
+
+\noindent
+Using the semi-monogamicity of (\ref{gat:traced-complement}) we can prove some useful lemmas regarding when vertices can be coalesced.
+
+\begin{lemma}
+    In a traced boundary complement, if \(a_1(v) = a_2(w)\), then \(c_1(v) = c_2(w)\) if and only if \(c_1(v)\) and \(c_2(w)\) are not in the image of \(d\) and \(f(a_1(v)) = f(a_2(w))\) has degree \((0,0)\).
+\end{lemma}
+\begin{proof}
+    For the \(\onlyifdir\) direction, assume that \(c_1(v) = c_2(w)\): let this vertex be \(v^\prime\).
+    Since (\ref{gat:traced-complement}) is partial monogamous, \([c_2,d_1]\) and \([c_1,d_2]\) must be mono, and thus the images of \(c_1\) and \(d_2\) must be disjoint, as must the images of \(c_2\) and \(d_1\).
+    Therefore \(v^\prime\) cannot be in the image of \(d\); moreover, \(c_1(v)\) must have out-degree \(0\) and \(c_2(w)\) must have in-degree \(0\), so \(v^\prime\) has degree \((0,0)\).
+    Let \(v^{\prime\prime}\) be \(a_1(v) = a_2(w)\): since \(\cospan{i}[a_1]{\iltikzfig{strings/rewriting/l}}[a_2]{j}\) is a partial monogamous cospan \(v^\prime\) must have degree \((0,0)\).
+    Since \(G\) is computed by pushout, \(f(v^{\prime\prime}) = g(v^{\prime})\) and the degree of this vertex is contributed wholly by \(v^\prime\) and \(v^{\prime\prime}\).
+    So \(f(a_1(v)) = f(a_2(w))\) also has degree \((0,0)\).
+
+
+    Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\) are not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree \((0,0)\).
+    Assume that \(c_1(v) \neq c_2(w)\).
+    By semi-monogamy of (\ref{gat:traced-complement}), \(c_1(v)\) must have degree \((0,1)\) since it is solely in the image of \([d_2, c_1]\).
+    But \(f(a_1(v)) = f(a_2(w)) = g(c_1(v)) = g(c_2(w))\), \(c_1(v)\) and \(c_2(w)\) must have degree \((0,0)\), a contradiction.
+    The same holds for \(c_2(w)\), so \(c_1(v) = c_2(w)\).
+\end{proof}
+
+\noindent
+A crucial part of~\cite{bonchi2021string} is that (non-traced) boundary complements are \emph{unique}.
+One might assume the same for traced boundary complements, but this is not the case.
+
+\begin{example}
+    Consider the rule and its interpretation.
+    \begin{gather}
+        \rrule{
+            \iltikzfig{graphs/dpo/non-unique/rule-lhs}
+        }{
+            \iltikzfig{graphs/dpo/non-unique/rule-rhs}
+        }
+        \qquad
+        \raisebox{-2.1em}{\includestandalone{figures/graphs/dpo/non-unique/rule}}
+        \label{gath:non-unique-rule}
+    \end{gather}
+
+    \noindent
+    Now consider the following hypergraph with interface \(
+        \iltikzfig{graphs/dpo/non-unique/g-unlabelled}
+        \leftarrow
+        \iltikzfig{graphs/dpo/non-unique/j-unlabelled}
+    \).
+    There are \emph{two} valid traced boundary complements for the above rule in this graph!
+
+    \begin{center}
+        \scalebox{0.95}{
+            \includestandalone{figures/graphs/dpo/non-unique/rewrite-1}
+            \includestandalone{figures/graphs/dpo/non-unique/rewrite-2}
+        }
+    \end{center}
+    \noindent
+    Both derivations are valid and arise since we are rewriting modulo \emph{yanking}:
+    \begin{gather*}
+        \iltikzfig{graphs/dpo/non-unique/derivation-1}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-2}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-3a}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-4a}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-5a}
+        \\
+        \iltikzfig{graphs/dpo/non-unique/derivation-1}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-2}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-3b}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-4b}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-5b}
+    \end{gather*}
+\end{example}
+
+\noindent
+Rewriting modulo yanking also eliminates another foible of rewriting modulo (non-traced) symmetric monoidal structure.
+In the latter, matchings must be \emph{convex}: there cannot be a path from the outputs of a match back to its inputs.
+However, in the traced case this is redundant, as illustrated in the following example.
+
+\begin{example}
+    Consider the following rewrite rule and its interpretation.
+    %
+    \begin{gather}
+        \rrule{
+            \iltikzfig{graphs/dpo/convex/example-l}
+        }{
+            \iltikzfig{graphs/dpo/convex/example-r}
+        }
+        \qquad
+        \iltikzfig{graphs/dpo/convex/example-rule-graph}
+        \label{gath:convex-rule}
+    \end{gather}
+    %
+    \noindent
+    Now consider the following term and interpretation:
+    %
+    \begin{gather}
+        \iltikzfig{graphs/dpo/convex/example-g}
+        \qquad
+        \iltikzfig{graphs/dpo/convex/example-g-graph}
+        \label{gath:convex-term}
+    \end{gather}
+    %
+    \noindent
+    Although it is not obvious in the original string diagram, there is in fact a matching of (\ref{gath:convex-rule}) in (\ref{gath:convex-term}).
+    Performing the DPO procedure yields the following:
+    %
+    \begin{gather}
+        \iltikzfig{graphs/dpo/convex/example-h-graph}
+        \qquad
+        \iltikzfig{graphs/dpo/convex/example-h}
+    \end{gather}
+    %
+    \noindent
+    In a non-traced setting this is an invalid rule!
+    However, it is possible with yanking.
+    \begin{gather*}
+        \iltikzfig{graphs/dpo/convex/example-g}
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-1}
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-2}
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-3}
+        \\[1em]
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-4}
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-5}
+        =
+        \iltikzfig{graphs/dpo/convex/example-h}
+    \end{gather*}
+\end{example}
+
+\begin{definition}[Traced DPO]
+    For morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in \(\hypsigma\), there is a traced rewrite \(G \trgrewrite{\mcr} H\) if there exists a rule \(\spann{L}{i+j}{G} \in \mcr\) and cospan \(\cospan{i+j}{C}{n+m} in \hypsigma\) such that the following diagram commutes
+    \begin{gather}
+        \includestandalone{figures/graphs/dpo/dpo}
+    \end{gather}
+    and \(i+j \to C\) is a traced boundary complement.
+\end{definition}
+
+\noindent
+We are almost ready to show the soundness and completeness of this DPO rewriting system.
+The final prerequisite is a decomposition lemma, akin to a similar result in~\cite{bonchi2021string} for the symmetric monoidal case.
+
+\begin{lemma}[Traced decomposition]\label{lem:decomposition}
+    Given partial monogamous cospans \(\cospan{m}[p_1]{G}[p_2]{n}\) and \(\cospan{i}[a_1]{L}[a_2]{j}\), along with a morphism \(L \xrightarrow{f} G\) satisfying the no-dangling-hyperedges condition, then \(\cospan{m}[p_1]{G}[p_2]{n}\) can be factored as
+    \begin{gather}
+        \trace{i}{
+            \begin{array}{cc}
+                \cospan{i}[a_1]{L}[a_2]{j} \\
+                \tensor \\
+                \cospan{m}{m}{m}
+            \end{array}
+            \seq
+            \cospan{j+m}{C}{i+n}
+        }
+        \label{gath:decomposition}
+    \end{gather}
+    where all cospans are partial monogamous and \(C\) is a traced boundary complement.
+\end{lemma}
+\begin{proof}
+    Let \(C\) be defined as a traced boundary complement of \(i+j \xrightarrow{[a_1,a_2]} L \xrightarrow{f} G\), which exists as the no-dangling-hyperedges condition is satisfied.
+    We assign names to the various cospans in play, and reason string diagrammatically:
+    \begin{align*}
+        \iltikzfig{graphs/dpo/lhat} &:= \cospan{i}{L}{j}
+        &
+        \iltikzfig{graphs/dpo/ltilde} &:= \cospan{0}{L}{i+j} \\
+        \iltikzfig{graphs/dpo/chat} &:= \cospan{j+m}{L}{i+n}
+        &
+        \iltikzfig{graphs/dpo/ctilde} &:= \cospan{i+j}{C}{m+n} \\
+        \iltikzfig{graphs/dpo/ghat} &:= \cospan{m}{G}{n}
+        &
+        \iltikzfig{graphs/dpo/gtilde} &:= \cospan{0}{G}{m+n}
+    \end{align*}
+    By using the compact closed structure of \(\cspfihyp\), we also have that \(
+        \iltikzfig{graphs/dpo/ltilde} = \iltikzfig{graphs/dpo/lhat-bent}
+    \), \(
+        \iltikzfig{graphs/dpo/ctilde} = \iltikzfig{graphs/dpo/chat-bent}
+    \) and \(
+        \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/ghat-bent}
+    \).
+    Since \(
+        \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/lctilde}
+    \), it follows that \(
+        \iltikzfig{graphs/dpo/ghat-bent} = \iltikzfig{graphs/dpo/lchat-bent}
+    \) and subsequently \(
+        \iltikzfig{graphs/dpo/ghat} = \iltikzfig{graphs/dpo/lchat}
+    \).
+    The `loop' is constructed in the same manner as the canonical trace on \(\cspfihyp\), so this is a term in the form of (\ref{gath:decomposition}).
+    Moreover, all cospans involved are partial monogamous by definition of rewrite rules and traced boundary complements.
+\end{proof}
+
+\begin{theorem}
+    Let \(\mcr\) be a rewriting system on \(\stmcsigma\).
+    Then, \(
+        \iltikzfig{strings/category/f}[F][white]
+        \rewrite[\mcr]
+        \iltikzfig{strings/category/f}[H][white]
+    \) if and only if \(
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[F][white]]]
+        \grewrite[\termandfrobtohypsigma[\foldinterfaces[\mcr]]]
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]].
+    \)
+\end{theorem}
+\begin{proof}
+    First the \((\Rightarrow)\) direction.
+    If \(
+        \iltikzfig{strings/category/f}[F][white]
+        \rewrite[\mcr]
+        \iltikzfig{strings/category/f}[H][white]
+    \) then we have \(
+        \iltikzfig{strings/category/f}[F][white]
+        =
+        \iltikzfig{strings/rewriting/rewrite-l}
+    \) and \(
+        \iltikzfig{strings/rewriting/rewrite-r}
+        =
+        \iltikzfig{strings/category/f}[H][white].
+    \)
+    Define the following cospans:
+    \begin{align}
+        \label{gath:l-cospan}
+        \cospan{0}{L}{i+j}
+        &:=
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/l}]]
+        &&=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/l-folded}]
+        \\
+        \cospan{0}{R}{i+j}
+        &:=
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/r}]]
+        &&=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/r-folded}]
+        \\
+        \cospan{0}{G}{m+n}
+        &:=
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[F][white]]]
+        &&=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/lc-folded}]
+        \\
+        \label{gath:h-cospan}
+        \cospan{0}{H}{m+n}
+        &:=
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]]
+        &&=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/rc-folded}]
+        \\
+        \cospan{i+j}{C}{m+n}
+        &:=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c-folded}]
+        &&
+    \end{align}
+    By functoriality, since \(\foldinterfaces[\iltikzfig{strings/category/f}[F][white]] = \iltikzfig{strings/rewriting/l-folded} \seq \iltikzfig{strings/rewriting/c-folded}\) then \[\cospan{0}{G}{m+n} = \cospan{0}{L}{i+j} \seq \cospan{i+j}{C}{m+n}.\]
+    Cospan composition is pushout, so \(\cospan{L}{G}{C}\) is a pushout.
+    Using the same reasoning, \(\cospan{R}{G}{C}\) is also a pushout: this gives us the DPO diagram.
+    All that remains is to check that the aforementioned pushouts are traced boundary complements: this follows by inspecting components.
+
+    Now the \(\ifdir\) direction: assume we have a DPO diagram (\ref{gath:dpo}) where \(L \leftarrow i + j\), \(i + j \rightarrow R\), \(m + n \to G\) and \(m + n \to H\) are defined as in (\ref{gath:l-cospan}-\ref{gath:h-cospan}) above.
+    We must show that \(\iltikzfig{strings/category/f}[F][white] = \iltikzfig{strings/rewriting/rewrite-l}\) and \(\iltikzfig{strings/category/f}[H][white] = \iltikzfig{strings/rewriting/rewrite-r}\).
+    By definition of traced boundary complement \(\cospan{j+m}{C}{i+n}\) is a partial monogamous cospan, so by fullness of \(\termandfrobtohypsigma\), there exists a term \(\iltikzfig{strings/rewriting/c} \in \stmcsigma\) such that \(\termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}] = \cospan{j+m}{C}{i+n}\).
+    By traced decomposition (\cref{lem:decomposition}), we have that for any traced boundary complement \(\cospan{i+j}{C}{m+n}\) and morphism \(L \to G\), \(\cospan{m}{G}{n}\) can be factored as in (\ref{gath:decomposition}), i.e.\ \[\termandfrobtohypsigma[\iltikzfig{strings/category/f}[F][white]] = \trace{j}{\termandfrobtohypsigma[\iltikzfig{strings/rewriting/l}] \tensor \id[n] \seq \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}]}.\]
+    So by functoriality, we have that \(\iltikzfig{strings/category/f}[F][white] = \iltikzfig{strings/rewriting/rewrite-l}\).
+    The same reasoning follows for \(\iltikzfig{strings/category/f}[H][white] = \iltikzfig{strings/rewriting/rewrite-r}\).
+\end{proof}

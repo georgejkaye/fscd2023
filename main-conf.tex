@@ -1,4 +1,25 @@
-\documentclass{lipics-v2021}
+% !TeX root = main-conf.tex
+\documentclass[a4paper, cleveref]{lipics-v2021}
+
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{stmaryrd}
+
+\usepackage{etoolbox}
+\usepackage{xparse}
+
+\usepackage{standalone}
+\usepackage{wrapfig}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{multicol}
+\usepackage{mathtools}
+
+\usepackage{figures/tikzit}
+\usepackage{tikz-cd}
+
+\usepackage{hyperref}
 
 \author{
     Dan R.\ Ghica
@@ -18,5 +39,15 @@
 }{
     0000-0002-0515-4055
 }{}
+
+\authorrunning{Dan R.\ Ghica and George Kaye}
+
+\newtoggle{conf}
+\newtoggle{proofs}
+\settoggle{conf}{true}
+\settoggle{proofs}{false}
+
+\theoremstyle{definition}
+\newtheorem{notation}[theorem]{Notation}
 
 \input{main}

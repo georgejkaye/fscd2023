@@ -1,9 +1,26 @@
+% custom macros
+\input{macros/letters}
+\input{macros/sets}
+\input{macros/graphs}
+\input{macros/category}
+\input{macros/proofs}
+
+\input{figures/circuits.tikzdefs}
+\input{figures/circuits.tikzstyles}
+
 \title{Graph rewriting for digital circuits}
 
+\bibliographystyle{plainurl}
+
 \begin{document}
+
     \maketitle
 
-    Circuits good
+    \begin{abstract}
+        Hypergraphs good, circuits better
+    \end{abstract}
 
-    \section{Hypergraphs}
+    \input{sections/hypergraphs}
+
+    \bibliography{refs/refs}
 \end{document}
