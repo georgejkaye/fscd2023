@@ -1,0 +1,92 @@
+name: Compile and package project
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    if: "github.event.repository.name != 'latex-template'"
+    steps:
+      - name: Set up repository
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.x"
+      - name: Package the conference latex file
+        uses: xu-cheng/texlive-action/full@v1
+        with:
+          run: python3 ./scripts/src/package.py ${{ github.event.repository.name }}-conf . main-conf
+      - name: Package the arxiv latex file
+        uses: xu-cheng/texlive-action/full@v1
+        with:
+          run: python3 ./scripts/src/package.py ${{ github.event.repository.name }}-arxiv . main-arxiv
+      - name: Zip up the conference package
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r ${{ github.event.repository.name }}-conf.zip ${{ github.event.repository.name }}-conf
+      - name: Zip up the arxiv package
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r ${{ github.event.repository.name }}-arxiv.zip ${{ github.event.repository.name }}-arxiv
+      - name: Set release name
+        id: name
+        run: echo "name=$(date +'%Y-%m-%d-%H%M')" >> $GITHUB_OUTPUT
+      - name: Upload conference PDF as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.name.outputs.name }}-conf.pdf
+          path: main-conf.pdf
+      - name: Upload arxiv PDF as an artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.name.outputs.name }}-arxiv.pdf
+          path: main-arxiv.pdf
+      - name: Create a new release
+        uses: actions/create-release@v1
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          release_name: ${{ steps.name.outputs.name }}
+          tag_name: ${{ steps.name.outputs.name }}
+      - name: Upload the conference paper to the release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: main-conf.pdf
+          asset_name: ${{ github.event.repository.name}}-${{ steps.name.outputs.name }}-conf.pdf
+          asset_content_type: pdf
+      - name: Upload the arxiv paper to the release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: main-arxiv.pdf
+          asset_name: ${{ github.event.repository.name}}-${{ steps.name.outputs.name }}-arxiv.pdf
+          asset_content_type: pdf
+      - name: Upload the conference zip to the release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.event.repository.name }}-conf.zip
+          asset_name: ${{ github.event.repository.name }}-${{ steps.name.outputs.name }}-conf.zip
+          asset_content_type: zip
+      - name: Upload the arxiv zip to the release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ${{ github.event.repository.name }}-arxiv.zip
+          asset_name: ${{ github.event.repository.name }}-${{ steps.name.outputs.name }}-arxiv.zip
+          asset_content_type: zip
