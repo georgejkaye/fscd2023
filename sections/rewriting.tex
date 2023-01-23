@@ -1,0 +1,459 @@
+% !TeX root = ../main-conf.tex
+\section{Graph rewriting}
+
+\begin{definition}[Rewrite rule]
+    Given cospans \(
+        \cospan{i}[a_1]{L}[a_2]{j}
+    \) and \(
+        \cospan{i}[b_1]{R}[b_2]{j}
+    \), their rewrite rule is a span in \(\hypsigma\) \(
+        \spann{L}[[a_1,a_2]]{i+j}[[b_1,b_2]]{R}
+    \).
+\end{definition}
+
+\begin{lemma}
+    Given terms \(
+        \iltikzfig{strings/rewriting/l}
+    \), \(
+        \iltikzfig{strings/rewriting/r}
+    \) in \(\stmcsigma\) and their corresponding rewrite rule \[
+        \spann{
+            \termtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/l}]]
+        }[[a_1, a_2]]{
+            i + j
+        }[[b_1, b_2]]{
+            \termtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/r}]]
+        }
+    \] in \(\hypsigma\), \(a_1\), \(a_2\), \(b_1\) and \(b_2\) are mono.
+\end{lemma}
+\begin{proof}
+    By definition of partial monogamous cospan.
+\end{proof}
+
+\begin{definition}[DPO]
+    \begin{gather}
+        \label{gath:dpo}
+        \includestandalone{figures/graphs/dpo/dpo}
+    \end{gather}
+\end{definition}
+
+\begin{definition}[Boundary complement \cite{bonchi2021string}, Definition 23]\label{def:boundary-complement}
+    For \(
+        \cospan{i}[a_1]{L}[a_2]{j}
+    \) and \(
+        \cospan{n}[b_1]{G}[b_2]{m} \in \macspfihyp
+    \) and mono \(
+        \morph{f}{L}{G} \in \hypsigma
+    \), a pushout complement as below
+    \begin{gather}
+        \includestandalone{figures/graphs/dpo/boundary-complement}
+    \end{gather}
+    is called a \emph{boundary complement in \(\mathcal{C}\)} if \([c_1, c_2]\)
+    is mono and there exist morphisms \(
+        \morph{d_1}{n}{\pushoutcomplement{L}}
+    \) and \(
+        \morph{d_2}{m}{\pushoutcomplement{L}}
+    \) making the above triangle commute and such that \[
+        \cospan{j+n}[[c_2,d_1]]{\pushoutcomplement{L}}[[c_1,d_2]]{{m+i}}
+    \] is a monogamous cospan.
+\end{definition}
+
+\begin{proposition}[\cite{bonchi2021string}, Proposition 24]\label{prop:boundary-complement-unique}
+    Boundary complements in \(\macspfihyp\) are unique, when they exist.
+\end{proposition}
+
+\noindent
+Crucially, boundary complements rely on the matching \(L \to G\) being mono.
+But restricting to these matchings cuts off potential rewrites in the
+\emph{traced} setting, such as the occurrence of a rewrite rule inside a loop:
+\[
+    \iltikzfig{graphs/dpo/matchings/non-mono-matching}
+\]
+
+\begin{definition}
+    For partial monogamous cospans \(
+        \cospan{i}[a_1]{L}[a_2]{j}
+    \) and \(
+        \cospan{n}[b_1]{G}[b_2]{m} \in \mathcal{C}
+    \) and (not necessarily mono) \(
+        \morph{f}{L}{G} \in \hypsigma
+    \), a pushout complement as below
+    \begin{gather}
+        \label{gath:traced-boundary complement}
+        \includestandalone{figures/graphs/dpo/boundary-complement}
+    \end{gather}
+    is called a \emph{traced boundary complement} if \(c_1\) and \(c_2\) are
+    mono, \(f\) is injective on edges and vertices not in the image of \(a\),
+    and there exist morphisms \(
+        \morph{d_1}{m}{\pushoutcomplement{L}}
+    \) and \(
+        \morph{d_2}{n}{\pushoutcomplement{L}}
+    \) making the above triangle commute such that
+    \begin{gather}
+        \cospan{j+m}[[c_2,d_1]]{\pushoutcomplement{L}}[[d_2,c_1]]{{n+i}}
+        \label{gat:traced-complement}
+    \end{gather} is a partial monogamous cospan.
+\end{definition}
+
+\noindent
+Using the semi-monogamicity of (\ref{gat:traced-complement}) we can prove some
+useful lemmas regarding when vertices can be coalesced.
+
+\begin{lemma}
+    In a traced boundary complement, if \(
+        a_1(v) = a_2(w)
+    \), then \(
+        c_1(v) = c_2(w)
+    \) if and only if \(c_1(v)\) and \(c_2(w)\) are not in the image of \(d\)
+    and \(f(a_1(v)) = f(a_2(w))\) has degree \((0,0)\).
+\end{lemma}
+\begin{proof}
+    For the \(\onlyifdir\) direction, assume that \(c_1(v) = c_2(w)\): let this
+    vertex be \(v^\prime\).
+    Since (\ref{gat:traced-complement}) is partial monogamous, \([c_2,d_1]\) and
+    \([c_1,d_2]\) must be mono, and thus the images of \(c_1\) and \(d_2\) must
+    be disjoint, as must the images of \(c_2\) and \(d_1\).
+    Therefore \(v^\prime\) cannot be in the image of \(d\); moreover, \(c_1(v)\)
+    must have out-degree \(0\) and \(c_2(w)\) must have in-degree \(0\), so
+    \(v^\prime\) has degree \((0,0)\).
+    Let \(v^{\prime\prime}\) be \(a_1(v) = a_2(w)\): since \(
+        \cospan{i}[a_1]{\iltikzfig{strings/rewriting/l}}[a_2]{j}
+    \) is a partial monogamous cospan \(v^\prime\) must have degree \((0,0)\).
+    Since \(G\) is computed by pushout, \(
+        f(v^{\prime\prime}) = g(v^{\prime})
+    \) and the degree of this vertex is contributed wholly by \(v^\prime\) and
+    \(v^{\prime\prime}\).
+    So \(f(a_1(v)) = f(a_2(w))\) also has degree \((0,0)\).
+
+    Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\) are
+    not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree
+    \((0,0)\).
+    Assume that \(c_1(v) \neq c_2(w)\).
+    By semi-monogamy of (\ref{gat:traced-complement}), \(c_1(v)\) must have
+    degree \((0,1)\) since it is solely in the image of \([d_2, c_1]\).
+    But \(f(a_1(v)) = f(a_2(w)) = g(c_1(v)) = g(c_2(w))\), \(c_1(v)\) and
+    \(c_2(w)\) must have degree \((0,0)\), a contradiction.
+    The same holds for \(c_2(w)\), so \(c_1(v) = c_2(w)\).
+\end{proof}
+
+A crucial part of~\cite{bonchi2021string} is that (non-traced) boundary
+complements are \emph{unique}.
+One might assume the same for traced boundary complements, but this is not the
+case.
+
+\begin{example}
+    Consider the rule and its interpretation.
+    \begin{gather}
+        \rrule{
+            \iltikzfig{graphs/dpo/non-unique/rule-lhs}
+        }{
+            \iltikzfig{graphs/dpo/non-unique/rule-rhs}
+        }
+        \qquad
+        \raisebox{-2.1em}{\includestandalone{figures/graphs/dpo/non-unique/rule}}
+        \label{gath:non-unique-rule}
+    \end{gather}
+
+    Now consider the following hypergraph with interface \(
+        \iltikzfig{graphs/dpo/non-unique/g-unlabelled}
+        \leftarrow
+        \iltikzfig{graphs/dpo/non-unique/j-unlabelled}
+    \).
+    There are \emph{two} valid traced boundary complements for the above rule in
+    this graph!
+
+    \begin{center}
+        \scalebox{0.95}{
+            \includestandalone{figures/graphs/dpo/non-unique/rewrite-1}
+            \includestandalone{figures/graphs/dpo/non-unique/rewrite-2}
+        }
+    \end{center}
+    \noindent
+    Both derivations are valid and arise since we are rewriting modulo
+    \emph{yanking}:
+    \begin{gather*}
+        \iltikzfig{graphs/dpo/non-unique/derivation-1}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-2}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-3a}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-4a}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-5a}
+        \\
+        \iltikzfig{graphs/dpo/non-unique/derivation-1}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-2}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-3b}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-4b}
+        =
+        \iltikzfig{graphs/dpo/non-unique/derivation-5b}
+    \end{gather*}
+\end{example}
+
+\noindent
+Rewriting modulo yanking also eliminates another foible of rewriting modulo
+(non-traced) symmetric monoidal structure.
+In the latter, matchings must be \emph{convex}: there cannot be a path from the
+outputs of a match back to its inputs.
+However, in the traced case this is redundant, as illustrated in the following
+example.
+
+\begin{example}
+    Consider the following rewrite rule and its interpretation.
+    %
+    \begin{gather}
+        \rrule{
+            \iltikzfig{graphs/dpo/convex/example-l}
+        }{
+            \iltikzfig{graphs/dpo/convex/example-r}
+        }
+        \qquad
+        \iltikzfig{graphs/dpo/convex/example-rule-graph}
+        \label{gath:convex-rule}
+    \end{gather}
+    %
+    \noindent
+    Now consider the following term and interpretation:
+    %
+    \begin{gather}
+        \iltikzfig{graphs/dpo/convex/example-g}
+        \qquad
+        \iltikzfig{graphs/dpo/convex/example-g-graph}
+        \label{gath:convex-term}
+    \end{gather}
+    %
+    \noindent
+    Although it is not obvious in the original string diagram, there is in fact
+    a matching of (\ref{gath:convex-rule}) in (\ref{gath:convex-term}).
+    Performing the DPO procedure yields the following:
+    %
+    \begin{gather}
+        \iltikzfig{graphs/dpo/convex/example-h-graph}
+        \qquad
+        \iltikzfig{graphs/dpo/convex/example-h}
+    \end{gather}
+    %
+    \noindent
+    In a non-traced setting this is an invalid rule!
+    However, it is possible with yanking.
+    \begin{gather*}
+        \iltikzfig{graphs/dpo/convex/example-g}
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-1}
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-2}
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-3}
+        \\[1em]
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-4}
+        =
+        \iltikzfig{graphs/dpo/convex/rewrite-5}
+        =
+        \iltikzfig{graphs/dpo/convex/example-h}
+    \end{gather*}
+\end{example}
+
+\begin{definition}[Traced DPO]
+    For morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in
+    \(\hypsigma\), there is a traced rewrite \(G \trgrewrite{\mcr} H\) if there
+    exists a rule \(
+        \spann{L}{i+j}{G} \in \mcr
+    \) and cospan \(
+        \cospan{i+j}{C}{n+m} in \hypsigma
+    \) such that the following diagram commutes:
+    \begin{gather}
+        \includestandalone{figures/graphs/dpo/dpo}
+    \end{gather}
+    and \(i+j \to C\) is a traced boundary complement.
+\end{definition}
+
+\noindent
+We are almost ready to show the soundness and completeness of this DPO rewriting
+system.
+The final prerequisite is a decomposition lemma, akin to a similar result
+in~\cite{bonchi2021string} for the symmetric monoidal case.
+
+\begin{lemma}[Traced decomposition]\label{lem:decomposition}
+    Given partial monogamous cospans \(\cospan{m}[p_1]{G}[p_2]{n}\) and \(
+        \cospan{i}[a_1]{L}[a_2]{j}
+    \), along with a morphism \(
+        L \xrightarrow{f} G
+    \) satisfying the no-dangling-hyperedges condition, then \(
+        \cospan{m}[p_1]{G}[p_2]{n}
+    \) can be factored as
+    \begin{gather}
+        \trace{i}{
+            \begin{array}{cc}
+                \cospan{i}[a_1]{L}[a_2]{j} \\
+                \tensor \\
+                \cospan{m}{m}{m}
+            \end{array}
+            \seq
+            \cospan{j+m}{C}{i+n}
+        }
+        \label{gath:decomposition}
+    \end{gather}
+    where all cospans are partial monogamous and \(C\) is a traced boundary
+    complement.
+\end{lemma}
+\begin{proof}
+    Let \(C\) be defined as a traced boundary complement of \(
+        i+j \xrightarrow{[a_1,a_2]} L \xrightarrow{f} G
+    \), which exists as the no-dangling-hyperedges condition is satisfied.
+    We assign names to the various cospans in play, and reason string
+    diagrammatically:
+    \begin{align*}
+        \iltikzfig{graphs/dpo/lhat} &:= \cospan{i}{L}{j}
+        &
+        \iltikzfig{graphs/dpo/ltilde} &:= \cospan{0}{L}{i+j} \\
+        \iltikzfig{graphs/dpo/chat} &:= \cospan{j+m}{L}{i+n}
+        &
+        \iltikzfig{graphs/dpo/ctilde} &:= \cospan{i+j}{C}{m+n} \\
+        \iltikzfig{graphs/dpo/ghat} &:= \cospan{m}{G}{n}
+        &
+        \iltikzfig{graphs/dpo/gtilde} &:= \cospan{0}{G}{m+n}
+    \end{align*}
+    By using the compact closed structure of \(\cspfihyp\), we also have that \(
+        \iltikzfig{graphs/dpo/ltilde} = \iltikzfig{graphs/dpo/lhat-bent}
+    \), \(
+        \iltikzfig{graphs/dpo/ctilde} = \iltikzfig{graphs/dpo/chat-bent}
+    \) and \(
+        \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/ghat-bent}
+    \).
+    Since \(
+        \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/lctilde}
+    \), it follows that \(
+        \iltikzfig{graphs/dpo/ghat-bent} = \iltikzfig{graphs/dpo/lchat-bent}
+    \) and subsequently \(
+        \iltikzfig{graphs/dpo/ghat} = \iltikzfig{graphs/dpo/lchat}
+    \).
+    The `loop' is constructed in the same manner as the canonical trace on
+    \(\cspfihyp\), so this is a term in the form of (\ref{gath:decomposition}).
+    Moreover, all cospans involved are partial monogamous by definition of
+    rewrite rules and traced boundary complements.
+\end{proof}
+
+\begin{theorem}
+    Let \(\mcr\) be a rewriting system on \(\stmcsigma\).
+    Then, \(
+        \iltikzfig{strings/category/f}[F][white]
+        \rewrite[\mcr]
+        \iltikzfig{strings/category/f}[H][white]
+    \) if and only if \(
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[F][white]]]
+        \grewrite[\termandfrobtohypsigma[\foldinterfaces[\mcr]]]
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]].
+    \)
+\end{theorem}
+\begin{proof}
+    First the \((\Rightarrow)\) direction.
+    If \(
+        \iltikzfig{strings/category/f}[F][white]
+        \rewrite[\mcr]
+        \iltikzfig{strings/category/f}[H][white]
+    \) then we have \(
+        \iltikzfig{strings/category/f}[F][white]
+        =
+        \iltikzfig{strings/rewriting/rewrite-l}
+    \) and \(
+        \iltikzfig{strings/rewriting/rewrite-r}
+        =
+        \iltikzfig{strings/category/f}[H][white].
+    \)
+    Define the following cospans:
+    \begin{align}
+        \label{gath:l-cospan}
+        \cospan{0}{L}{i+j}
+        &:=
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/l}]]
+        &&=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/l-folded}]
+        \\
+        \cospan{0}{R}{i+j}
+        &:=
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/r}]]
+        &&=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/r-folded}]
+        \\
+        \cospan{0}{G}{m+n}
+        &:=
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[F][white]]]
+        &&=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/lc-folded}]
+        \\
+        \label{gath:h-cospan}
+        \cospan{0}{H}{m+n}
+        &:=
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]]
+        &&=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/rc-folded}]
+        \\
+        \cospan{i+j}{C}{m+n}
+        &:=
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c-folded}]
+        &&
+    \end{align}
+    By functoriality, since \(
+        \foldinterfaces[\iltikzfig{strings/category/f}[F][white]]
+        =
+        \iltikzfig{strings/rewriting/l-folded}
+        \seq
+        \iltikzfig{strings/rewriting/c-folded}
+    \) then \[
+        \cospan{0}{G}{m+n} = \cospan{0}{L}{i+j} \seq \cospan{i+j}{C}{m+n}.
+    \]
+    Cospan composition is pushout, so \(\cospan{L}{G}{C}\) is a pushout.
+    Using the same reasoning, \(\cospan{R}{G}{C}\) is also a pushout: this gives
+    us the DPO diagram.
+    All that remains is to check that the aforementioned pushouts are traced
+    boundary complements: this follows by inspecting components.
+
+    Now the \(\ifdir\) direction: assume we have a DPO diagram (\ref{gath:dpo})
+    where \(L \leftarrow i + j\), \(i + j \rightarrow R\), \(m + n \to G\) and
+    \(m + n \to H\) are defined as in (\ref{gath:l-cospan}-\ref{gath:h-cospan})
+    above.
+    We must show that \(
+        \iltikzfig{strings/category/f}[F][white]
+        =
+        \iltikzfig{strings/rewriting/rewrite-l}
+    \) and \(
+        \iltikzfig{strings/category/f}[H][white]
+        =
+        \iltikzfig{strings/rewriting/rewrite-r}
+    \).
+    By definition of traced boundary complement \(\cospan{j+m}{C}{i+n}\) is a
+    partial monogamous cospan, so by fullness of \(\termandfrobtohypsigma\),
+    there exists a term \(\iltikzfig{strings/rewriting/c} \in \stmcsigma\) such
+    that \(
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}]
+        =
+        \cospan{j+m}{C}{i+n}
+    \).
+    By traced decomposition (\cref{lem:decomposition}), we have that for any
+    traced boundary complement \(\cospan{i+j}{C}{m+n}\) and morphism
+    \(L \to G\), \(\cospan{m}{G}{n}\) can be factored as in
+    (\ref{gath:decomposition}), i.e.\ \[
+        \termandfrobtohypsigma[\iltikzfig{strings/category/f}[F][white]]
+        =
+        \trace{j}{\termandfrobtohypsigma[\iltikzfig{strings/rewriting/l}]
+        \tensor
+        \id[n]
+        \seq
+        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}]}.
+    \]
+    So by functoriality, we have that \(
+        \iltikzfig{strings/category/f}[F][white]
+        =
+        \iltikzfig{strings/rewriting/rewrite-l}
+    \).
+    The same reasoning follows for \(
+        \iltikzfig{strings/category/f}[H][white]
+        =
+        \iltikzfig{strings/rewriting/rewrite-r}
+    \).
+\end{proof}

@@ -1,0 +1,41 @@
+% !TeX root = ../main-conf.tex
+We use the circuits framework of~\cite{ghica2022compositional}.
+However, we augment it with the \emph{strictifiers} of~\cite{wilson2022stringa}
+
+\begin{definition}[Circuit signature, value, gate symbol~\cite{ghica2022compositional}]
+    A \emph{circuit signature} \(\circuitsignature\) is a tuple \((
+        \circuitsignaturevalues,
+        \disconnected,
+        \shortcircuit,
+        \circuitsignaturegates,
+        \circuitsignaturearity
+    )\) where \(\circuitsignaturevalues\) is a finite set of \emph{values}, \(
+        \disconnected \in \circuitsignaturevalues
+    \) is a \emph{disconnected} value, \(
+        \shortcircuit \in \circuitsignaturevalues
+    \) is a \emph{short-circuit} value, \(\circuitsignaturegates\) is a (usually
+    finite) set of \emph{gate symbols}, and \(
+        \morph{\circuitsignaturearity}{\circuitsignaturegates}{\nat}
+    \) is an \emph{arity} function.
+\end{definition}
+
+\begin{definition}[Sequential circuits@\cite{ghica2022compositional}]
+    Let \(\scircsigma\) be the symmetric traced monoidal category generated
+    over the following generators: \begin{gather*}
+        \iltikzfig{circuits/components/gates/gate}[g][\circuitsignaturearity(g)]
+        \text{ for each }
+        g \in \circuitsignaturegates
+        ,
+        \iltikzfig{strings/structure/monoid/init}[comb]
+        ,
+        \iltikzfig{strings/structure/comonoid/copy}[comb]
+        ,
+        \iltikzfig{strings/structure/monoid/merge}[comb]
+        ,
+        \iltikzfig{strings/structure/comonoid/discard}[comb]
+    \end{gather*}
+\end{definition}
+
+\begin{definition}[]
+    For \(i \in \nat\)
+\end{definition}
