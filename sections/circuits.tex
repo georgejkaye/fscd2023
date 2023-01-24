@@ -1,4 +1,7 @@
 % !TeX root = ../main-conf.tex
+
+\section{Digital circuits}
+
 We use the circuits framework of~\cite{ghica2022compositional}.
 However, we augment it with the \emph{strictifiers} of~\cite{wilson2022stringa}
 
@@ -8,21 +11,24 @@ However, we augment it with the \emph{strictifiers} of~\cite{wilson2022stringa}
         \disconnected,
         \shortcircuit,
         \circuitsignaturegates,
-        \circuitsignaturearity
+        \circuitsignaturearity,
+        \circuitsignaturecoarity
     )\) where \(\circuitsignaturevalues\) is a finite set of \emph{values}, \(
         \disconnected \in \circuitsignaturevalues
     \) is a \emph{disconnected} value, \(
         \shortcircuit \in \circuitsignaturevalues
     \) is a \emph{short-circuit} value, \(\circuitsignaturegates\) is a (usually
-    finite) set of \emph{gate symbols}, and \(
+    finite) set of \emph{gate symbols}, \(
         \morph{\circuitsignaturearity}{\circuitsignaturegates}{\nat}
-    \) is an \emph{arity} function.
+    \) is an \emph{arity} function and \(
+        \morph{\circuitsignaturecoarity}{\circuitsignaturegates}{\nat}
+    \) is a \emph{coarity} function.
 \end{definition}
 
-\begin{definition}[Sequential circuits@\cite{ghica2022compositional}]
-    Let \(\scircsigma\) be the symmetric traced monoidal category generated
-    over the following generators: \begin{gather*}
-        \iltikzfig{circuits/components/gates/gate}[g][\circuitsignaturearity(g)]
+\begin{definition}[Combinational circuits~\cite{ghica2022compositional}]
+    Let \(\ccircsigma\) be the symmetric monoidal category generated over:
+    \begin{gather*}
+        \iltikzfig{circuits/components/gates/gate}[g][\circuitsignaturearity(g)][\circuitsignaturecoarity(g)]
         \text{ for each }
         g \in \circuitsignaturegates
         ,
@@ -33,9 +39,83 @@ However, we augment it with the \emph{strictifiers} of~\cite{wilson2022stringa}
         \iltikzfig{strings/structure/monoid/merge}[comb]
         ,
         \iltikzfig{strings/structure/comonoid/discard}[comb]
+        \text{, and }
+        \iltikzfig{strings/strictifiers/expand}[comb][m][n]
+        ,
+        \iltikzfig{strings/strictifiers/collapse}[comb][m][n]
+        \text{ for } m, n \in \nat
     \end{gather*}
 \end{definition}
 
-\begin{definition}[]
-    For \(i \in \nat\)
+\begin{definition}[Sequential circuits~\cite{ghica2022compositional}]
+    For a circuit signature \(\Sigma = (
+        \circuitsignaturevalues,
+        \disconnected,
+        \shortcircuit,
+        \circuitsignaturegates,
+        \circuitsignaturearity,
+        \circuitsignaturecoarity
+    )\), let \(\scircsigma\) be the symmetric traced monoidal category generated
+    over the generators of \(\ccircsigma\) and \(
+        \iltikzfig{circuits/components/waveforms/delay}
+    \).
+\end{definition}
+
+\begin{definition}[Implementation]
+    For two circuit signatures \(\Sigma = (
+        \circuitsignaturevalues,
+        \disconnected,
+        \shortcircuit,
+        \circuitsignaturegates,
+        \circuitsignaturearity,
+        \circuitsignaturecoarity
+    )\) and \(\Sigma^\prime = (
+        \circuitsignaturevalues^\prime,
+        \disconnected^\prime,
+        \shortcircuit^\prime,
+        \circuitsignaturegates^\prime,
+        \circuitsignaturearity^\prime,
+        \circuitsignaturecoarity^\prime
+    )\), an \emph{implementation specification} of \(\scirc{\Sigma^\prime}\) in
+    \(\scircsigma\)
+    is a pair \((V,P)\) where \(
+        \morph{I_V}{\circuitsignaturevalues^\prime}{\circuitsignaturevalues^\star}
+    \) is a \emph{value implementation} and \(
+        \morph{I_P}{\circuitsignaturegates^\prime}{\ccircsigma}
+    \) is a \emph{primitive implementation}.
+    An \emph{implementation of \((I_V, I_P)\)} is a prop morphism \(
+        \morph{I}{\scirc{\Sigma^\prime}}{\scircsigma}
+    \) defined as \(
+        I\left(\iltikzfig{circuits/components/values/v}[v]\right)
+        =
+        \bigotimes_{w \in I_V(v)} \iltikzfig{circuits/components/values/v}[w]
+    \), \(
+        I\left(\iltikzfig{circuits/components/gates/gate}[g]\right)
+        =
+        I_P(g)
+    \) and the identity otherwise.
+\end{definition}
+
+We now formalise some of the `syntactic sugar' used
+in~\cite{ghica2022compositional}.
+
+\begin{definition}
+    For a circuit signature \(\Sigma\), let \(\ccirc{\Sigma^+}\) be defined as
+    the category with the generators of \(\ccircsigma\) augmented with \(
+        \iltikzfig{strings/structure/monoid/init}[comb][n]
+    \), \(
+        \iltikzfig{strings/structure/comonoid/copy}[comb][n]
+    \), \(
+        \iltikzfig{strings/structure/monoid/merge}[comb][n]
+    \) and \(
+        \iltikzfig{strings/structure/comonoid/discard}[comb][n]
+    \), and let \(\scirc{\Sigma^+}\) be defined as the category with the generators of
+    \(\ccirc{\Sigma^+}\) along with, for all \(n \in \nat\) and \(n\)-tuples
+    \(\overline{v} \in \circuitsignaturevalues^\star\), the generators \(
+        \iltikzfig{circuits/components/waveforms/delay}[n]
+    \), \(
+        \iltikzfig{circuits/components/values/vs}[v][n]
+    \) and \(
+        \iltikzfig{circuits/components/waveforms/register-shorthand}[\overline{v}][n]
+    \).
 \end{definition}
