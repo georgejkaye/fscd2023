@@ -26,9 +26,11 @@
         }
     \] in \(\hypsigma\), \(a_1\), \(a_2\), \(b_1\) and \(b_2\) are mono.
 \end{lemma}
-\begin{proof}
-    By definition of partial monogamous cospan.
-\end{proof}
+\iftoggle{proofs}{
+    \begin{proof}
+        By definition of partial monogamous cospan.
+    \end{proof}
+}{}
 
 \begin{definition}[DPO]
     \begin{gather}
@@ -47,6 +49,7 @@
     \), a pushout complement as below
     \begin{gather}
         \includestandalone{figures/graphs/dpo/boundary-complement}
+        \label{gath:boundary-complement}
     \end{gather}
     is called a \emph{boundary complement in \(\mathcal{C}\)} if \([c_1, c_2]\)
     is mono and there exist morphisms \(
@@ -77,11 +80,7 @@ But restricting to these matchings cuts off potential rewrites in the
         \cospan{n}[b_1]{G}[b_2]{m} \in \mathcal{C}
     \) and (not necessarily mono) \(
         \morph{f}{L}{G} \in \hypsigma
-    \), a pushout complement as below
-    \begin{gather}
-        \label{gath:traced-boundary complement}
-        \includestandalone{figures/graphs/dpo/boundary-complement}
-    \end{gather}
+    \), a pushout complement as in \cref{gath:boundary-complement}
     is called a \emph{traced boundary complement} if \(c_1\) and \(c_2\) are
     mono, \(f\) is injective on edges and vertices not in the image of \(a\),
     and there exist morphisms \(
@@ -107,34 +106,36 @@ useful lemmas regarding when vertices can be coalesced.
     \) if and only if \(c_1(v)\) and \(c_2(w)\) are not in the image of \(d\)
     and \(f(a_1(v)) = f(a_2(w))\) has degree \((0,0)\).
 \end{lemma}
-\begin{proof}
-    For the \(\onlyifdir\) direction, assume that \(c_1(v) = c_2(w)\): let this
-    vertex be \(v^\prime\).
-    Since (\ref{gat:traced-complement}) is partial monogamous, \([c_2,d_1]\) and
-    \([c_1,d_2]\) must be mono, and thus the images of \(c_1\) and \(d_2\) must
-    be disjoint, as must the images of \(c_2\) and \(d_1\).
-    Therefore \(v^\prime\) cannot be in the image of \(d\); moreover, \(c_1(v)\)
-    must have out-degree \(0\) and \(c_2(w)\) must have in-degree \(0\), so
-    \(v^\prime\) has degree \((0,0)\).
-    Let \(v^{\prime\prime}\) be \(a_1(v) = a_2(w)\): since \(
-        \cospan{i}[a_1]{\iltikzfig{strings/rewriting/l}}[a_2]{j}
-    \) is a partial monogamous cospan \(v^\prime\) must have degree \((0,0)\).
-    Since \(G\) is computed by pushout, \(
-        f(v^{\prime\prime}) = g(v^{\prime})
-    \) and the degree of this vertex is contributed wholly by \(v^\prime\) and
-    \(v^{\prime\prime}\).
-    So \(f(a_1(v)) = f(a_2(w))\) also has degree \((0,0)\).
+\iftoggle{proofs}{
+    \begin{proof}
+        For the \(\onlyifdir\) direction, assume that \(c_1(v) = c_2(w)\): let this
+        vertex be \(v^\prime\).
+        Since (\ref{gat:traced-complement}) is partial monogamous, \([c_2,d_1]\) and
+        \([c_1,d_2]\) must be mono, and thus the images of \(c_1\) and \(d_2\) must
+        be disjoint, as must the images of \(c_2\) and \(d_1\).
+        Therefore \(v^\prime\) cannot be in the image of \(d\); moreover, \(c_1(v)\)
+        must have out-degree \(0\) and \(c_2(w)\) must have in-degree \(0\), so
+        \(v^\prime\) has degree \((0,0)\).
+        Let \(v^{\prime\prime}\) be \(a_1(v) = a_2(w)\): since \(
+            \cospan{i}[a_1]{\iltikzfig{strings/rewriting/l}}[a_2]{j}
+        \) is a partial monogamous cospan \(v^\prime\) must have degree \((0,0)\).
+        Since \(G\) is computed by pushout, \(
+            f(v^{\prime\prime}) = g(v^{\prime})
+        \) and the degree of this vertex is contributed wholly by \(v^\prime\) and
+        \(v^{\prime\prime}\).
+        So \(f(a_1(v)) = f(a_2(w))\) also has degree \((0,0)\).
 
-    Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\) are
-    not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree
-    \((0,0)\).
-    Assume that \(c_1(v) \neq c_2(w)\).
-    By semi-monogamy of (\ref{gat:traced-complement}), \(c_1(v)\) must have
-    degree \((0,1)\) since it is solely in the image of \([d_2, c_1]\).
-    But \(f(a_1(v)) = f(a_2(w)) = g(c_1(v)) = g(c_2(w))\), \(c_1(v)\) and
-    \(c_2(w)\) must have degree \((0,0)\), a contradiction.
-    The same holds for \(c_2(w)\), so \(c_1(v) = c_2(w)\).
-\end{proof}
+        Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\) are
+        not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree
+        \((0,0)\).
+        Assume that \(c_1(v) \neq c_2(w)\).
+        By semi-monogamy of (\ref{gat:traced-complement}), \(c_1(v)\) must have
+        degree \((0,1)\) since it is solely in the image of \([d_2, c_1]\).
+        But \(f(a_1(v)) = f(a_2(w)) = g(c_1(v)) = g(c_2(w))\), \(c_1(v)\) and
+        \(c_2(w)\) must have degree \((0,0)\), a contradiction.
+        The same holds for \(c_2(w)\), so \(c_1(v) = c_2(w)\).
+    \end{proof}
+}{}
 
 A crucial part of~\cite{bonchi2021string} is that (non-traced) boundary
 complements are \emph{unique}.
@@ -301,42 +302,44 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
     where all cospans are partial monogamous and \(C\) is a traced boundary
     complement.
 \end{lemma}
-\begin{proof}
-    Let \(C\) be defined as a traced boundary complement of \(
-        i+j \xrightarrow{[a_1,a_2]} L \xrightarrow{f} G
-    \), which exists as the no-dangling-hyperedges condition is satisfied.
-    We assign names to the various cospans in play, and reason string
-    diagrammatically:
-    \begin{align*}
-        \iltikzfig{graphs/dpo/lhat} &:= \cospan{i}{L}{j}
-        &
-        \iltikzfig{graphs/dpo/ltilde} &:= \cospan{0}{L}{i+j} \\
-        \iltikzfig{graphs/dpo/chat} &:= \cospan{j+m}{L}{i+n}
-        &
-        \iltikzfig{graphs/dpo/ctilde} &:= \cospan{i+j}{C}{m+n} \\
-        \iltikzfig{graphs/dpo/ghat} &:= \cospan{m}{G}{n}
-        &
-        \iltikzfig{graphs/dpo/gtilde} &:= \cospan{0}{G}{m+n}
-    \end{align*}
-    By using the compact closed structure of \(\cspfihyp\), we also have that \(
-        \iltikzfig{graphs/dpo/ltilde} = \iltikzfig{graphs/dpo/lhat-bent}
-    \), \(
-        \iltikzfig{graphs/dpo/ctilde} = \iltikzfig{graphs/dpo/chat-bent}
-    \) and \(
-        \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/ghat-bent}
-    \).
-    Since \(
-        \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/lctilde}
-    \), it follows that \(
-        \iltikzfig{graphs/dpo/ghat-bent} = \iltikzfig{graphs/dpo/lchat-bent}
-    \) and subsequently \(
-        \iltikzfig{graphs/dpo/ghat} = \iltikzfig{graphs/dpo/lchat}
-    \).
-    The `loop' is constructed in the same manner as the canonical trace on
-    \(\cspfihyp\), so this is a term in the form of (\ref{gath:decomposition}).
-    Moreover, all cospans involved are partial monogamous by definition of
-    rewrite rules and traced boundary complements.
-\end{proof}
+\iftoggle{proofs}{
+    \begin{proof}
+        Let \(C\) be defined as a traced boundary complement of \(
+            i+j \xrightarrow{[a_1,a_2]} L \xrightarrow{f} G
+        \), which exists as the no-dangling-hyperedges condition is satisfied.
+        We assign names to the various cospans in play, and reason string
+        diagrammatically:
+        \begin{align*}
+            \iltikzfig{graphs/dpo/lhat} &:= \cospan{i}{L}{j}
+            &
+            \iltikzfig{graphs/dpo/ltilde} &:= \cospan{0}{L}{i+j} \\
+            \iltikzfig{graphs/dpo/chat} &:= \cospan{j+m}{L}{i+n}
+            &
+            \iltikzfig{graphs/dpo/ctilde} &:= \cospan{i+j}{C}{m+n} \\
+            \iltikzfig{graphs/dpo/ghat} &:= \cospan{m}{G}{n}
+            &
+            \iltikzfig{graphs/dpo/gtilde} &:= \cospan{0}{G}{m+n}
+        \end{align*}
+        By using the compact closed structure of \(\cspfihyp\), we also have that \(
+            \iltikzfig{graphs/dpo/ltilde} = \iltikzfig{graphs/dpo/lhat-bent}
+        \), \(
+            \iltikzfig{graphs/dpo/ctilde} = \iltikzfig{graphs/dpo/chat-bent}
+        \) and \(
+            \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/ghat-bent}
+        \).
+        Since \(
+            \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/lctilde}
+        \), it follows that \(
+            \iltikzfig{graphs/dpo/ghat-bent} = \iltikzfig{graphs/dpo/lchat-bent}
+        \) and subsequently \(
+            \iltikzfig{graphs/dpo/ghat} = \iltikzfig{graphs/dpo/lchat}
+        \).
+        The `loop' is constructed in the same manner as the canonical trace on
+        \(\cspfihyp\), so this is a term in the form of (\ref{gath:decomposition}).
+        Moreover, all cospans involved are partial monogamous by definition of
+        rewrite rules and traced boundary complements.
+    \end{proof}
+}{}
 
 \begin{theorem}
     Let \(\mcr\) be a rewriting system on \(\stmcsigma\).
@@ -350,110 +353,112 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
         \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]].
     \)
 \end{theorem}
-\begin{proof}
-    First the \((\Rightarrow)\) direction.
-    If \(
-        \iltikzfig{strings/category/f}[F][white]
-        \rewrite[\mcr]
-        \iltikzfig{strings/category/f}[H][white]
-    \) then we have \(
-        \iltikzfig{strings/category/f}[F][white]
-        =
-        \iltikzfig{strings/rewriting/rewrite-l}
-    \) and \(
-        \iltikzfig{strings/rewriting/rewrite-r}
-        =
-        \iltikzfig{strings/category/f}[H][white].
-    \)
-    Define the following cospans:
-    \begin{align}
-        \label{gath:l-cospan}
-        \cospan{0}{L}{i+j}
-        &:=
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/l}]]
-        &&=
-        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/l-folded}]
-        \\
-        \cospan{0}{R}{i+j}
-        &:=
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/r}]]
-        &&=
-        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/r-folded}]
-        \\
-        \cospan{0}{G}{m+n}
-        &:=
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[F][white]]]
-        &&=
-        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/lc-folded}]
-        \\
-        \label{gath:h-cospan}
-        \cospan{0}{H}{m+n}
-        &:=
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]]
-        &&=
-        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/rc-folded}]
-        \\
-        \cospan{i+j}{C}{m+n}
-        &:=
-        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c-folded}]
-        &&
-    \end{align}
-    By functoriality, since \(
-        \foldinterfaces[\iltikzfig{strings/category/f}[F][white]]
-        =
-        \iltikzfig{strings/rewriting/l-folded}
-        \seq
-        \iltikzfig{strings/rewriting/c-folded}
-    \) then \[
-        \cospan{0}{G}{m+n} = \cospan{0}{L}{i+j} \seq \cospan{i+j}{C}{m+n}.
-    \]
-    Cospan composition is pushout, so \(\cospan{L}{G}{C}\) is a pushout.
-    Using the same reasoning, \(\cospan{R}{G}{C}\) is also a pushout: this gives
-    us the DPO diagram.
-    All that remains is to check that the aforementioned pushouts are traced
-    boundary complements: this follows by inspecting components.
+\iftoggle{proofs}{
+    \begin{proof}
+        First the \((\Rightarrow)\) direction.
+        If \(
+            \iltikzfig{strings/category/f}[F][white]
+            \rewrite[\mcr]
+            \iltikzfig{strings/category/f}[H][white]
+        \) then we have \(
+            \iltikzfig{strings/category/f}[F][white]
+            =
+            \iltikzfig{strings/rewriting/rewrite-l}
+        \) and \(
+            \iltikzfig{strings/rewriting/rewrite-r}
+            =
+            \iltikzfig{strings/category/f}[H][white].
+        \)
+        Define the following cospans:
+        \begin{align}
+            \label{gath:l-cospan}
+            \cospan{0}{L}{i+j}
+            &:=
+            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/l}]]
+            &&=
+            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/l-folded}]
+            \\
+            \cospan{0}{R}{i+j}
+            &:=
+            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/r}]]
+            &&=
+            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/r-folded}]
+            \\
+            \cospan{0}{G}{m+n}
+            &:=
+            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[F][white]]]
+            &&=
+            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/lc-folded}]
+            \\
+            \label{gath:h-cospan}
+            \cospan{0}{H}{m+n}
+            &:=
+            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]]
+            &&=
+            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/rc-folded}]
+            \\
+            \cospan{i+j}{C}{m+n}
+            &:=
+            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c-folded}]
+            &&
+        \end{align}
+        By functoriality, since \(
+            \foldinterfaces[\iltikzfig{strings/category/f}[F][white]]
+            =
+            \iltikzfig{strings/rewriting/l-folded}
+            \seq
+            \iltikzfig{strings/rewriting/c-folded}
+        \) then \[
+            \cospan{0}{G}{m+n} = \cospan{0}{L}{i+j} \seq \cospan{i+j}{C}{m+n}.
+        \]
+        Cospan composition is pushout, so \(\cospan{L}{G}{C}\) is a pushout.
+        Using the same reasoning, \(\cospan{R}{G}{C}\) is also a pushout: this gives
+        us the DPO diagram.
+        All that remains is to check that the aforementioned pushouts are traced
+        boundary complements: this follows by inspecting components.
 
-    Now the \(\ifdir\) direction: assume we have a DPO diagram (\ref{gath:dpo})
-    where \(L \leftarrow i + j\), \(i + j \rightarrow R\), \(m + n \to G\) and
-    \(m + n \to H\) are defined as in (\ref{gath:l-cospan}-\ref{gath:h-cospan})
-    above.
-    We must show that \(
-        \iltikzfig{strings/category/f}[F][white]
-        =
-        \iltikzfig{strings/rewriting/rewrite-l}
-    \) and \(
-        \iltikzfig{strings/category/f}[H][white]
-        =
-        \iltikzfig{strings/rewriting/rewrite-r}
-    \).
-    By definition of traced boundary complement \(\cospan{j+m}{C}{i+n}\) is a
-    partial monogamous cospan, so by fullness of \(\termandfrobtohypsigma\),
-    there exists a term \(\iltikzfig{strings/rewriting/c} \in \stmcsigma\) such
-    that \(
-        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}]
-        =
-        \cospan{j+m}{C}{i+n}
-    \).
-    By traced decomposition (\cref{lem:decomposition}), we have that for any
-    traced boundary complement \(\cospan{i+j}{C}{m+n}\) and morphism
-    \(L \to G\), \(\cospan{m}{G}{n}\) can be factored as in
-    (\ref{gath:decomposition}), i.e.\ \[
-        \termandfrobtohypsigma[\iltikzfig{strings/category/f}[F][white]]
-        =
-        \trace{j}{\termandfrobtohypsigma[\iltikzfig{strings/rewriting/l}]
-        \tensor
-        \id[n]
-        \seq
-        \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}]}.
-    \]
-    So by functoriality, we have that \(
-        \iltikzfig{strings/category/f}[F][white]
-        =
-        \iltikzfig{strings/rewriting/rewrite-l}
-    \).
-    The same reasoning follows for \(
-        \iltikzfig{strings/category/f}[H][white]
-        =
-        \iltikzfig{strings/rewriting/rewrite-r}
-    \).
-\end{proof}
+        Now the \(\ifdir\) direction: assume we have a DPO diagram (\ref{gath:dpo})
+        where \(L \leftarrow i + j\), \(i + j \rightarrow R\), \(m + n \to G\) and
+        \(m + n \to H\) are defined as in (\ref{gath:l-cospan}-\ref{gath:h-cospan})
+        above.
+        We must show that \(
+            \iltikzfig{strings/category/f}[F][white]
+            =
+            \iltikzfig{strings/rewriting/rewrite-l}
+        \) and \(
+            \iltikzfig{strings/category/f}[H][white]
+            =
+            \iltikzfig{strings/rewriting/rewrite-r}
+        \).
+        By definition of traced boundary complement \(\cospan{j+m}{C}{i+n}\) is a
+        partial monogamous cospan, so by fullness of \(\termandfrobtohypsigma\),
+        there exists a term \(\iltikzfig{strings/rewriting/c} \in \stmcsigma\) such
+        that \(
+            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}]
+            =
+            \cospan{j+m}{C}{i+n}
+        \).
+        By traced decomposition (\cref{lem:decomposition}), we have that for any
+        traced boundary complement \(\cospan{i+j}{C}{m+n}\) and morphism
+        \(L \to G\), \(\cospan{m}{G}{n}\) can be factored as in
+        (\ref{gath:decomposition}), i.e.\ \[
+            \termandfrobtohypsigma[\iltikzfig{strings/category/f}[F][white]]
+            =
+            \trace{j}{\termandfrobtohypsigma[\iltikzfig{strings/rewriting/l}]
+            \tensor
+            \id[n]
+            \seq
+            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}]}.
+        \]
+        So by functoriality, we have that \(
+            \iltikzfig{strings/category/f}[F][white]
+            =
+            \iltikzfig{strings/rewriting/rewrite-l}
+        \).
+        The same reasoning follows for \(
+            \iltikzfig{strings/category/f}[H][white]
+            =
+            \iltikzfig{strings/rewriting/rewrite-r}
+        \).
+    \end{proof}
+}{}

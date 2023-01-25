@@ -1,0 +1,256 @@
+\newcommand{\concat}{\mathbin{+\hspace{-3pt}+}}
+\newcommand{\stmcequationslink}{
+    \hyperref[fig:stmc-axioms]{\stmcequations}
+}
+\newcommand{\productiveequationsdelaylink}{
+    \hyperref[def:productive-equations-delay]{\productiveequationsdelay}
+}\newcommand{\productiveequationslink}{
+    \hyperref[def:productive-equations]{\productiveequations}
+}
+\newcommand{\combinationalequationslink}{
+    \hyperref[lem:combinational-equations]{\combinationalequations}
+}
+\newcommand{\reductiveequationslink}{
+    \hyperref[def:reductive-equations]{\reductiveequations}
+}
+\newcommand{\mealyequationslink}{
+    \hyperref[def:structural-equations]{\mealyequations}
+}
+\newcommand{\abstractionequationslink}{
+    \hyperref[def:abstraction-equations]{\abstractionequations}
+}
+\newcommand{\bialgebraequationslink}{
+    \hyperref[fig:bialgebra-axioms]{\bialgebraequations}
+}
+\newcommand{\localequationslink}{
+    \hyperref[fig:bialgebra-axioms]{\localequations}
+}
+\newcommand{\unfoldingeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{UF}\)}
+        \iltikzfig{strings/traced/trace-rhs}[F][seq][m][n][x]
+        =
+        \iltikzfig{circuits/examples/reasoning/unfolding/unfolding-3}
+        \label{eq:unfolding}
+    \end{equation}
+}
+\newcommand{\streamingeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{Str}\)}
+        \iltikzfig{circuits/axioms/streaming-lhs}
+        =
+        \iltikzfig{circuits/axioms/streaming-rhs}
+        \label{eq:streaming}
+    \end{equation}
+}
+\newcommand{\genstreamingeqn}{
+    \begin{equation*}
+        \tag{\(\mathsf{GStr}\)}
+        \iltikzfig{circuits/axioms/generalised-streaming-lhs}
+        =
+        \iltikzfig{circuits/axioms/generalised-streaming-rhs}
+        \label{eq:generalised-streaming}
+    \end{equation*}
+}
+\newcommand{\bisimulationequationcontent}{
+    \begin{equation}
+        \tag{\(\bisimulationequation\)}
+        \left(
+            \forall (\overline{r}, \overline{u}) \in B(
+                \iltikzfig{circuits/components/circuits/f-2-2}[F][comb],
+                \overline{s},
+                \iltikzfig{circuits/components/circuits/f-2-2}[G][comb],
+                \overline{t},
+            ), \forall \overline{v} \in \valuetuple{m}.
+            \quad
+            \iltikzfig{circuits/full-abstraction/output}[F][r][v]
+            \eqaxioms
+            \iltikzfig{circuits/full-abstraction/output}[G][u][v]
+        \right)
+        \quad
+        \Rightarrow
+        \quad
+        \iltikzfig{circuits/productivity/mealy-form}[F][s]
+        =
+        \iltikzfig{circuits/productivity/mealy-form}[G][t]
+        \label{eq:bisimulation}
+    \end{equation}
+}
+\newcommand{\instantfeedbackeqn}{
+    \begin{equation}
+        \tag{\(\instantfeedbackequation\)}
+        \iltikzfig{circuits/instant-feedback/equation-lhs}
+        =
+        \iltikzfig{circuits/instant-feedback/equation-rhs}
+        \label{eq:instant-feedback}
+    \end{equation}
+}
+\newcommand{\combinationalequationslist}{
+    \begin{minipage}[b]{0.24\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Gate}_\interpretation\)}
+            \iltikzfig{circuits/axioms/gate-lhs}
+            =
+            \iltikzfig{circuits/axioms/gate-rhs}
+            \label{eq:gate}
+        \end{equation}
+    \end{minipage}%
+    \begin{minipage}[b]{0.22\textwidth}
+        \begin{equation}\textbf{}
+            \tag{\(\mathsf{Fork}\)}
+            \iltikzfig{circuits/axioms/fork-lhs}[v]
+            =
+            \iltikzfig{circuits/axioms/fork-rhs}[v]
+            \label{eq:fork}
+        \end{equation}
+    \end{minipage}%
+    \begin{minipage}[b]{0.22\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Join}\)}
+            \iltikzfig{circuits/axioms/join-lhs}[v][w]
+            =
+            \iltikzfig{circuits/axioms/join-rhs}[v][w]
+            \label{eq:join}
+        \end{equation}
+    \end{minipage}%%
+    \begin{minipage}[b]{0.20\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Stub}\)}
+            \iltikzfig{circuits/axioms/stub-lhs}[v]
+            =
+            \iltikzfig{strings/monoidal/empty}
+            \label{eq:stub}
+        \end{equation}
+    \end{minipage}
+}
+\newcommand{\disconnecteqn}{
+    \begin{equation}
+        \tag{\(\mathsf{Disc}\)}
+        \iltikzfig{circuits/axioms/disconnect-lhs}
+        =
+        \iltikzfig{circuits/axioms/disconnect-rhs}
+        \label{eq:disconnect}
+    \end{equation}
+}
+\newcommand{\mealyformequations}{
+    \begin{minipage}[b]{0.3\textwidth}
+        \disconnecteqn
+    \end{minipage}%
+    \begin{minipage}[b]{0.3\textwidth}
+        \begin{equation}\textbf{}
+            \tag{\(\mathsf{Unit}_l\)}
+            \iltikzfig{strings/structure/monoid/unitality-l-lhs}
+            =
+            \iltikzfig{strings/structure/monoid/unitality-l-rhs}
+            \label{eq:mealy-monoid-unitality-l}
+        \end{equation}
+    \end{minipage}%
+    \begin{minipage}[b]{0.3\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Unit}_r\)}
+            \iltikzfig{strings/structure/monoid/unitality-r-lhs}
+            =
+            \iltikzfig{strings/structure/monoid/unitality-r-rhs}
+            \label{eq:mealy-monoid-unitality-r}
+        \end{equation}
+    \end{minipage}
+}
+\newcommand{\forkgateeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{GFork}\)}
+        \iltikzfig{circuits/axioms/fork-gate-lhs}
+        =
+        \iltikzfig{circuits/axioms/fork-gate-rhs}
+        \label{eq:fork-gate}
+    \end{equation}
+}
+\newcommand{\stubgateeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{GStub}\)}
+        \iltikzfig{circuits/axioms/stub-gate-lhs}
+        =
+        \iltikzfig{circuits/axioms/stub-gate-rhs}
+        \label{eq:stub-gate}
+    \end{equation}
+}
+\newcommand{\forkdelayeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{DFork}\)}
+        \iltikzfig{circuits/axioms/fork-delay-lhs}
+        =
+        \iltikzfig{circuits/axioms/fork-delay-rhs}
+        \label{eq:fork-delay}
+    \end{equation}
+}
+\newcommand{\joindelayeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{DJoin}\)}
+        \iltikzfig{circuits/axioms/join-delay-lhs}
+        =
+        \iltikzfig{circuits/axioms/join-delay-rhs}
+        \label{eq:join-delay}
+    \end{equation}
+}
+\newcommand{\stubdelayeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{DStub}\)}
+        \iltikzfig{circuits/axioms/unobservable-lhs}
+        =
+        \iltikzfig{circuits/axioms/unobservable-rhs}
+        \label{eq:stub-delay}
+    \end{equation}
+}
+\newcommand{\cycleeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{Cycle}\)}
+        \iltikzfig{circuits/productivity/productive-lhs}[F][s][v]
+        =
+        \iltikzfig{circuits/productivity/productive-step-9}
+        \label{eq:cycle}
+    \end{equation}
+}
+\newcommand{\cartesiancopyeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{Copy}\)}
+        \iltikzfig{strings/structure/cartesian/naturality-copy-lhs}[F][seq][m][n]
+        =
+        \iltikzfig{strings/structure/cartesian/naturality-copy-rhs}[F][seq][m][n]
+        \label{eq:cartesian-naturality-copy}
+    \end{equation}
+}
+\newcommand{\joinforkinverseeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{JF}\)}
+        \iltikzfig{circuits/axioms/join-fork-inverses-lhs}
+        =
+        \iltikzfig{circuits/axioms/join-fork-inverses-rhs}
+        \label{eq:join-fork-inverse}
+    \end{equation}
+}
+\newcommand{\forkjoininverseeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{FJ}\)}
+        \iltikzfig{circuits/axioms/fork-join-inverse-lhs}
+        =
+        \iltikzfig{circuits/axioms/fork-join-inverse-rhs}
+        \label{eq:fork-join-inverse}
+    \end{equation}
+}
+\newcommand{\delaydiscardeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{UDelay}\)}
+        \iltikzfig{circuits/axioms/delay-discard-lhs}
+        =
+        \iltikzfig{circuits/axioms/delay-discard-rhs}
+        \label{eq:delay-discard}
+    \end{equation}
+}
+\newcommand{\mealyeqn}{
+    \begin{equation}
+        \tag{\(\mathsf{Mealy}\)}
+        \iltikzfig{circuits/productivity/trace-delay}[F][v][m][n][x][y][z]
+        =
+        \iltikzfig{circuits/productivity/mealy-form/mealy-form-4}
+        \label{eq:mealy}
+    \end{equation}
+}

@@ -1,3 +1,4 @@
+% !TeX root = main-conf.tex
 % custom macros
 \input{macros/letters}
 \input{macros/sets}
@@ -6,12 +7,12 @@
 \input{macros/proofs}
 \input{macros/circuits}
 
+\input{commands}
+
 \input{figures/circuits.tikzdefs}
 \input{figures/circuits.tikzstyles}
 
 \title{Graph rewriting for digital circuits}
-
-\bibliographystyle{plainurl}
 
 \begin{document}
 
@@ -23,7 +24,13 @@
 
     \input{sections/circuits}
     \input{sections/hypergraphs}
+    \input{sections/comonoid}
     \input{sections/rewriting}
+    \input{sections/hierarchical}
 
-    \bibliography{refs/refs}
+    \iftoggle{conf}{
+        \bibliography{refs/refs}
+    }{
+        \printbibliography
+    }
 \end{document}

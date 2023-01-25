@@ -1,0 +1,121 @@
+% !TeX root = ../main-conf.tex
+\section{Comonoid structure}
+
+Digital circuits do not just have a traced structure, but moreover the ability to \emph{copy} and \emph{discard} wires: the category of circuits is equipped with \emph{comonoid structure}.
+Such categories are also known as \emph{gs-monoidal} (\emph{garbage-sharing}) categories~\cite{fritz2022free}.
+
+There has been recent work into hypergraphs at the `halfway point' between symmetric monoidal and Frobenius terms: \cite{fritz2022free} examines a general construction for constructing free gs-categories as hypergraphs, but does not continue as far as graph rewriting.
+Conversely, \cite{milosavljevic2022string} presensts results for rewriting with a \emph{monoid} structure: similar results can be extracted for a comonoid structure by flipping all the directions.
+Both of these papers consider \emph{acyclic} hypergraphs: we must ensure that removing the acyclicity condition does not lead to any degeneracies.
+
+\begin{definition}[Partial left-monogamy]
+    For a cospan \(\cospan{m}[f]{H}[g]{n}\), we say it is \emph{partial left-monogamous} if \(f\) is mono and, for all nodes \(v \in H_\star\),
+    \begin{center}
+        the degree of \(v\) is \(\begin{cases}
+            (0,m) & \text{if}\ v \in f_\star \\
+            (0,m) \text{ or } (1,m) & otherwise \\
+        \end{cases}\)
+    \end{center}
+    for some \(m \in \nat\).
+\end{definition}
+
+\begin{lemma}
+    Any partial monogamous cospan is also partial left-monogamous.
+\end{lemma}
+
+\begin{lemma}
+    \label{lem:trace-in-degree}
+    Given a partial left-monogamous cospan \(\cospan{x+m}[f+h]{K}[g+k]{x+n}\) and its trace \(\cospan{m}[h \seq p]{pK}[k \seq p]{n}\), let vertices \(v_0, v_1, \cdots, v_n\) such that each \(v_i\) is in the image of \(g\) and \(p(v_0) = p(v_1) = \cdots = p(v_n)\).
+    Then, there exists at most one \(v_i\) with in-degree \(1\).
+\end{lemma}
+\begin{proof}
+    Assume that there exist vertices \(g(i),g(j)\) with in-degree \(1\).
+    For \(p(g(i)) = p(g(j))\) to hold, then there must either exist a sequence \(f(i) = g(i_0), f(i_0) = g(i_1), \cdots, f(i_n) = g(j)\), or vice versa.
+    But \(f(i_n) = g(j)\) must have in-degree \(0\) by partial left-monogamy, a contradiction.
+    Therefore at most one \(v_i\) can have in-degree \(1\).
+\end{proof}
+
+\begin{lemma}
+    \label{lem:partial-monogamous-ops}
+    Let \(\cospan{m}{F}{n}\), \(\cospan{n}{G}{p}\), \(\cospan{p}{H}{q}\) and \(\cospan{x+m}{K}{x+n}\) be partial left-monogamous cospans.
+    Then,
+    \begin{itemize}
+        \item Identities and symmetries are partial left-monogamous.
+        \item \(\cospan{m}[f]{F}[g]{n} \seq \cospan{n}[h]{G}[k]{p}\) is partial left-monogamous.
+        \item \(\cospan{m}{F}{n} \tensor \cospan{p}{H}{q}\) is partial left-monogamous.
+        \item \(\trace{x}{\cospan{x+m}[f+h]{K}[g+k]{x+n}} = \cospan{m}[h \seq p]{pK}[k \seq p]{n}\) is partial left-monogamous.
+    \end{itemize}
+\end{lemma}
+\begin{proof}
+    Identities and symmetries are monogamous, and as such they are also partial left-monogamous.
+    For composition, the vertices in the image of \(g\) and \(h\) are identified.
+    Let \(v = p(g(i)) = p(h(i))\).
+    We must show that \(v\) has in-degree \(0\) if it is in the image of \(f\), and \(0\) or \(1\) otherwise.
+    \(h(i)\) has in-degree \(1\) by definition, so the in-degree of \(v\) is entirely determined by \(g(i)\).
+    If \(v\) is in the image of \(f\), then \(g(i)\) must also be in the image of \(f\), so it has in-degree \(0\), and hence so does \(v\).
+    Conversely, if \(v\) is not in the image of \(f\), \(g(i)\) has in-degree of either \(0\) or \(1\), and hence so does \(v\).
+
+    For tensor, the elements of the original two graphs are unaffected so the degrees remain unchanged.
+
+    For trace, let \(v = p(f(i)) = p(g(i))\).
+    \(v\) cannot be in the image of \(h \seq p\) as this would mean that \(f + h\) is not mono.
+    Therefore we must show that \(v\) has either degree of either \((0,m)\) or \((1,m)\).
+    The degree of \(v\) is the sum of the degrees of each \(v_{fi}\) and \(v_{gi}\).
+    Let \(v_{f0},\cdots,v_{fn}\) be the vertices in the image of \(f\) such that \(p(v_{fi}) = v\), and similarly for \(v_{gi}\).
+    The in-degree of each \(v_{fi}\) must be \(0\) so all the in-degree is contributed by each \(v_{gi}\).
+    By \cref{lem:trace-in-degree}, at most \(v_{fi}\) can have in-degree \(1\), so the in-degree of \(v\) can either be \(0\) or \(1\).
+    Therefore the cospan is partial left-monogamous.
+\end{proof}
+
+\noindent
+Therefore cospans of partial left-monogamous hypergraphs form a category, which we name \(\plmcspfihyp\).
+This category can be equipped with a comonoid structure.
+Let \(\ccomon\) be the prop freely generated over signature \(
+    \{
+        \iltikzfig{strings/structure/comonoid/copy}[white],
+        \iltikzfig{strings/structure/comonoid/discard}[white]
+    \}
+\).
+
+\begin{proposition}[\cite{lack2004composing}, Example 5.2]
+    \label{prop:ccomon-iso-finsetop}
+    \(\ccomon \cong \op{\finset}\).
+\end{proposition}
+
+\noindent
+The following is a corollary of \cref{thm:cospan-homomorphism}.
+
+\begin{corollary}
+    \label{cor:prop-homomorphism-finset}
+    There is a faithful prop homomorphism \(\morph{\tilde{D}}{\csp{\op{\finset}}}{\csp[D]{\hypsigma}}\).
+\end{corollary}
+
+\begin{definition}
+    Let \(\morph{\comonoidtohyp}{\ccomon}{\cspfihyp}\) be the homomorphism obtained by composing the isomorphism of \cref{prop:ccomon-iso-finsetop} with the homomorphism of \cref{cor:prop-homomorphism-finset}.
+    Concretely, it is defined on objects in the obvious way and on morphisms as \(\comonoidtohyp[\iltikzfig{strings/structure/comonoid/copy}[white]] := \cospan{1}{1}{2}\) and \(\comonoidtohyp[\iltikzfig{strings/structure/comonoid/discard}[white]] := \cospan{1}{1}{0}\).
+\end{definition}
+
+\begin{lemma}
+    The image of \(\comonoidtohyp\) is in \(\plmcspfihyp\).
+\end{lemma}
+\begin{proof}
+    By definition.
+\end{proof}
+
+\begin{definition}
+    Let \(\morph{\termandfrobtohypsigma}{\stmcsigma + \comon}{\plmcspfihyp}\) be defined as the copairing of \(\termtohypsigma\) and \(\comonoidtohyp\).
+\end{definition}
+
+\begin{lemma}
+    Given a left-monogamous cospan \(\cospan{m}[f]{m}[g]{n}\), there exists a unique term \(\morph{h}{m}{n} \in \comon\) up to the axioms of SMCs such that \(\comonoidtohyp\) = \(\cospan{m}[f]{m}[g]{n}\).
+\end{lemma}
+\begin{proof}
+
+\end{proof}
+
+\begin{theorem}
+    \(\stmcsigma + \comon \cong \plmcspfihyp\).
+\end{theorem}
+\begin{proof}
+    Since \(\termandfrobtohypsigma\) and \(\comonoidtohyp\) are faithful, it suffices to show that every cospan \(\cospan{m}{F}{n} \in \plmcspfihyp\) can be decomposed in such a way that each component is in the image of either \(\termandfrobtohypsigma\) or \(\comonoidtohyp\).
+\end{proof}

@@ -1,2 +1,66 @@
-\documentclass{article}
+% force arxiv to compile to pdf
+\pdfoutput=1
+
+\documentclass[10pt, a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[english]{babel}
+
+\usepackage{tgpagella}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{stmaryrd}
+\usepackage{authblk}
+
+\usepackage{etoolbox}
+\usepackage{xparse}
+
+\usepackage{standalone}
+\usepackage{wrapfig}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{multicol}
+\usepackage{csquotes}
+
+\PassOptionsToPackage{usenames, dvipsnames}{xcolor}
+\usepackage{figures/tikzit}
+\usepackage{tikz-cd}
+
+\usepackage[style=alphabetic]{biblatex}
+\usepackage[colorlinks=true, citecolor=Green, linkcolor=NavyBlue, urlcolor=BrickRed]{hyperref}
+\usepackage[capitalise]{cleveref}
+
+\setcounter{biburlnumpenalty}{1000}
+\setcounter{biburlucpenalty}{1000}
+\setcounter{biburllcpenalty}{1000}
+
+\declaretheoremstyle[
+    headfont=\normalfont\bfseries,
+    postheadspace=0.5em
+]{myremark}
+
+\declaretheorem{theorem}
+\declaretheorem[sibling=theorem]{proposition}
+\declaretheorem[sibling=theorem]{lemma}
+\declaretheorem[sibling=theorem]{definition}
+\declaretheorem[sibling=theorem]{notation}
+\declaretheorem[sibling=theorem]{corollary}
+\declaretheorem[style=myremark, sibling=theorem]{remark}
+\declaretheorem[style=myremark, sibling=theorem]{example}
+
+\addbibresource{refs/refs.biblatex.bib}
+
+\newtoggle{conf}
+\newtoggle{proofs}
+\settoggle{conf}{false}
+\settoggle{proofs}{true}
+
+\author{Dan R. Ghica}
+\author{George Kaye}
+\affil{School of Computer Science, University of Birmingham}
+\affil{\texttt{\{d.r.ghica, g.j.kaye, d.sprunger\}@cs.bham.ac.uk}}
+\date{}
+
 \input{main}

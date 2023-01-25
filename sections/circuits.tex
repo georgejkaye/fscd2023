@@ -61,61 +61,62 @@ However, we augment it with the \emph{strictifiers} of~\cite{wilson2022stringa}
     \).
 \end{definition}
 
-\begin{definition}[Implementation]
-    For two circuit signatures \(\Sigma = (
-        \circuitsignaturevalues,
-        \disconnected,
-        \shortcircuit,
-        \circuitsignaturegates,
-        \circuitsignaturearity,
-        \circuitsignaturecoarity
-    )\) and \(\Sigma^\prime = (
-        \circuitsignaturevalues^\prime,
-        \disconnected^\prime,
-        \shortcircuit^\prime,
-        \circuitsignaturegates^\prime,
-        \circuitsignaturearity^\prime,
-        \circuitsignaturecoarity^\prime
-    )\), an \emph{implementation specification} of \(\scirc{\Sigma^\prime}\) in
-    \(\scircsigma\)
-    is a pair \((V,P)\) where \(
-        \morph{I_V}{\circuitsignaturevalues^\prime}{\circuitsignaturevalues^\star}
-    \) is a \emph{value implementation} and \(
-        \morph{I_P}{\circuitsignaturegates^\prime}{\ccircsigma}
-    \) is a \emph{primitive implementation}.
-    An \emph{implementation of \((I_V, I_P)\)} is a prop morphism \(
-        \morph{I}{\scirc{\Sigma^\prime}}{\scircsigma}
-    \) defined as \(
-        I\left(\iltikzfig{circuits/components/values/v}[v]\right)
-        =
-        \bigotimes_{w \in I_V(v)} \iltikzfig{circuits/components/values/v}[w]
-    \), \(
-        I\left(\iltikzfig{circuits/components/gates/gate}[g]\right)
-        =
-        I_P(g)
-    \) and the identity otherwise.
+\(\ccircsigma\) and \(\scircsigma\) define the \emph{syntax} of digital
+circuits.
+Since these are symmetric (traced) categories, the axioms of STMCs in
+\cref{fig:stmc-equations} hold by default; since we are using string diagrams
+they can be `applied' by moving boxes and wires around without altering their
+connectivity.
+However, more interesting equations that show the effects of \emph{computation}
+must be applied explicitly.
+In \cite{ghica2022compositional} several equational theories for digital
+circuits were presented: we will focus on one in this paper.
+
+\begin{definition}[\cite{ghica2022compositional}]
+    Let \(\scircsigmal\) be defined as \(\scircsigma\) quotiented by the
+    equations in \cref{fig:bialgebra,fig:local-equations}.
 \end{definition}
 
-We now formalise some of the `syntactic sugar' used
-in~\cite{ghica2022compositional}.
-
-\begin{definition}
-    For a circuit signature \(\Sigma\), let \(\ccirc{\Sigma^+}\) be defined as
-    the category with the generators of \(\ccircsigma\) augmented with \(
-        \iltikzfig{strings/structure/monoid/init}[comb][n]
-    \), \(
-        \iltikzfig{strings/structure/comonoid/copy}[comb][n]
-    \), \(
-        \iltikzfig{strings/structure/monoid/merge}[comb][n]
-    \) and \(
-        \iltikzfig{strings/structure/comonoid/discard}[comb][n]
-    \), and let \(\scirc{\Sigma^+}\) be defined as the category with the generators of
-    \(\ccirc{\Sigma^+}\) along with, for all \(n \in \nat\) and \(n\)-tuples
-    \(\overline{v} \in \circuitsignaturevalues^\star\), the generators \(
-        \iltikzfig{circuits/components/waveforms/delay}[n]
-    \), \(
-        \iltikzfig{circuits/components/values/vs}[v][n]
-    \) and \(
-        \iltikzfig{circuits/components/waveforms/register-shorthand}[\overline{v}][n]
-    \).
-\end{definition}
+\begin{figure*}
+    \centering
+    \combinationalequationslist
+    \begin{minipage}[b]{0.215\textwidth}
+        \forkgateeqn
+    \end{minipage}
+    \hspace{-0.6em}
+    \begin{minipage}[b]{0.174\textwidth}
+        \stubgateeqn
+    \end{minipage}
+    \hspace{-0.6em}
+    \begin{minipage}[b]{0.171\textwidth}
+        \stubdelayeqn
+    \end{minipage}
+    \hspace{-0.6em}
+    \begin{minipage}[b]{0.164\textwidth}
+        \forkjoininverseeqn
+    \end{minipage}
+    \hspace{-0.6em}
+    \begin{minipage}[b]{0.2714\textwidth}
+        \streamingeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.16\textwidth}
+        \disconnecteqn
+    \end{minipage}
+    \begin{minipage}[b]{0.2\textwidth}
+        \forkdelayeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.2\textwidth}
+        \joindelayeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.19\textwidth}
+        \instantfeedbackeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.21\textwidth}
+        \delaydiscardeqn
+    \end{minipage}
+    \caption{
+        Axioms of \(\scircsigmal\).
+        See also \cref{app:equations}, \cref{fig:bialgebra-axioms}.
+    }
+    \label{fig:local-equations}
+\end{figure*}
