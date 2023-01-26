@@ -3,7 +3,6 @@
 \section{Digital circuits}
 
 We use the circuits framework of~\cite{ghica2022compositional}.
-However, we augment it with the \emph{strictifiers} of~\cite{wilson2022stringa}
 
 \begin{definition}[Circuit signature, value, gate symbol~\cite{ghica2022compositional}]
     A \emph{circuit signature} \(\circuitsignature\) is a tuple \((
@@ -11,41 +10,85 @@ However, we augment it with the \emph{strictifiers} of~\cite{wilson2022stringa}
         \disconnected,
         \shortcircuit,
         \circuitsignaturegates,
-        \circuitsignaturearity,
-        \circuitsignaturecoarity
+        \circuitsignaturearity
     )\) where \(\circuitsignaturevalues\) is a finite set of \emph{values}, \(
         \disconnected \in \circuitsignaturevalues
     \) is a \emph{disconnected} value, \(
         \shortcircuit \in \circuitsignaturevalues
-    \) is a \emph{short-circuit} value, \(\circuitsignaturegates\) is a (usually
-    finite) set of \emph{gate symbols}, \(
-        \morph{\circuitsignaturearity}{\circuitsignaturegates}{\nat}
-    \) is an \emph{arity} function and \(
-        \morph{\circuitsignaturecoarity}{\circuitsignaturegates}{\nat}
-    \) is a \emph{coarity} function.
+    \) is a \emph{short-circuit} value, \(
+        \circuitsignaturegates
+    \) is a (usually finite) set of \emph{gate symbols}, and \(
+        \morph{\circuitsignaturearity}{\circuitsignaturegates}{\nat^\star}
+    \) is an \emph{arity} function.
 \end{definition}
 
+The distinct elements \(\bullet\) and \(\circ\) represent a
+\emph{disconnected wire} (a \emph{lack} of information) and a
+\emph{short circuit} (\emph{inconsistent} information) respectively.
+We have a made slight generalisation, motivated by the desire to succinctly
+represent wires of arbitrary bit-width.
+The arity of a gate is now expressed as a \emph{list} of natural numbers.
+This makes a clear distinction between
+
+\begin{example}[Gate-level circuits]\label{ex:sig}
+    The signature for \emph{gate-level circuits} is \(
+        \belnapsignature = (
+            \belnapvalues,
+            \belnapnone,
+            \belnapboth,
+            \belnapgates,
+            \belnaparity
+    )\), where \(
+        \belnapvalues := \{\belnapnone, \belnapfalse, \belnaptrue, \belnapboth\}
+    \), respectively representing \emph{no} signal, a \emph{false} signal, a
+        \emph{true} signal and \emph{both} signals at once, \(
+        \belnapgates := \{\andgate,\orgate,\notgate\}
+    \), and \(
+        \belnaparity :=
+            \andgate \mapsto [1, 1],
+            \orgate \mapsto [1, 1],
+            \notgate \mapsto [1]
+    \).
+\end{example}
+
+We are particularly interested in \emph{props}, symmetric monoidal categories
+with natural numbers as objects and addition as tensor product.
+Traditionally, morphisms \(m \to n\) in a prop are drawn string diagrammatically
+as a box with \(m\) wires as inputs and \(n\) wires as outputs.
+We will adopt the more conventional string diagram of each object (i.e.\ each
+natural number) with its own (labelled) wire.
+This ties the notation closer with the ports of components on circuits,
+which may have arbitrary widths.
+When discussing circuits in general, we may label wires with lists of natural
+numbers: this is merely a syntactic sugar for drawing multiple wires in parallel.
+
+
 \begin{definition}[Combinational circuits~\cite{ghica2022compositional}]
-    Let \(\ccircsigma\) be the symmetric monoidal category generated over:
-    \begin{gather*}
-        \iltikzfig{circuits/components/gates/gate}[g][\circuitsignaturearity(g)][\circuitsignaturecoarity(g)]
-        \text{ for each }
+    Let \(\ccircsigma\) be the prop generated over \(
+        \iltikzfig{circuits/components/gates/gate}[g][\circuitsignaturearity(g)]
+    \) for each \(
         g \in \circuitsignaturegates
-        ,
-        \iltikzfig{strings/structure/monoid/init}[comb]
-        ,
-        \iltikzfig{strings/structure/comonoid/copy}[comb]
-        ,
-        \iltikzfig{strings/structure/monoid/merge}[comb]
-        ,
-        \iltikzfig{strings/structure/comonoid/discard}[comb]
-        \text{, and }
+    \) and \(
+        \iltikzfig{strings/structure/monoid/init}[comb][n]
+    \), \(
+        \iltikzfig{strings/structure/comonoid/copy}[comb][n]
+    \), \(
+        \iltikzfig{strings/structure/monoid/merge}[comb][n]
+    \), \(
+        \iltikzfig{strings/structure/comonoid/discard}[comb][n]
+    \), \(
         \iltikzfig{strings/strictifiers/expand}[comb][m][n]
-        ,
+    \), \(
         \iltikzfig{strings/strictifiers/collapse}[comb][m][n]
-        \text{ for } m, n \in \nat
-    \end{gather*}
+    \) for \(m, n \in \nat\).
 \end{definition}
+
+The first generators are \emph{gates}, and the remainder are \emph{strucutural}
+generators for \emph{introducing}, \emph{forking}, \emph{joining}, \emph{stubbing},
+\emph{expanding} or \emph{collapsing} wires.
+The latter two generators were not present in the original formulation
+in~\cite{ghica2022compositional}: they have been adapted
+from~\cite{wilson2022stringa}.
 
 \begin{definition}[Sequential circuits~\cite{ghica2022compositional}]
     For a circuit signature \(\Sigma = (
@@ -55,10 +98,10 @@ However, we augment it with the \emph{strictifiers} of~\cite{wilson2022stringa}
         \circuitsignaturegates,
         \circuitsignaturearity,
         \circuitsignaturecoarity
-    )\), let \(\scircsigma\) be the symmetric traced monoidal category generated
+    )\), let \(\scircsigma\) be the traced prop generated
     over the generators of \(\ccircsigma\) and \(
-        \iltikzfig{circuits/components/waveforms/delay}
-    \).
+        \iltikzfig{circuits/components/waveforms/delay}[n]
+    \) for \(m \in \nat\).
 \end{definition}
 
 \(\ccircsigma\) and \(\scircsigma\) define the \emph{syntax} of digital
@@ -70,7 +113,8 @@ connectivity.
 However, more interesting equations that show the effects of \emph{computation}
 must be applied explicitly.
 In \cite{ghica2022compositional} several equational theories for digital
-circuits were presented: we will focus on one in this paper.
+circuits were presented: we will focus on the \emph{local} equational theory
+in this paper.
 
 \begin{definition}[\cite{ghica2022compositional}]
     Let \(\scircsigmal\) be defined as \(\scircsigma\) quotiented by the
@@ -119,4 +163,26 @@ circuits were presented: we will focus on one in this paper.
         See also \cref{app:equations}, \cref{fig:bialgebra-axioms}.
     }
     \label{fig:local-equations}
+\end{figure*}
+
+Reasoning with circuits can then be performed by applying equations in
+\(\scircsigmal\).
+In particular, \cite{ghica2022compositional} sketches an
+\emph{operational semantics} for digital circuits by applying an equation
+that shows how a sequential circuit processes an input.
+
+\begin{theorem}[\cite{ghica2022compositional}]
+    The \eqref{eq:cycle} equation holds in \(\scircsigmal\).
+\end{theorem}
+
+\begin{figure*}
+    \centering
+    \begin{equation*}
+        \tag{\(\mathsf{Cycle}\)}
+        \iltikzfig{circuits/axioms/cycle-lhs}
+        =
+        \iltikzfig{circuits/axioms/cycle-lhs}
+        \label{eq:cycle}
+    \end{equation*}
+    \caption{The }
 \end{figure*}
