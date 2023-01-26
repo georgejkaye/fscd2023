@@ -1,21 +1,31 @@
 % !TeX root = ../main-conf.tex
 \section{Graph rewriting}
 
+While we can reason about terms in a monoidal category with \emph{equations},
+we can reason using hypergraphs with \emph{graph rewrites}.
+
 \begin{definition}[Rewrite rule]
-    Given cospans \(
+    Given interfaced hypergraphs \(
         \cospan{i}[a_1]{L}[a_2]{j}
     \) and \(
         \cospan{i}[b_1]{R}[b_2]{j}
-    \), their rewrite rule is a span in \(\hypsigma\) \(
+    \), their rewrite rule is a span in \(\hypsigma\): \(
         \spann{L}[[a_1,a_2]]{i+j}[[b_1,b_2]]{R}
     \).
 \end{definition}
 
+\begin{definition}[DPO]
+    \begin{gather}
+        \label{gath:dpo}
+        \includestandalone{figures/graphs/dpo/dpo}
+    \end{gather}
+\end{definition}
+
 \begin{lemma}
     Given terms \(
-        \iltikzfig{strings/rewriting/l}
+        \iltikzfig{strings/category/f}[l][white][i][j]
     \), \(
-        \iltikzfig{strings/rewriting/r}
+        \iltikzfig{strings/category/f}[r][white][i][j]
     \) in \(\stmcsigma\) and their corresponding rewrite rule \[
         \spann{
             \termtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/l}]]
@@ -31,13 +41,6 @@
         By definition of partial monogamous cospan.
     \end{proof}
 }{}
-
-\begin{definition}[DPO]
-    \begin{gather}
-        \label{gath:dpo}
-        \includestandalone{figures/graphs/dpo/dpo}
-    \end{gather}
-\end{definition}
 
 \begin{definition}[Boundary complement \cite{bonchi2021string}, Definition 23]\label{def:boundary-complement}
     For \(
@@ -344,11 +347,11 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
 \begin{theorem}
     Let \(\mcr\) be a rewriting system on \(\stmcsigma\).
     Then, \(
-        \iltikzfig{strings/category/f}[F][white]
+        \iltikzfig{strings/category/f}[G][white]
         \rewrite[\mcr]
         \iltikzfig{strings/category/f}[H][white]
     \) if and only if \(
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[F][white]]]
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[G][white]]]
         \grewrite[\termandfrobtohypsigma[\foldinterfaces[\mcr]]]
         \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]].
     \)
@@ -357,11 +360,11 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
     \begin{proof}
         First the \((\Rightarrow)\) direction.
         If \(
-            \iltikzfig{strings/category/f}[F][white]
+            \iltikzfig{strings/category/f}[G][white]
             \rewrite[\mcr]
             \iltikzfig{strings/category/f}[H][white]
         \) then we have \(
-            \iltikzfig{strings/category/f}[F][white]
+            \iltikzfig{strings/category/f}[G][white]
             =
             \iltikzfig{strings/rewriting/rewrite-l}
         \) and \(
