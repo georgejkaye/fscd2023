@@ -83,7 +83,7 @@ numbers: this is merely a syntactic sugar for drawing multiple wires in parallel
     \) for \(m, n \in \nat\).
 \end{definition}
 
-The first generators are \emph{gates}, and the remainder are \emph{strucutural}
+The first generators are \emph{gates}, and the remainder are \emph{structural}
 generators for \emph{introducing}, \emph{forking}, \emph{joining}, \emph{stubbing},
 \emph{expanding} or \emph{collapsing} wires.
 The latter two generators were not present in the original formulation
@@ -106,6 +106,50 @@ from~\cite{wilson2022stringa}.
 
 \(\ccircsigma\) and \(\scircsigma\) define the \emph{syntax} of digital
 circuits.
+Semantics are specified with an \emph{interpretation}.
+Recall that a function \(f\) between two posets is \emph{monotone}
+if \(x \leq y \Rightarrow f(x) \leq f(y)\): monotone functions are the
+interpretation of combinational circuits.
+We write \(\bot^n\) for the \(n\)-tuple containing only \(\bot\) values.
+
+\begin{definition}[Interpretation~\cite{ghica2022compositional}]\label{def:interpretation}
+    An interpretation of a signature \(
+        \circuitsignature = (
+            \circuitsignaturevalues,
+            \bullet,
+            \circ,
+            \circuitsignaturegates,
+            \circuitsignaturearity
+        )
+    \) is a tuple \(
+        \interpretation = (
+            \values,
+            \valueinterpretation,
+            \gateinterpretation
+        )
+    \) where \((\values,\sqsubseteq, \bot,\top)\) is a finite lattice,
+    \(\valueinterpretation\) is a function
+    \(\circuitsignaturevalues \to \values\),
+    and \(\gateinterpretation\) is a map sending each \(
+        g \in \circuitsignaturegates
+    \) to a monotone function \(
+        \valuetuple{\circuitsignaturearity(g)} \to \values
+    \). These functions are required to satisfy \(
+        \valueinterpretation[\bullet] = \bot
+    \); \(
+        \valueinterpretation[\circ] = \top
+    \); \(
+        \gateinterpretation[g](\bot^m) = \bot
+    \); and \(
+        \gateinterpretation[g](\overline{v})
+    \) is in the image of \(\valueinterpretation\) for all \(
+        \overline{v} \in \valuetuple{m}
+    \).
+\end{definition}
+
+The semantics of digital circuits are defined using a prop morphism into
+a category of \emph{stream functions}.
+However, it is more intuitive to reason \emph{equationally}.
 Since these are symmetric (traced) categories, the axioms of STMCs in
 \cref{fig:stmc-equations} hold by default; since we are using string diagrams
 they can be `applied' by moving boxes and wires around without altering their
@@ -115,11 +159,8 @@ must be applied explicitly.
 In \cite{ghica2022compositional} several equational theories for digital
 circuits were presented: we will focus on the \emph{local} equational theory
 in this paper.
-
-\begin{definition}[\cite{ghica2022compositional}]
-    Let \(\scircsigmal\) be defined as \(\scircsigma\) quotiented by the
-    equations in \cref{fig:bialgebra,fig:local-equations}.
-\end{definition}
+In particular, this includes an equation for eliminating
+\emph{non-delay-guarded} feedback from circuits.
 
 \begin{figure*}
     \centering
@@ -165,6 +206,39 @@ in this paper.
     \label{fig:local-equations}
 \end{figure*}
 
+\begin{definition}[Iteration~\cite{ghica2022compositional}]
+    For a combinational circuit \(
+        \iltikzfig{circuits/components/circuits/f-2-2}[F][comb][x][m][x][n],
+    \)
+    let its \emph{\(n\)th iteration} \(
+        \iltikzfig{circuits/components/circuits/f-1-2}[F^n][comb][m][x][n]
+    \) be defined inductively as \(
+        \iltikzfig{circuits/instant-feedback/f0-box}
+        :=
+        \iltikzfig{circuits/instant-feedback/f0-definition}
+    \) and \(
+        \iltikzfig{circuits/instant-feedback/fkp1-box}
+        :=
+        \iltikzfig{circuits/instant-feedback/fkp1-definition}
+    \).
+\end{definition}
+
+\begin{definition}[Fixpoint]
+    Given an interpretation with value lattice \(\values\), the \emph{fixpoint}
+    of a combinational circuit \(
+        \iltikzfig{circuits/components/circuits/f-2-2}[F][comb][x][m][x][n]
+    \), denoted as \(
+        \iltikzfig{circuits/components/circuits/f-1-2}[F^\dagger][comb][m][x][n]
+    \), is defined as \(
+        \iltikzfig{circuits/instant-feedback/fc-box}[m][x][n]
+    \) where \(c\) is the length of the longest chain in \(\valuetuple{x}\).
+\end{definition}
+
+\begin{definition}[\cite{ghica2022compositional}]
+    Let \(\scircsigmal\) be defined as \(\scircsigma\) quotiented by the
+    equations in \cref{fig:bialgebra,fig:local-equations}.
+\end{definition}
+
 Reasoning with circuits can then be performed by applying equations in
 \(\scircsigmal\).
 In particular, \cite{ghica2022compositional} sketches an
@@ -172,17 +246,18 @@ In particular, \cite{ghica2022compositional} sketches an
 that shows how a sequential circuit processes an input.
 
 \begin{theorem}[\cite{ghica2022compositional}]
-    The \eqref{eq:cycle} equation holds in \(\scircsigmal\).
+    The \eqref{eq:cycle} equation in \cref{fig:cycle} holds in \(\scircsigmal\).
 \end{theorem}
 
 \begin{figure*}
     \centering
     \begin{equation*}
         \tag{\(\mathsf{Cycle}\)}
-        \iltikzfig{circuits/axioms/cycle-lhs}
+        \iltikzfig{circuits/productivity/productive-lhs}[F][s][v]
         =
-        \iltikzfig{circuits/axioms/cycle-lhs}
+        \iltikzfig{circuits/productivity/productive-step-9}
         \label{eq:cycle}
     \end{equation*}
-    \caption{The }
+    \caption{The cycle equation, which holds in \(\scircsigmal\)}
+    \label{fig:cycle}
 \end{figure*}
