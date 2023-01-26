@@ -51,36 +51,37 @@ This makes a clear distinction between
     \).
 \end{example}
 
-We are particularly interested in \emph{props}, symmetric monoidal categories
-with natural numbers as objects and addition as tensor product.
-Traditionally, morphisms \(m \to n\) in a prop are drawn string diagrammatically
-as a box with \(m\) wires as inputs and \(n\) wires as outputs.
-We will adopt the more conventional string diagram of each object (i.e.\ each
-natural number) with its own (labelled) wire.
-This ties the notation closer with the ports of components on circuits,
-which may have arbitrary widths.
-When discussing circuits in general, we may label wires with lists of natural
-numbers: this is merely a syntactic sugar for drawing multiple wires in parallel.
+A circuit signature generates two \emph{monoidal} signatures: sets of
+generators with associated lists of (co)arities.
 
+\begin{definition}[Monoidal signature]
+    A monoidal signature is a set of \emph{generators} \(\mathcal{G}\) along
+    with two functions \(
+        \morph{\dom,\cod}{G}{nat^\star}
+    \).
+\end{definition}
 
-\begin{definition}[Combinational circuits~\cite{ghica2022compositional}]
-    Let \(\ccircsigma\) be the prop generated over \(
-        \iltikzfig{circuits/components/gates/gate}[g][\circuitsignaturearity(g)]
-    \) for each \(
-        g \in \circuitsignaturegates
-    \) and \(
-        \iltikzfig{strings/structure/monoid/init}[comb][n]
-    \), \(
-        \iltikzfig{strings/structure/comonoid/copy}[comb][n]
-    \), \(
-        \iltikzfig{strings/structure/monoid/merge}[comb][n]
-    \), \(
-        \iltikzfig{strings/structure/comonoid/discard}[comb][n]
-    \), \(
-        \iltikzfig{strings/strictifiers/expand}[comb][m][n]
-    \), \(
-        \iltikzfig{strings/strictifiers/collapse}[comb][m][n]
-    \) for \(m, n \in \nat\).
+Since we are working with string diagrams, we will draw the generators as
+tiles, and sometimes merge wires into one, labelled when appropriate.
+
+\begin{definition}
+    Let the monoidal signature for \emph{combinational signatures} for a given
+    circuit signature be defined as \(
+        G^C_\Sigma := \{
+            \iltikzfig{circuits/components/gates/gate}[g][\circuitsignaturearity(g)]
+            \, | \,
+            g \in \circuitsignaturegates
+        \}
+        +
+        \{
+            \iltikzfig{strings/structure/monoid/init}[comb][n],
+            \iltikzfig{strings/structure/comonoid/copy}[comb][n],
+            \iltikzfig{strings/structure/monoid/merge}[comb][n],
+            \iltikzfig{strings/structure/comonoid/discard}[comb][n],
+            \iltikzfig{strings/strictifiers/expand}[comb][m][n],
+            \iltikzfig{strings/strictifiers/collapse}[comb][m][n]
+        \}
+    \).
 \end{definition}
 
 The first generators are \emph{gates}, and the remainder are \emph{structural}
@@ -90,18 +91,63 @@ The latter two generators were not present in the original formulation
 in~\cite{ghica2022compositional}: they have been adapted
 from~\cite{wilson2022stringa}.
 
-\begin{definition}[Sequential circuits~\cite{ghica2022compositional}]
-    For a circuit signature \(\Sigma = (
-        \circuitsignaturevalues,
-        \disconnected,
-        \shortcircuit,
-        \circuitsignaturegates,
-        \circuitsignaturearity,
-        \circuitsignaturecoarity
-    )\), let \(\scircsigma\) be the traced prop generated
-    over the generators of \(\ccircsigma\) and \(
-        \iltikzfig{circuits/components/waveforms/delay}[n]
-    \) for \(m \in \nat\).
+Monoidal signatures specify a freely generated \emph{prop}: a category of
+\emph{pro}ducts and \emph{p}ermutations.
+Props are symmetric monoidal categories with natural numbers as objects and
+addition as tensor product.
+Terms in a prop freely generated over a monoidal signature are defined by
+juxtaposing the generators in a signature horizontally or vertically with each
+other, the identity \(
+    \iltikzfig{strings/category/identity}[comb][n]
+\) and the symmetry \(
+    \iltikzfig{strings/symmetric/symmetry}[comb][m][n]
+\).
+
+\begin{definition}
+    Let \(\ccircsigma\) be the prop freely generated over
+    \(G^C_\Sigma\).
+\end{definition}
+
+To model real-world circuits, we need a notion of \emph{state} into circuits.
+
+\begin{definition}
+    Let the monoidal signature for \emph{sequential circuits} be defined as \(
+    G^S_\Sigma
+    +
+    \{
+        \iltikzfig{circuits/components/values/v}[v]
+        \, | \,
+        v \in \circuitsignaturevalues \setminus \bullet
+    \}
+    +
+    \iltikzfig{circuits/components/waveforms/delay}
+\).
+\end{definition}
+
+The smaller generators with no inputs are \emph{instantaneous values}: these
+specify the initial state of a circuit.
+The diamond is a \emph{delay} generator, which can be thought of as delaying its
+input by one unit of time.
+We also need a notion of \emph{feedback}, which can be handled by adding some
+extra structure to the category.
+
+\begin{definition}[\cite{joyal1996traced,hasegawa2009traced}]
+    A \emph{symmetric traced monoidal category} (STMC) is a
+    symmetric monoidal category \(\mcc\) equipped with functions
+    \(
+        \morph{
+            \trace{X}[A][B]{-}
+        }{
+            \mcc(X \tensor A, X \tensor B)
+        }{
+            \mcc(X, Y)
+        }
+    \) satisfying the axioms of STMCs listed in \cref{app:equations},
+    \cref{fig:stmc-axioms}.
+\end{definition}
+
+\begin{definition}
+    Let \(\scircsigma\) be the traced prop freely generated over \(G^S_\Sigma\).
 \end{definition}
 
 \(\ccircsigma\) and \(\scircsigma\) define the \emph{syntax} of digital
