@@ -1,7 +1,18 @@
 % !TeX root = ../main-conf.tex
 \section{Hypergraphs}
 
-Hypergraphs are formally defined as objects in a functor category.
+While reasoning equationally using string diagrams is certainly attractive
+as a pen-and-paper method, circuits can contain thousands of components and it
+would quickly become intractible to do this by hand.
+Instead, it is desirable to perform equational reasoning \emph{computationally}.
+Unfortunately, string diagrams as topological objects are not particular suited
+for this purpose.
+Instead, we require a combinatorial representation.
+Fortunately, this has been well studied
+recently~\cite{bonchi2022string,bonchi2021string,bonchi2022stringa}, in the
+form of \emph{hypergraphs}: a generalisation of regular graphs in which edges
+can be the source or target of an arbitary number of vertices.
+They are formally defined as objects in a functor category.
 
 \begin{definition}[Hypergraph]
     Let \(\mathbf{X}\) be the category containing objects \((k, l)\) for
@@ -15,13 +26,20 @@ a set of hyperedges with \(k\) sources and \(l\) targets,
 Given a hypergraph \(H \in \hyp\), we write \(\vertices{H}\) for its set of
 vertices and \(\edges{H}{k}{l}\) for the set of edges with \(k\) sources and
 \(l\) targets.
+A hypergraph can also be \emph{labelled}.
 
-\begin{definition}[Hypergraph signature]
-    For a given monoidal signature \(\Sigma\), its corresponding
+\begin{definition}[Hypergraph signature~\cite{bonchi2022string}]
+    For a given monoidal signature \(\signature\), its corresponding
     \emph{hypergraph signature} \(\hypsignature{\Sigma}\) is the hypergraph with
-    edges \(\phi \in \edges{\hypsignature{\Sigma}}{k}{l}\) for each
-    \((\phi, k, l) \in \sigma\), and a single vertex acting as the source and
-    target of all edges.
+    edges \(
+        e_\phi \in \edges{\hypsignature{\Sigma}}{|\dom{\phi}|}{|\cod{\phi}|}
+    \) for each \(\phi \in \Sigma\), and a vertex \(v_n\) for each
+    \(n \in \nat\).
+    For a hyperedge \(e_\phi\), \(
+        \sources{i}(e_\phi) = v_{\dom{\phi}}
+    \) and \(
+        \targets{i}(e_\phi) = v_{\cod{\phi}}
+    \).
 \end{definition}
 
 \begin{definition}[Labelled hypergraph]
@@ -29,29 +47,50 @@ vertices and \(\edges{H}{k}{l}\) for the set of edges with \(k\) sources and
     defined as the slice category \(\hyp \setminus \hypsignature{\Sigma}\).
 \end{definition}
 
-While (labelled) hypergraphs may have dangling vertices, they do not have \emph{interfaces}.
+\begin{remark}
+    This is a slight variant of the single-sorted hypergraph signature
+    from~\cite{bonchi2022string} which introduces some elements of the
+    multi-sorted case: i.e. each natural number is treated as a separate colour.
+    This is because we want to reflect the notion of `bundles' of wires that
+    always remain `stuck' togethr in the hypergraph realm.
+\end{remark}
+
+While (labelled) hypergraphs may have dangling vertices, they do not have
+\emph{interfaces}.
 These can be provided using \emph{cospans}.
 
 \begin{definition}[Categories of cospans~\cite{bonchi2021string}]\label{def:cospans}
-    For a finitely cocomplete category \(\mcc\), a \emph{cospan} from \(X \to Y\) is a pair of arrows \(X \to A \leftarrow Y\).
-    A \emph{cospan morphism} \((X \to A \leftarrow Y) \to (X \to B \leftarrow Y)\) is a morphism in \(C \to D \in \mcc\) such that the following diagram commutes:
+    For a finitely cocomplete category \(\mcc\), a \emph{cospan} from \(X \to Y\)
+    is a pair of arrows \(X \to A \leftarrow Y\).
+    A \emph{cospan morphism} \(
+        (\cospan{X}[f]{A}[g]{Y}) \to (\cospan{X}[h]{B}[k]{Y})
+    \) is a morphism \(\morph{\alpha}{A}{B} \in \mcc\)%
+    \iftoggle{conf}{
+        such that \(f \seq \alpha = g\) and \(h \seq \alpha = k\).
+    }{
+        such that the following diagram commutes:
+        \begin{center}
+            \includestandalone{figures/graphs/cospans/morphism}
+        \end{center}
+    }
 
-    \begin{center}
-        \includestandalone{figures/graphs/cospans/morphism}
-    \end{center}
+    Two cospans \(\cospan{X}{A}{Y}\) and \(\cospan{X}{B}{Y}\) are
+    \emph{isomorphic} if there exists a morphism of cospans as above where
+    \(\alpha\) is an isomorphism.%
+    \iftoggle{conf}{
+        Composition is by pushout.
+    }{
+        Composition is by pushout:
 
-    \noindent
-    Two cospans \(\cospan{X}{A}{Y}\) and \(\cospan{X}{B}{Y}\) are \emph{isomorphic} if there exists a morphism of cospans as above where \(\alpha\) is an isomorphism.
-    Composition is by pushout:
-
-    \begin{center}
-        \includestandalone{figures/graphs/cospans/composition}
-    \end{center}
-
-    \noindent
+        \begin{center}
+            \includestandalone{figures/graphs/cospans/composition}
+        \end{center}
+    }
     The identity is \(X \xrightarrow{\id[X]} X \xleftarrow{\id[X]} X\).
-    The category of cospans over \(\mcc\), denoted \(\csp{\mcc}\) has as objects the objects of \(\mcc\) and as morphisms the isomorphism classes of cospans.
-    This category has monoidal product given by the coproduct in \(\mcc\) with unit the initial object \(0 \in \mcc\).
+    The category of cospans over \(\mcc\), denoted \(\csp{\mcc}\) has as objects
+    the objects of \(\mcc\) and as morphisms the isomorphism classes of cospans.
+    This category has monoidal product given by the coproduct in \(\mcc\) with
+    unit the initial object \(0 \in \mcc\).
 \end{definition}
 
 \begin{definition}[Discrete hypergraph]
@@ -59,75 +98,96 @@ These can be provided using \emph{cospans}.
 \end{definition}
 
 \noindent
-A discrete hypergraph \(H\) with \(|\vertices{H}| = n\) is often written as \(n\) when clear from context.
-Discrete hypergraphs are used as the `legs' of a cospan to select the inputs and outputs of hypergraphs.
-There still needs to be a notion of \emph{ordering} on the interfaces, which is obtained using a functor from \(\finset\), the prop of finite sets and functions.
+A discrete hypergraph \(H\) with \(|\vertices{H}| = n\) is often written as
+\(n\) when clear from context.
+Discrete hypergraphs are used as the `legs' of a cospan to select the inputs and
+outputs of hypergraphs.
+There still needs to be a notion of \emph{ordering} on the interfaces, which is
+obtained using a functor from \(\finset\), the prop of finite sets and
+functions.
 
 \begin{theorem}[\cite{bonchi2022string}, Thm. 3.8]
     \label{thm:cospan-homomorphism}
-    Let \(\mathbb{X}\) be a prop whose monoidal product is a coproduct, \(\mcc\) a category with finite colimits, and \(\morph{F}{\mathbb{X}}{\mcc}\) a coproduct-preserving functor.
-    Then there is a homomorphism of props \(\morph{\tilde{F}}{\csp{\mathbb{X}}}{\csp[F]{\mcc}}\) that sends \(\cospan{m}[f]{X}[g]{n}\) to \(\cospan{Fm}[Ff]{FX}[Fg]{Fn}\).
+    Let \(\mathbb{X}\) be a prop whose monoidal product is a coproduct, \(\mcc\)
+    a category with finite colimits, and \(\morph{F}{\mathbb{X}}{\mcc}\) a
+    coproduct-preserving functor.
+    Then there is a homomorphism of props \(
+        \morph{\tilde{F}}{\csp{\mathbb{X}}}{\csp[F]{\mcc}}
+    \) that sends \(\cospan{m}[f]{X}[g]{n}\) to \(\cospan{Fm}[Ff]{FX}[Fg]{Fn}\).
     If \(F\) is full and faithful, then \(\tilde{F}\) is faithful.
 \end{theorem}
 
 \begin{definition}
-    Let \(\morph{D}{\finset}{\hypsigma}\) be the faithful, coproduct-preserving functor that sends each object \(m \in \finset\) to the discrete hypergraph \(m \in \hypsigma\) and each morphism to the induced homomorphism of discrete hypergraphs.
+    Let \(\morph{D}{\finset}{\hypsigma}\) be the faithful, coproduct-preserving
+    functor that sends each object \(m \in \finset\) to the discrete hypergraph
+    \(m \in \hypsigma\) and each morphism to the induced homomorphism of
+    discrete hypergraphs.
 \end{definition}
 
 \noindent
-From this we define the category \(\cspdhyp\) with objects \emph{discrete cospans of hypergraphs}.
-Since the legs of each cospan are discrete hypergraphs containing some number of vertices, the objects of this category can be viewed as natural numbers, making this a prop.
+From this we define the category \(\cspdhyp\) with objects
+\emph{discrete cospans of hypergraphs}.
+Since the legs of each cospan are discrete hypergraphs containing some number of
+vertices, the objects of this category can be viewed as natural numbers, making
+this a prop.
 
 \subsection{Adding a trace}
 
-Our goal is to adapt this hypergraph framework for a setting with a \emph{trace}.
-Fortunately, the category of interfaced hypergraphs we have just defined already contains a great deal of useful structure.
+Our first goal is to adapt this hypergraph framework for a setting with a
+\emph{trace}.
+Fortunately, the category of interfaced hypergraphs we have just defined already
+contains a great deal of useful structure.
 
 \begin{definition}[Hypergraph category \cite{fong2019hypergraph}]
-    A \emph{hypergraph category} is a symmetric monoidal category in which each object \(X\) is equipped with a Frobenius structure.
+    A \emph{hypergraph category} is a symmetric monoidal category in which each
+    object \(X\) is equipped with a Frobenius structure.
 \end{definition}
 
 \begin{proposition}
     \(\cspdhyp\) is a hypergraph category.
 \end{proposition}
-\iftoggle{proofs}{
-    \begin{proof}
-        The Frobenius structure is defined as follows:
-        \begin{gather*}
-            \iltikzfig{strings/structure/monoid/merge}[white]
-            :=
-            \cospan{m + m}{m}{m}
-            \quad
-            \iltikzfig{strings/structure/monoid/init}[white]
-            :=
-            \cospan{0}{m}{m}
-            \\
-            \iltikzfig{strings/structure/comonoid/copy}[white]
-            :=
-            \cospan{m}{m}{m+m}
-            \quad
-            \iltikzfig{strings/structure/comonoid/discard}[white]
-            :=
-            \cospan{m}{m}{0}
-        \end{gather*}
-        It is a simple exercise to check the axioms are satisfied.
-    \end{proof}
-}{}
+\begin{proof}
+    The Frobenius structure is defined as follows:
+    \begin{gather*}
+        \iltikzfig{strings/structure/monoid/merge}[white]
+        :=
+        \cospan{m + m}{m}{m}
+        \quad
+        \iltikzfig{strings/structure/monoid/init}[white]
+        :=
+        \cospan{0}{m}{m}
+        \\
+        \iltikzfig{strings/structure/comonoid/copy}[white]
+        :=
+        \cospan{m}{m}{m+m}
+        \quad
+        \iltikzfig{strings/structure/comonoid/discard}[white]
+        :=
+        \cospan{m}{m}{0}
+    \end{gather*}
+    It is a simple exercise to check the axioms are satisfied.
+\end{proof}
 
 \begin{corollary}[\cite{carboni1987cartesian}]
     \(\cspdhyp\) is compact closed.
 \end{corollary}
 
-It is well known that every compact closed category is equipped with a \emph{canonical trace}~\cite{joyal1996traced}, constructed by combining the cup, cap and an identity.
+It is well known that every compact closed category is equipped with a
+\emph{canonical trace}~\cite{joyal1996traced}, constructed by combining the cup,
+cap and an identity.
 So in some sense, \(\cspfihyp\) is already traced.
-However, it is useful to consider a(n equivalent) formulation in which the trace is constructed directly.
+However, it is useful to consider a(n equivalent) formulation in which the trace
+is constructed directly.
 
-To take the \((f,g)\)-trace of a cospan \(\cospan{x+m}[f+h]{H}[g+k]{x+n}\), we coalesce the \(i\)th elements of the image of \(f\) and \(g\).
-\[
-    \trace{1}{\iltikzfig{graphs/trace/before-trace}}
-    \equiv
-    \iltikzfig{graphs/trace/after-trace}
-\]
+To take the \((f,g)\)-trace of a cospan \(\cospan{x+m}[f+h]{H}[g+k]{x+n}\), we
+coalesce the \(i\)th elements of the image of \(f\) and \(g\).
+\begin{center}
+    \(
+        \trace{1}{\iltikzfig{graphs/trace/before-trace}}
+        \equiv
+        \iltikzfig{graphs/trace/after-trace}
+    \)
+\end{center}
 This is defined formally using a pushout, in a similar vein
 to~\cite{dixon2013opengraphs}.
 
@@ -136,10 +196,15 @@ to~\cite{dixon2013opengraphs}.
         \cospan{x+m}[f+h]{H}[g+k]{x+n},
     \) its trace on \(x\) is \(
         \cospan{m}[h \seq p]{H^\prime}[k \seq p]{n},
-    \) where \(p\) and \(H^\prime\) are computed by the following pushout:
-    \begin{center}
-        \tikzfig{graphs/trace/trace-pushout}
-    \end{center}
+    \) where \(p\) and \(H^\prime\) are computed%
+    \iftoggle{conf}{
+        as the pushout of \(f + h\) and \([\id, \id]\).
+    }{
+        by the following pushout:
+        \begin{center}
+            \tikzfig{graphs/trace/trace-pushout}
+        \end{center}
+    }
 \end{definition}
 
 \begin{example}
@@ -169,21 +234,43 @@ vector spaces~\cite[Sec. 6.1]{hasegawa1997recursion}.
 This means that closed loops must be represented in the hypergraph framework:
 fortunately, there is a natural representation of such a loop as a lone vertex
 disconnected from either interface.
-This is not compatible with monogamy, so a weakening must be considered.
 
 \begin{definition}
-    For a hypergraph \(H \in \hyp\), the \emph{degree} of a vertex \(v \in \vertices{H}\) is a tuple \((i,o)\) where \(i\) is the number of pairs \((e,i)\) where \(e\) is a hyperedge with \(v\) as its \(i\)th target, and \(o\) is similarly the number of pairs \((e,j)\) where \(e\) is a hyperedge with \(v\) as its \(j\)th target.
+    For a hypergraph \(H \in \hyp\), the \emph{degree} of a vertex
+    \(v \in \vertices{H}\) is a tuple \((i,o)\) where \(i\) is the number of
+    pairs \((e,i)\) where \(e\) is a hyperedge with \(v\) as its \(i\)th target,
+    and \(o\) is similarly the number of pairs \((e,j)\) where \(e\) is a
+    hyperedge with \(v\) as its \(j\)th target.
 \end{definition}
 
 \begin{definition}
-    For a cospan \(\cospan{m}[f]{H}[g]{n}\), we say it is \emph{partial monogamous} if \(f\) and \(g\) are mono and, for all nodes \(v \in H_\star\),
+    For a cospan \(\cospan{m}[f]{H}[g]{n}\), we say it is
+    \emph{partial monogamous} if \(f\) and \(g\) are mono and, for all nodes
+    \(v \in H_\star\), the degree of \(v\) is
+
     \begin{center}
-        the degree of \(v\) is $\begin{cases}
-            (0,0) & \text{if}\ v \in f_\star \wedge v \in g_\star \\
-            (0,1) & \text{if}\ v \in f_\star \\
-            (1,0) & \text{if}\ v \in g_\star \\
-            (0,0) \text{ or } (1,1) & otherwise \\
-        \end{cases}$
+        \begin{tabular}{rlcrl}
+            \((0,0)\)
+            &
+            if \(v \in f_\star \wedge v \in g_\star\)
+            &
+            \quad
+            &
+            \((0,1)\)
+            &
+            if \(v \in f_\star\)
+            \\
+            \((1,0)\)
+            &
+            if \(v \in g_\star\)
+            &
+            \quad
+            &
+            \((0,0)\)
+            or \((1,1)\)
+            &
+            otherwise
+        \end{tabular}
     \end{center}
 \end{definition}
 
@@ -197,7 +284,8 @@ This is not compatible with monogamy, so a weakening must be considered.
 \iftoggle{proofs}{
     \begin{proof}
         \(p(f(i))\) and \(p(g(i))\) are coalesced by the pushout.
-        The pushout cannot coalesce the edges in \(H\) as \(x\) contains no edges,
+        The pushout cannot coalesce the edges in \(H\) as \(x\) contains no
+        edges,
         so the degree of \(f(i)\) and \(h(i)\) must be preserved.
     \end{proof}
 }{}
@@ -210,8 +298,8 @@ This is not compatible with monogamy, so a weakening must be considered.
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
-        Since this is a partial monogamous cospan, the images of \(f\) and \(h\) are
-        disjoint, as are the images of \(g\) and \(k\).
+        Since this is a partial monogamous cospan, the images of \(f\) and \(h\)
+        are disjoint, as are the images of \(g\) and \(k\).
         Therefore, \(f(v)\) is not in the image of \(h\), so it cannot be in the
         image of \(h \seq p\), and similarly for \(g(v)\) and \(k\).
     \end{proof}
@@ -235,39 +323,40 @@ This is not compatible with monogamy, so a weakening must be considered.
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
-        Since any monogamous hypergraph is also partial monogamous, the first three
-        points hold due to~\cite[Prop.16]{bonchi2022string}, dropping the acyclicity
-        condition.
+        Since any monogamous hypergraph is also partial monogamous, the first
+        three points hold due to~\cite[Prop.16]{bonchi2022string}, dropping the
+        acyclicity condition.
         For the final condition, consider the image of \(f\) and \(g\).
-        For each \(i \in x\), there are two cases to consider: \(f(i) = g(i)\) and
-        \(f(i) \neq g(i)\).
+        For each \(i \in x\), there are two cases to consider: \(f(i) = g(i)\)
+        and \(f(i) \neq g(i)\).
 
-        In the former, the degree of \(v^\prime = f(v) = h(v)\) must be \((0,0)\)
-        by definition of semi-monogamicity.
+        In the former, the degree of \(v^\prime = f(v) = h(v)\) must be
+        \((0,0)\) by definition of semi-monogamicity.
         Therefore in the traced hypergraph \(
             \cospan{m}[g \seq p]{K^\prime}[h \seq p]{n}
-        \), \(v^\prime\) will still have degree \((0,0)\), and will not be in the
-        image of \(g \seq p\) or \(h \seq p\) by \cref{lem:trace-interface}.
+        \), \(v^\prime\) will still have degree \((0,0)\), and will not be in
+        the image of \(g \seq p\) or \(h \seq p\) by \cref{lem:trace-interface}.
         So the cospan is partial monogamous.
 
         In the latter case, \(f(i)\) must have degree of \((0,0)\) if it in the
         image of \(k\) or \((0,1)\) otherwise.
         Similarly \(g(i)\) either has degree \((0,0)\) or \((1,0)\).
-        Let \(v := p(f(i)) = p(g(i))\); we now consider the degree of \(v\) computed
-        using \cref{lem:trace-degree}:
+        Let \(v := p(f(i)) = p(g(i))\); we now consider the degree of \(v\)
+        computed using \cref{lem:trace-degree}:
         \begin{itemize}
-            \item If \(f(i)\) is in the image of \(k\) and \(g(i)\) is in the image
-                    of \(h\), then \(v\) has degree \((0,0)\).
-                    \(v\) is in the image of \(h \seq p\) and \(h \seq p\), so the
-                    cospan is partial monogamous.
+            \item If \(f(i)\) is in the image of \(k\) and \(g(i)\) is in the
+                    image of \(h\), then \(v\) has degree \((0,0)\).
+                    \(v\) is in the image of \(h \seq p\) and \(h \seq p\), so
+                    the cospan is partial monogamous.
             \item If \(f(i)\) is in the image of \(k\), then \(v\) has degree
                     \((1, 0)\); since \(v\) is in the image of \(k \seq p\), the
                     cospan is partial monogamous.
             \item If \(g(i)\) is in the image of \(h\), then \(v\) has degree
                     \((0, 1)\); since \(v\) is in the image of \(h \seq p\), the
                     cospan is partial monogamous.
-            \item Otherwise, \(v\) will have degree \((1, 1)\), and is not in the
-                    image of either interface so the cospan is partial monogamous.
+            \item Otherwise, \(v\) will have degree \((1, 1)\), and is not in
+                    the image of either interface so the cospan is partial
+                    monogamous.
         \end{itemize}
     \end{proof}
 }{}
@@ -328,8 +417,8 @@ functions.
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
-        The morphism \(\morph{\phi}{\smc{}}{\perms}\) is defined over generators in
-        \(\smc{}\) as \[
+        The morphism \(\morph{\phi}{\smc{}}{\perms}\) is defined over generators
+        in \(\smc{}\) as \[
             \phi(\iltikzfig{strings/monoidal/empty}) = \{\}
             \quad
             \phi(\iltikzfig{strings/category/identity}[white])
@@ -340,11 +429,11 @@ functions.
             =
             \{0 \mapsto 1, 1 \mapsto 0\}
         \]
-        Since any term in \(\smc{}\) can be expressed using these generators, this
-        defines the complete transformation.
+        Since any term in \(\smc{}\) can be expressed using these generators,
+        this defines the complete transformation.
 
-        The reverse morphism \(\morph{\psi}{\finset}{\smc{}}\) is inductively over
-        the size of \(m\).
+        The reverse morphism \(\morph{\psi}{\finset}{\smc{}}\) is inductively
+        over the size of \(m\).
         For the base case \(\morph{f}{[0]}{[0]}\), let \(
             \phi(f) := \iltikzfig{strings/monoidal/empty}
         \).
@@ -376,12 +465,12 @@ cospans of discrete hypergraphs.
 \iftoggle{proofs}{
     \begin{proof}
         Since the cospan is monogamous, \(f\) and \(g\) are mono.
-        As the cospan is also discrete, there exists a (unique) bijective function
-        \(\morph{h^\prime}{[m]}{[m]}\) such that \(h^\prime(i) = j\) if
+        As the cospan is also discrete, there exists a (unique) bijective
+        function \(\morph{h^\prime}{[m]}{[m]}\) such that \(h^\prime(i) = j\) if
         \(f(i) = g(j)\).
         By \cref{lem:symmetries-prop}, there is a corresponding term
-        \(h \in \smc{}\) that is unique up to SMC axioms: a simple induction shows
-        that \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
+        \(h \in \smc{}\) that is unique up to SMC axioms: a simple induction
+        shows that \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
     \end{proof}
 }{}
 
@@ -401,7 +490,9 @@ We now proceed to the first main result.
         \cref{lem:partial monogamous-ops}.
         So \(\termtohyp[f]{\Sigma}\) is partial monogamous.
 
-        Now we show that any partial monogamous cospan \(\cospan{m}[f]{F}[g]{n}\)
+        Now we show that any partial monogamous cospan \(
+            \cospan{m}[f]{F}[g]{n}
+        \)
         must be in the image of \(\termtohyp{\Sigma}\).
         To do this, we will now construct a cospan that is isomorphic to
         \(\cospan{m}[f]{F}[g]{n}\), but from which it is possible to read off a
@@ -412,16 +503,17 @@ We now proceed to the first main result.
                     \((0,0)\) that are not in the image of \(f\) or \(g\);
             \item let \(E\) be the hypergraph containing hyperedges of \(F\) and
                     their source and target vertices, but disconnected;
-            \item let \(V\) be the discrete hypergraph containing all the vertices
-                    of \(F\); and
-            \item let \(S\) and \(T\) be the discrete hypergraphs containing the
-                    source and target vertices of hyperedges in \(F\) respectively,
-                    with the ordering determined by some order
+            \item let \(V\) be the discrete hypergraph containing all the
+                    vertices of \(F\); and
+            \item let \(S\) and \(T\) be the discrete hypergraphs containing
+                    the source and target vertices of hyperedges in \(F\)
+                    respectively, with the ordering determined by some order
                     \(e_1,e_2,\cdots,e_n\) on the edges in \(F\).
         \end{itemize}
 
         \noindent
-        These parts can be composed and a trace applied to obtain the follow cospan:
+        These parts can be composed and a trace applied to obtain the follow
+        cospan:
         \begin{gather}
             \trace{T}{
                 \cospan{T + m}[\id + f]{V}[\id + g]{S + n}
@@ -460,8 +552,9 @@ We now proceed to the first main result.
 
         It is clear by definition that \(
             \termtohypsigma[\iltikzfig{strings/category/f}[H][white]]
-        \) produces (\ref{gat:cospan}), which is isomorphic to the original cospan
-        \(\cospan{m}[f]{F}[g]{n}\), so it is in the image of \(\termtohypsigma\).
+        \) produces (\ref{gat:cospan}), which is isomorphic to the original
+        cospan \(\cospan{m}[f]{F}[g]{n}\), so it is in the image of
+        \(\termtohypsigma\).
     \end{proof}
 }{}
 
@@ -483,8 +576,9 @@ First we show that any term in \(\stmcsigma\) not equal to a term in
     \begin{proof}
         Assume that \(\iltikzfig{strings/category/f}[H][white]\) is monogamous
         acyclic, so it is in \(\macspfihyp\).
-        By \cref{thm:smc-graph-iso}, any graph in \(\macspfihyp\) corresponds to a
-        unique term in \(\smc{\Sigma}\) up to axioms of SMCs: a contradiction, as \(
+        By \cref{thm:smc-graph-iso}, any graph in \(\macspfihyp\) corresponds to
+        a unique term in \(\smc{\Sigma}\) up to axioms of SMCs: a contradiction,
+        as \(
             \iltikzfig{strings/category/f}[H][white]
             \in
             \stmc{\Sigma} \setminus \smc{\Sigma}
@@ -553,10 +647,10 @@ First we show that any term in \(\stmcsigma\) not equal to a term in
             \termtohypsigma[\iltikzfig{strings/traced/trace-lhs}[g^\prime][white]]
         \) are not isomorphic.
 
-        The only axiom of STMCs that allows for the trace of non-equal morphisms to
-        be equal is the sliding axiom.
-        But for such a situation to be valid here, the original terms must also be
-        equal by sliding, a contradiction.
+        The only axiom of STMCs that allows for the trace of non-equal morphisms
+        to be equal is the sliding axiom.
+        But for such a situation to be valid here, the original terms must also
+        be equal by sliding, a contradiction.
         So \(
             \termtohypsigma[\iltikzfig{strings/category/f}[F][white]]
         \) and \(
