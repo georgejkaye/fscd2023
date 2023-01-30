@@ -6,6 +6,7 @@ on:
 
 jobs:
   package:
+    permissions: write-all
     runs-on: ubuntu-latest
     if: "github.event.repository.name != 'latex-template'"
     steps:
@@ -50,14 +51,14 @@ jobs:
         uses: actions/create-release@v1
         id: create_release
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_name: ${{ steps.name.outputs.name }}
           tag_name: ${{ steps.name.outputs.name }}
       - name: Upload the conference paper to the release
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: main-conf.pdf
@@ -66,7 +67,7 @@ jobs:
       - name: Upload the arxiv paper to the release
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: main-arxiv.pdf
@@ -75,7 +76,7 @@ jobs:
       - name: Upload the conference zip to the release
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ github.event.repository.name }}-conf.zip
@@ -84,7 +85,7 @@ jobs:
       - name: Upload the arxiv zip to the release
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ github.event.repository.name }}-arxiv.zip
