@@ -19,14 +19,39 @@
     \maketitle
 
     \begin{abstract}
-        Hypergraphs good, circuits better
+        Sequential circuits are circuits with feedback and delay constructed
+        from primitive logic gates.
+        There has been recent work into developing an \emph{equational theory}
+        for sequential circuits using \emph{string diagrams}, giving an
+        intuitive graphical framework for comparing and evaluating circuits.
+        However, while they are suitable for pen-and-paper reasoning, string
+        diagrams are not an efficient data structure for reasoning
+        computationally.
+        In this paper we extend previous work on rewriting string diagrams using
+        \emph{hypergraphs} to solve this problem, by considering the case when
+        the underlying category has a traced comonoid structure, both features
+        of the category of sequential circuits.
+        We show that certain subclasses of hypergraphs are sound and complete
+        for traced comonoid categories: that is to say, every term in such a
+        category has a unique corresponding hypergraph up to isomorphism, and
+        from every hypergraph with the desired properties, a unique term in the
+        category can be retrieved up to the axioms of traced comonoid
+        categories.
+        We also show how the framework of double pushout rewriting (DPO) can be
+        adapted for traced comonoid categories by characterising the valid
+        pushout complements for rewriting in our setting.
+        Finally, we conclude by demonstrating how an operational semantics for
+        sequential circuits can be implemented using the previously developed
+        equational theory and graph rewriting.
     \end{abstract}
 
+    \input{sections/intro}
     \input{sections/circuits}
     \input{sections/hypergraphs}
     \input{sections/comonoid}
     \input{sections/rewriting}
-    \input{sections/hierarchical}
+    \input{sections/operational}
+    \input{sections/conclusion}
 
     \iftoggle{conf}{
         \bibliography{refs/refs}
