@@ -55,11 +55,38 @@ Restricting to these matchings actually cuts off potential rewrites in the
 This means that we need a slightly different definition that allows such
 rewrites.
 
-\begin{definition}[Traced candidate]
-    Given morphism \(\morph{a}{i + j}{L}\), a morphism \(\morph{f}{L}{G}\) is
-    called a \emph{traced candidate} if is injective on vertices and edges not
-    in the image of \(a\).
+\begin{definition}[Traced rewrite candidate]
+    Given partial monogamous cospans \(\cospan{i}[a_1]{L}[a_2]{j}\) and
+    \(\cospan{m}{G}{n}\), a morphism \(\morph{f}{L}{G}\) is called a
+    \emph{traced rewrite candidate} if is injective on vertices and edges not
+    in the image of \([a_1,a_2]\).
 \end{definition}
+
+\begin{lemma}
+    In a traced rewrite candidate, let \(v\) and \(w\) be vertices such that
+    \(f(v) = f(w)\).
+    Then at least one of \(v\) and \(w\) must be in the image of \(a_1\) and at
+    least one must be in the image of \(a_2\).
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        Since the vertices are being merged by \(f\), they must be in the image
+        of \(a\) by definition of traced rewrite candidates.
+        Assume that \(f(v) = f(w)\) but both vertices are only in the image of
+        \(a_1\).
+        This would mean that \(v\) and \(w\) both have degree \((0, 1)\) by
+        definition of partial monogamous cospans.
+        Since \(f\) is injective on edges, this would mean that \(f(a) = f(w)\)
+        has degree of at least \((0, 2)\), which violates the partial monogamy
+        condition.
+        The reverse is the case for if \(v\) and \(w\) are both in the image of
+        \(a_2\).
+        So at least one of \(v\) and \(w\) must be in the image of \(a_1\) and at
+        least one must be in the image of \(a_2\).
+
+        If one o
+    \end{proof}
+}
 
 \begin{definition}[Traced boundary complement]
     \label{def:traced-boundary-complement}
@@ -67,7 +94,7 @@ rewrites.
         \cospan{i}[a_1]{L}[a_2]{j}
     \) and \(
         \cospan{n}[b_1]{G}[b_2]{m} \in \mathcal{C}
-    \) and traced candidate \(
+    \), and traced candidate \(
         \morph{f}{L}{G} \in \hypsigma
     \), a pushout complement as in
     \begin{center}
@@ -79,46 +106,8 @@ rewrites.
     \) is a partial monogamous cospan.
 \end{definition}
 
-% \begin{lemma}
-%     In a traced boundary complement, if \(
-%         a_1(v) = a_2(w)
-%     \), then \(
-%         c_1(v) = c_2(w)
-%     \) if and only if \(c_1(v)\) and \(c_2(w)\) are not in the image of \(d\)
-%     and \(f(a_1(v)) = f(a_2(w))\) has degree \((0,0)\).
-% \end{lemma}
-% \iftoggle{proofs}{
-%     \begin{proof}
-%         For the \(\onlyifdir\) direction, assume that \(c_1(v) = c_2(w)\): let this
-%         vertex be \(v^\prime\).
-%         Since (\ref{gat:traced-complement}) is partial monogamous, \([c_2,d_1]\) and
-%         \([c_1,d_2]\) must be mono, and thus the images of \(c_1\) and \(d_2\) must
-%         be disjoint, as must the images of \(c_2\) and \(d_1\).
-%         Therefore \(v^\prime\) cannot be in the image of \(d\); moreover, \(c_1(v)\)
-%         must have out-degree \(0\) and \(c_2(w)\) must have in-degree \(0\), so
-%         \(v^\prime\) has degree \((0,0)\).
-%         Let \(v^{\prime\prime}\) be \(a_1(v) = a_2(w)\): since \(
-%             \cospan{i}[a_1]{\iltikzfig{strings/rewriting/l}}[a_2]{j}
-%         \) is a partial monogamous cospan \(v^\prime\) must have degree \((0,0)\).
-%         Since \(G\) is computed by pushout, \(
-%             f(v^{\prime\prime}) = g(v^{\prime})
-%         \) and the degree of this vertex is contributed wholly by \(v^\prime\) and
-%         \(v^{\prime\prime}\).
-%         So \(f(a_1(v)) = f(a_2(w))\) also has degree \((0,0)\).
-
-%         Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\) are
-%         not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree
-%         \((0,0)\).
-%         Assume that \(c_1(v) \neq c_2(w)\).
-%         By semi-monogamy of (\ref{gat:traced-complement}), \(c_1(v)\) must have
-%         degree \((0,1)\) since it is solely in the image of \([d_2, c_1]\).
-%         But \(f(a_1(v)) = f(a_2(w)) = g(c_1(v)) = g(c_2(w))\), \(c_1(v)\) and
-%         \(c_2(w)\) must have degree \((0,0)\), a contradiction.
-%         The same holds for \(c_2(w)\), so \(c_1(v) = c_2(w)\).
-%     \end{proof}
-% }{}
-
 \begin{lemma}
+    \label{lem:traced-boundary-complement-exists}
     Given partial monogamous cospan \(\cospan{m}[b_1]{G}[b_2]{n}\) and morphisms
     \(
         i + j \xrightarrow{[a_1, a_2]} L \xrightarrow{f} G
@@ -191,6 +180,59 @@ rewrites.
     \end{proof}
 }
 
+Some intuition regarding the construction of traced boundary complements may be
+required.
+This will be provided by a series of lemmas:
+
+\begin{lemma}
+    \label{lem:merged-in-traced-complement}
+    In a traced boundary complement, if \(
+        a_1(v) = a_2(w)
+    \), then \(
+        c_1(v) = c_2(w)
+    \) if and only if \(f(a_1(v) = f(c_2(w)))\) has degree \((0, 0)\) and is
+    not in the image of \(b\).
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        For the \(\onlyifdir\) direction, assume that \(c_1(v) = c_2(w)\): let this
+        vertex be \(v^\prime\).
+        Since (\ref{gat:traced-complement}) is partial monogamous, \([c_2,d_1]\) and
+        \([c_1,d_2]\) must be mono, and thus the images of \(c_1\) and \(d_2\) must
+        be disjoint, as must the images of \(c_2\) and \(d_1\).
+        Therefore \(v^\prime\) cannot be in the image of \(d\); moreover, \(c_1(v)\)
+        must have out-degree \(0\) and \(c_2(w)\) must have in-degree \(0\), so
+        \(v^\prime\) has degree \((0,0)\).
+        Let \(v^{\prime\prime}\) be \(a_1(v) = a_2(w)\): since \(
+            \cospan{i}[a_1]{\iltikzfig{strings/rewriting/l}}[a_2]{j}
+        \) is a partial monogamous cospan \(v^\prime\) must have degree \((0,0)\).
+        Since \(G\) is computed by pushout, \(
+            f(v^{\prime\prime}) = g(v^{\prime})
+        \) and the degree of this vertex is contributed wholly by \(v^\prime\) and
+        \(v^{\prime\prime}\).
+        So \(f(a_1(v)) = f(a_2(w))\) also has degree \((0,0)\).
+
+        Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\) are
+        not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree
+        \((0,0)\).
+        Assume that \(c_1(v) \neq c_2(w)\).
+        By semi-monogamy of (\ref{gat:traced-complement}), \(c_1(v)\) must have
+        degree \((0,1)\) since it is solely in the image of \([d_2, c_1]\).
+        But \(f(a_1(v)) = f(a_2(w)) = g(c_1(v)) = g(c_2(w))\), \(c_1(v)\) and
+        \(c_2(w)\) must have degree \((0,0)\), a contradiction.
+        The same holds for \(c_2(w)\), so \(c_1(v) = c_2(w)\).
+    \end{proof}
+}{}
+
+Effectively, this means that vertices merged by \(a\) are looking for
+\emph{identities} into which we are going to insert one or more edges.
+This means that for the most part these vertices must be broken apart in the
+pushout complement in order to make room for the new edges.
+
+
+If two vertices \(v\) and \(w\) are merged by \(\morph{a}{i + j}{L}\), then
+these must not be
+
 
 \begin{definition}[Traced DPO]
     For morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in
@@ -202,8 +244,6 @@ rewrites.
     \) such that diagram in \cref{def:dpo} commutes and \(i+j \to C\) is a
     traced boundary complement.
 \end{definition}
-
-
 
 A crucial part of~\cite{bonchi2022string} is that (non-traced) boundary
 complements are \emph{unique}.
@@ -526,16 +566,37 @@ boundary complement conditions need to be weakened to the case of
         \cospan{i}[a_1]{L}[a_2]{j}
     \) and \(
         \cospan{n}[b_1]{G}[b_2]{m} \in \mathcal{C}
-    \) and (not necessarily mono) \(
+    \) and traced candidate \(
         \morph{f}{L}{G} \in \hypsigma
-    \), a pushout complement as in \cref{gath:boundary-complement}
+    \), a pushout complement as in \cref{def:traced-boundary-complement}
     is called a \emph{traced left-boundary complement} if \(c_1\) and \(c_2\)
-    are mono, \(f\) is injective on edges and vertices not in the image of
-    \(a\), and there exist morphisms \(
-        \morph{d_1}{m}{\pushoutcomplement{L}}
-    \) and \(
-        \morph{d_2}{n}{\pushoutcomplement{L}}
-    \) making the above triangle commute such that \(
+    are mono and \(
         \cospan{j+m}[[c_2,d_1]]{\pushoutcomplement{L}}[[d_2,c_1]]{{n+i}}
     \) is a partial left-monogamous cospan.
 \end{definition}
+
+\begin{lemma}
+    Given partial left-monogamous cospan \(\cospan{m}[b_1]{G}[b_2]{n}\) and
+    morphisms \(
+        i + j \xrightarrow{[a_1, a_2]} L \xrightarrow{f} G
+    \) satisfying the no-dangling and no-identification conditions where \(f\)
+    is a traced candidate, there exists at least one traced left-boundary
+    complement \(L^\bot\) as in \cref{def:traced-boundary-complement}.
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        The strategy is similar to that of
+        \cref{lem:traced-boundary-complement-exists}: we just need to be aware
+        that \(a_2\) may not be mono.
+        For the case when \(a_2(v) = a_2(w)\), \(c_1(v) \neq c_2(w)\) as this
+        would mean that \(j + m \to L^\bot\) would not be mono, violating the
+        the partial left-monogamy condition.
+    \end{proof}
+}{
+    \begin{proof}[Proof (Sketch)]
+        Similar to \cref{lem:traced-boundary-complement-exists}, except that
+        \(a_2\) may not be mono.
+        When \(a_2(v) = a_2(w)\), \(c_1(v) \neq c_2(w)\) as this
+        would mean that \(j + m \to L^\bot\) would not be mono.
+    \end{proof}
+}
