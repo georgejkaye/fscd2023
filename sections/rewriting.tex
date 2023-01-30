@@ -14,133 +14,198 @@ we can reason using hypergraphs with \emph{graph rewrites}.
     \).
 \end{definition}
 
-\begin{definition}[DPO]
+\begin{definition}[DPO]\label{def:dpo}
     \begin{gather}
         \label{gath:dpo}
         \includestandalone{figures/graphs/dpo/dpo}
     \end{gather}
 \end{definition}
 
-\begin{lemma}
-    Given terms \(
-        \iltikzfig{strings/category/f}[l][white][i][j]
-    \), \(
-        \iltikzfig{strings/category/f}[r][white][i][j]
-    \) in \(\stmcsigma\) and their corresponding rewrite rule \[
-        \spann{
-            \termtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/l}]]
-        }[[a_1, a_2]]{
-            i + j
-        }[[b_1, b_2]]{
-            \termtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/r}]]
-        }
-    \] in \(\hypsigma\), \(a_1\), \(a_2\), \(b_1\) and \(b_2\) are mono.
-\end{lemma}
-\iftoggle{proofs}{
-    \begin{proof}
-        By definition of partial monogamous cospan.
-    \end{proof}
-}{}
+\begin{definition}[\cite{bonchi2022string}, Definition 3.16]
+    Let \(K \xrightarrow{i} L \xrightarrow{m} G\) be morphisms in \(\hypsigma\).
+    They satisfy the \emph{no-dangling} condition if, for every hyperedge \(e\)
+    not in the image of \(m\), every node of its source and target is either in
+    not in the image of \(m\) or in the image of \(i \seq m\).
 
-\begin{definition}[Boundary complement \cite{bonchi2021string}, Definition 23]\label{def:boundary-complement}
-    For \(
-        \cospan{i}[a_1]{L}[a_2]{j}
-    \) and \(
-        \cospan{n}[b_1]{G}[b_2]{m} \in \macspfihyp
-    \) and mono \(
-        \morph{f}{L}{G} \in \hypsigma
-    \), a pushout complement as below
-    \begin{gather}
-        \includestandalone{figures/graphs/dpo/boundary-complement}
-        \label{gath:boundary-complement}
-    \end{gather}
-    is called a \emph{boundary complement in \(\mathcal{C}\)} if \([c_1, c_2]\)
-    is mono and there exist morphisms \(
-        \morph{d_1}{n}{\pushoutcomplement{L}}
-    \) and \(
-        \morph{d_2}{m}{\pushoutcomplement{L}}
-    \) making the above triangle commute and such that \[
-        \cospan{j+n}[[c_2,d_1]]{\pushoutcomplement{L}}[[c_1,d_2]]{{m+i}}
-    \] is a monogamous cospan.
+    They satisfy the \emph{no-identification} condition if, for any two distinct
+    vertices \(v_1\) and \(v_2\) such that \(m(v_1) = m(v_2)\), \(v_1\) and
+    \(v_2\) are in the image of \(i\).
 \end{definition}
 
-\begin{proposition}[\cite{bonchi2021string}, Proposition 24]\label{prop:boundary-complement-unique}
-    Boundary complements in \(\macspfihyp\) are unique, when they exist.
+\begin{proposition}[\cite{bonchi2022string}, Proposition 3.17]
+    \label{prop:pushout-complement}
+    A pushout complement of \(K \xrightarrow{i} L \xrightarrow{m} G\) exists
+    if and only if it satisfies the no-dangling and no-identification
+    conditions.
 \end{proposition}
 
-\noindent
-Crucially, boundary complements rely on the matching \(L \to G\) being mono.
-But restricting to these matchings cuts off potential rewrites in the
-\emph{traced} setting, such as the occurrence of a rewrite rule inside a loop:
-\[
-    \iltikzfig{graphs/dpo/matchings/non-mono-matching}
-\]
+\subsection{Rewriting with traced structure}
 
-\begin{definition}
+While in the Frobenius case, all valid pushout complements correspond to a valid
+rewrite, this is not the case for the traced monoidal case: for example, a wire
+cannot connect the outputs of two boxes together.
+In \cite{bonchi2021string}, pushout complements that correspond to a valid
+rewrite are identified as \emph{boundary complements}.
+Crucially, boundary complements rely on the matching \(L \to G\) being mono.
+Restricting to these matchings actually cuts off potential rewrites in the
+\emph{traced} setting, such as the occurrence of a rewrite rule inside a loop:
+\begin{center}
+    \iltikzfig{graphs/dpo/matchings/non-mono-matching}
+\end{center}
+This means that we need a slightly different definition that allows such
+rewrites.
+
+\begin{definition}[Traced candidate]
+    Given morphism \(\morph{a}{i + j}{L}\), a morphism \(\morph{f}{L}{G}\) is
+    called a \emph{traced candidate} if is injective on vertices and edges not
+    in the image of \(a\).
+\end{definition}
+
+\begin{definition}[Traced boundary complement]
+    \label{def:traced-boundary-complement}
     For partial monogamous cospans \(
         \cospan{i}[a_1]{L}[a_2]{j}
     \) and \(
         \cospan{n}[b_1]{G}[b_2]{m} \in \mathcal{C}
-    \) and (not necessarily mono) \(
+    \) and traced candidate \(
         \morph{f}{L}{G} \in \hypsigma
-    \), a pushout complement as in \cref{gath:boundary-complement}
+    \), a pushout complement as in
+    \begin{center}
+        \includestandalone{figures/graphs/dpo/boundary-complement}
+    \end{center}
     is called a \emph{traced boundary complement} if \(c_1\) and \(c_2\) are
-    mono, \(f\) is injective on edges and vertices not in the image of \(a\),
-    and there exist morphisms \(
-        \morph{d_1}{m}{\pushoutcomplement{L}}
-    \) and \(
-        \morph{d_2}{n}{\pushoutcomplement{L}}
-    \) making the above triangle commute such that
-    \begin{gather}
+    mono and \(
         \cospan{j+m}[[c_2,d_1]]{\pushoutcomplement{L}}[[d_2,c_1]]{{n+i}}
-        \label{gat:traced-complement}
-    \end{gather} is a partial monogamous cospan.
+    \) is a partial monogamous cospan.
 \end{definition}
 
-\noindent
-Using the semi-monogamicity of (\ref{gat:traced-complement}) we can prove some
-useful lemmas regarding when vertices can be coalesced.
+% \begin{lemma}
+%     In a traced boundary complement, if \(
+%         a_1(v) = a_2(w)
+%     \), then \(
+%         c_1(v) = c_2(w)
+%     \) if and only if \(c_1(v)\) and \(c_2(w)\) are not in the image of \(d\)
+%     and \(f(a_1(v)) = f(a_2(w))\) has degree \((0,0)\).
+% \end{lemma}
+% \iftoggle{proofs}{
+%     \begin{proof}
+%         For the \(\onlyifdir\) direction, assume that \(c_1(v) = c_2(w)\): let this
+%         vertex be \(v^\prime\).
+%         Since (\ref{gat:traced-complement}) is partial monogamous, \([c_2,d_1]\) and
+%         \([c_1,d_2]\) must be mono, and thus the images of \(c_1\) and \(d_2\) must
+%         be disjoint, as must the images of \(c_2\) and \(d_1\).
+%         Therefore \(v^\prime\) cannot be in the image of \(d\); moreover, \(c_1(v)\)
+%         must have out-degree \(0\) and \(c_2(w)\) must have in-degree \(0\), so
+%         \(v^\prime\) has degree \((0,0)\).
+%         Let \(v^{\prime\prime}\) be \(a_1(v) = a_2(w)\): since \(
+%             \cospan{i}[a_1]{\iltikzfig{strings/rewriting/l}}[a_2]{j}
+%         \) is a partial monogamous cospan \(v^\prime\) must have degree \((0,0)\).
+%         Since \(G\) is computed by pushout, \(
+%             f(v^{\prime\prime}) = g(v^{\prime})
+%         \) and the degree of this vertex is contributed wholly by \(v^\prime\) and
+%         \(v^{\prime\prime}\).
+%         So \(f(a_1(v)) = f(a_2(w))\) also has degree \((0,0)\).
+
+%         Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\) are
+%         not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree
+%         \((0,0)\).
+%         Assume that \(c_1(v) \neq c_2(w)\).
+%         By semi-monogamy of (\ref{gat:traced-complement}), \(c_1(v)\) must have
+%         degree \((0,1)\) since it is solely in the image of \([d_2, c_1]\).
+%         But \(f(a_1(v)) = f(a_2(w)) = g(c_1(v)) = g(c_2(w))\), \(c_1(v)\) and
+%         \(c_2(w)\) must have degree \((0,0)\), a contradiction.
+%         The same holds for \(c_2(w)\), so \(c_1(v) = c_2(w)\).
+%     \end{proof}
+% }{}
 
 \begin{lemma}
-    In a traced boundary complement, if \(
-        a_1(v) = a_2(w)
-    \), then \(
-        c_1(v) = c_2(w)
-    \) if and only if \(c_1(v)\) and \(c_2(w)\) are not in the image of \(d\)
-    and \(f(a_1(v)) = f(a_2(w))\) has degree \((0,0)\).
+    Given partial monogamous cospan \(\cospan{m}[b_1]{G}[b_2]{n}\) and morphisms
+    \(
+        i + j \xrightarrow{[a_1, a_2]} L \xrightarrow{f} G
+    \) satisfying the no-dangling and no-identification conditions where \(f\)
+    is a traced candidate, there exists at least one traced boundary complement
+    \(L^\bot\) as in \cref{def:traced-boundary-complement}.
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
-        For the \(\onlyifdir\) direction, assume that \(c_1(v) = c_2(w)\): let this
-        vertex be \(v^\prime\).
-        Since (\ref{gat:traced-complement}) is partial monogamous, \([c_2,d_1]\) and
-        \([c_1,d_2]\) must be mono, and thus the images of \(c_1\) and \(d_2\) must
-        be disjoint, as must the images of \(c_2\) and \(d_1\).
-        Therefore \(v^\prime\) cannot be in the image of \(d\); moreover, \(c_1(v)\)
-        must have out-degree \(0\) and \(c_2(w)\) must have in-degree \(0\), so
-        \(v^\prime\) has degree \((0,0)\).
-        Let \(v^{\prime\prime}\) be \(a_1(v) = a_2(w)\): since \(
-            \cospan{i}[a_1]{\iltikzfig{strings/rewriting/l}}[a_2]{j}
-        \) is a partial monogamous cospan \(v^\prime\) must have degree \((0,0)\).
-        Since \(G\) is computed by pushout, \(
-            f(v^{\prime\prime}) = g(v^{\prime})
-        \) and the degree of this vertex is contributed wholly by \(v^\prime\) and
-        \(v^{\prime\prime}\).
-        So \(f(a_1(v)) = f(a_2(w))\) also has degree \((0,0)\).
+        Since the morphisms satisfy the no-dangling and no-identification
+        conditions, pushout complements exist: we just need to show that at
+        least one of these is a traced boundary complement.
 
-        Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\) are
-        not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree
-        \((0,0)\).
-        Assume that \(c_1(v) \neq c_2(w)\).
-        By semi-monogamy of (\ref{gat:traced-complement}), \(c_1(v)\) must have
-        degree \((0,1)\) since it is solely in the image of \([d_2, c_1]\).
-        But \(f(a_1(v)) = f(a_2(w)) = g(c_1(v)) = g(c_2(w))\), \(c_1(v)\) and
-        \(c_2(w)\) must have degree \((0,0)\), a contradiction.
-        The same holds for \(c_2(w)\), so \(c_1(v) = c_2(w)\).
+        The pushout complement is constructed by deleting elements of \(L\)
+        from \(G\) while retaining the interfaces, i.e.\ the vertices in the
+        image of \(a\).
+        Since the morphism \(f\) is a traced candidate, it may not be injective
+        on these interface vertices, and as such these vertices may also be
+        merged or unmerged by \(c\).
+        We just need to show that, depending on whether vertices are merged
+        by \(a\) or \(f\), there is a pushout complement \(L^\bot\) such that
+        \(c(v_1)\) and \(c(v_2)\) have degree suitable for the traced boundary
+        complement condition.
+
+        First assume vertices \(a_1(v_1), a_2(v_2)\) are not merged by \(a\) but
+        are merged by \(f\).
+        This means that in the pushout complement \(c_1(v_1) = c_2(v_2)\), as
+        otherwise this would not be a pushout.
+        Since \(\cospan{i}[a_1]{L}[a_2]{j}\) is partial monogamous, this means
+        that \(a_1(v_1)\) has degree \((0,1)\) and \(a_2(v_2)\) has degree
+        \((1,0)\); subsequently \(f(a_1(v_1)) = f(a_2(v_2))\) has degree
+        \((1,1)\), both of which are contributed by the same edge \(e\).
+        By the no-dangling condition the edge must be in the image of \(f\), so
+        it is not present in \(L^\bot\), so \(c(v_1)\) and \(c(v_2)\) must have
+        degree \((0,0)\).
+        By partial monogamicity, \(f(a_1(v_1)) = f(a_2(v_2))\) is not in the
+        image of \(b\) so \(c(v_1)\) and \(c(v_2)\) cannot be in the image of
+        \(d\).
+        This means that \(
+            \cospan{m+j}{L^\bot}{n+i}
+        \) is a partial monogamous cospan.
+
+        Conversely, assume vertices \(a_1(v_1) = a_2(v_2)\) are merged by \(a\)
+        and not by \(f\).
+        This means the pushout does not enforce that \(c_1(v_1) = c_2(v_2)\).
+        Pick a pushout complement where \(c_1(v_1) \neq c_2(v_2)\): by
+        considering each case it can be seen that this is a valid traced
+        boundary complement since the `gap' in between the vertices allows for
+        the \(i\) and the \(j\) components of the partial monogamous cospan
+        to contribute while keeping the leg mono.
+
+        If a vertex \(v \in G\) is in the image of more than two vertices from
+        \(i + j\), this means that there has been merging by both \(a\) and
+        \(f\).
+        However, note that since \(a_1\) and \(a_2\) are mono, \(a\) can only
+        merge vertices from \(i\) and \(j\) together, not from both \(i\) and
+        \(j\).
+        Following the cases above, valid pushout complements have the property
+        that any vertices not merged by \(a\) must be merged by \(c\), and
+        otherwise they should be split apart.
     \end{proof}
-}{}
+}{
+    \begin{proof}[Proof (Sketch)]
+        There is always at least one pushout complement by
+        \cref{prop:pushout-complement} as the morphisms satisfy the no-dangling
+        and no-identification conditions.
+        The traced boundary conditions can be found by ensuring any
+        vertices merged by \(a\) are not merged by \(c\), and any vertices
+        not merged by \(a\) are merged by \(c\).
+    \end{proof}
+}
 
-A crucial part of~\cite{bonchi2021string} is that (non-traced) boundary
+
+\begin{definition}[Traced DPO]
+    For morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in
+    \(\hypsigma\), there is a traced rewrite \(G \trgrewrite[\mcr] H\) if there
+    exists a rule \(
+        \spann{L}{i+j}{G} \in \mcr
+    \) and cospan \(
+        \cospan{i+j}{C}{n+m} \in \hypsigma
+    \) such that diagram in \cref{def:dpo} commutes and \(i+j \to C\) is a
+    traced boundary complement.
+\end{definition}
+
+
+
+A crucial part of~\cite{bonchi2022string} is that (non-traced) boundary
 complements are \emph{unique}.
 One might assume the same for traced boundary complements, but this is not the
 case.
@@ -172,7 +237,7 @@ case.
             \includestandalone{figures/graphs/dpo/non-unique/rewrite-2}
         }
     \end{center}
-    \noindent
+
     Both derivations are valid and arise since we are rewriting modulo
     \emph{yanking}:
     \begin{gather*}
@@ -198,7 +263,6 @@ case.
     \end{gather*}
 \end{example}
 
-\noindent
 Rewriting modulo yanking also eliminates another foible of rewriting modulo
 (non-traced) symmetric monoidal structure.
 In the latter, matchings must be \emph{convex}: there cannot be a path from the
@@ -220,7 +284,6 @@ example.
         \label{gath:convex-rule}
     \end{gather}
     %
-    \noindent
     Now consider the following term and interpretation:
     %
     \begin{gather}
@@ -229,8 +292,6 @@ example.
         \iltikzfig{graphs/dpo/convex/example-g-graph}
         \label{gath:convex-term}
     \end{gather}
-    %
-    \noindent
     Although it is not obvious in the original string diagram, there is in fact
     a matching of (\ref{gath:convex-rule}) in (\ref{gath:convex-term}).
     Performing the DPO procedure yields the following:
@@ -240,8 +301,6 @@ example.
         \qquad
         \iltikzfig{graphs/dpo/convex/example-h}
     \end{gather}
-    %
-    \noindent
     In a non-traced setting this is an invalid rule!
     However, it is possible with yanking.
     \begin{gather*}
@@ -262,32 +321,18 @@ example.
     \end{gather*}
 \end{example}
 
-\begin{definition}[Traced DPO]
-    For morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in
-    \(\hypsigma\), there is a traced rewrite \(G \trgrewrite{\mcr} H\) if there
-    exists a rule \(
-        \spann{L}{i+j}{G} \in \mcr
-    \) and cospan \(
-        \cospan{i+j}{C}{n+m} in \hypsigma
-    \) such that the following diagram commutes:
-    \begin{gather}
-        \includestandalone{figures/graphs/dpo/dpo}
-    \end{gather}
-    and \(i+j \to C\) is a traced boundary complement.
-\end{definition}
-
-\noindent
 We are almost ready to show the soundness and completeness of this DPO rewriting
 system.
 The final prerequisite is a decomposition lemma, akin to a similar result
-in~\cite{bonchi2021string} for the symmetric monoidal case.
+in~\cite{bonchi2022string} for the symmetric monoidal case.
 
 \begin{lemma}[Traced decomposition]\label{lem:decomposition}
     Given partial monogamous cospans \(\cospan{m}[p_1]{G}[p_2]{n}\) and \(
         \cospan{i}[a_1]{L}[a_2]{j}
     \), along with a morphism \(
         L \xrightarrow{f} G
-    \) satisfying the no-dangling-hyperedges condition, then \(
+    \) such that \(i+j \rightarrow L \rightarrow G\) satisfies the no-dangling
+    and no-identification condition, then \(
         \cospan{m}[p_1]{G}[p_2]{n}
     \) can be factored as
     \begin{gather}
@@ -309,7 +354,8 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
     \begin{proof}
         Let \(C\) be defined as a traced boundary complement of \(
             i+j \xrightarrow{[a_1,a_2]} L \xrightarrow{f} G
-        \), which exists as the no-dangling-hyperedges condition is satisfied.
+        \), which exists as the no-dangling and no-identification condition is
+        satisfied.
         We assign names to the various cospans in play, and reason string
         diagrammatically:
         \begin{align*}
@@ -347,24 +393,24 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
 \begin{theorem}
     Let \(\mcr\) be a rewriting system on \(\stmcsigma\).
     Then, \(
-        \iltikzfig{strings/category/f}[G][white]
+        \iltikzfig{strings/category/f}[g][white]
         \rewrite[\mcr]
         \iltikzfig{strings/category/f}[H][white]
     \) if and only if \(
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[G][white]]]
+        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[g][white]]]
         \grewrite[\termandfrobtohypsigma[\foldinterfaces[\mcr]]]
         \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]].
     \)
 \end{theorem}
-\iftoggle{proofs}{
+% \iftoggle{proofs}{
     \begin{proof}
         First the \((\Rightarrow)\) direction.
         If \(
-            \iltikzfig{strings/category/f}[G][white]
+            \iltikzfig{strings/category/f}[g][white]
             \rewrite[\mcr]
             \iltikzfig{strings/category/f}[H][white]
         \) then we have \(
-            \iltikzfig{strings/category/f}[G][white]
+            \iltikzfig{strings/category/f}[g][white]
             =
             \iltikzfig{strings/rewriting/rewrite-l}
         \) and \(
@@ -377,19 +423,19 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
             \label{gath:l-cospan}
             \cospan{0}{L}{i+j}
             &:=
-            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/l}]]
+            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[l][white]]]
             &&=
             \termandfrobtohypsigma[\iltikzfig{strings/rewriting/l-folded}]
             \\
             \cospan{0}{R}{i+j}
             &:=
-            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/rewriting/r}]]
+            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[r][white]]]
             &&=
             \termandfrobtohypsigma[\iltikzfig{strings/rewriting/r-folded}]
             \\
             \cospan{0}{G}{m+n}
             &:=
-            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[F][white]]]
+            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[f][white]]]
             &&=
             \termandfrobtohypsigma[\iltikzfig{strings/rewriting/lc-folded}]
             \\
@@ -406,7 +452,7 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
             &&
         \end{align}
         By functoriality, since \(
-            \foldinterfaces[\iltikzfig{strings/category/f}[F][white]]
+            \foldinterfaces[\iltikzfig{strings/category/f}[f][white]]
             =
             \iltikzfig{strings/rewriting/l-folded}
             \seq
@@ -425,7 +471,7 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
         \(m + n \to H\) are defined as in (\ref{gath:l-cospan}-\ref{gath:h-cospan})
         above.
         We must show that \(
-            \iltikzfig{strings/category/f}[F][white]
+            \iltikzfig{strings/category/f}[f][white]
             =
             \iltikzfig{strings/rewriting/rewrite-l}
         \) and \(
@@ -435,9 +481,11 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
         \).
         By definition of traced boundary complement \(\cospan{j+m}{C}{i+n}\) is a
         partial monogamous cospan, so by fullness of \(\termandfrobtohypsigma\),
-        there exists a term \(\iltikzfig{strings/rewriting/c} \in \stmcsigma\) such
-        that \(
-            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}]
+        there exists a term \(
+            \iltikzfig{strings/category/f-2-2}[c][white][j][m][i][n]
+            \in \stmcsigma
+        \) such that \(
+            \iltikzfig{strings/category/f-2-2}[c][white]
             =
             \cospan{j+m}{C}{i+n}
         \).
@@ -445,16 +493,16 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
         traced boundary complement \(\cospan{i+j}{C}{m+n}\) and morphism
         \(L \to G\), \(\cospan{m}{G}{n}\) can be factored as in
         (\ref{gath:decomposition}), i.e.\ \[
-            \termandfrobtohypsigma[\iltikzfig{strings/category/f}[F][white]]
+            \termandfrobtohypsigma[\iltikzfig{strings/category/f}[f][white]]
             =
-            \trace{j}{\termandfrobtohypsigma[\iltikzfig{strings/rewriting/l}]
+            \trace{j}{\termandfrobtohypsigma[\iltikzfig{strings/category/f}[l][white]]
             \tensor
             \id[n]
             \seq
-            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c}]}.
+            \termandfrobtohypsigma[\iltikzfig{strings/category/f-2-2}[c][white]]}.
         \]
         So by functoriality, we have that \(
-            \iltikzfig{strings/category/f}[F][white]
+            \iltikzfig{strings/category/f}[f][white]
             =
             \iltikzfig{strings/rewriting/rewrite-l}
         \).
@@ -464,4 +512,30 @@ in~\cite{bonchi2021string} for the symmetric monoidal case.
             \iltikzfig{strings/rewriting/rewrite-r}
         \).
     \end{proof}
-}{}
+% }{}
+
+\subsection{Rewriting with traced comonoid structure}
+
+To extend rewriting with traced structure to the comonoid case, the traced
+boundary complement conditions need to be weakened to the case of
+\emph{left}-monogamous cospans.
+
+\begin{definition}[Traced left-boundary complement]
+    \label{def:traced-left-boundary-complement}
+    For partial left-monogamous cospans \(
+        \cospan{i}[a_1]{L}[a_2]{j}
+    \) and \(
+        \cospan{n}[b_1]{G}[b_2]{m} \in \mathcal{C}
+    \) and (not necessarily mono) \(
+        \morph{f}{L}{G} \in \hypsigma
+    \), a pushout complement as in \cref{gath:boundary-complement}
+    is called a \emph{traced left-boundary complement} if \(c_1\) and \(c_2\)
+    are mono, \(f\) is injective on edges and vertices not in the image of
+    \(a\), and there exist morphisms \(
+        \morph{d_1}{m}{\pushoutcomplement{L}}
+    \) and \(
+        \morph{d_2}{n}{\pushoutcomplement{L}}
+    \) making the above triangle commute such that \(
+        \cospan{j+m}[[c_2,d_1]]{\pushoutcomplement{L}}[[d_2,c_1]]{{n+i}}
+    \) is a partial left-monogamous cospan.
+\end{definition}
