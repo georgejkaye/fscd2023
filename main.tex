@@ -12,25 +12,20 @@
 \input{figures/circuits.tikzdefs}
 \input{figures/circuits.tikzstyles}
 
-\title{Graph rewriting for digital circuits}
+\title{Graph rewriting modulo traced comonoid structure}
 
 \begin{document}
 
     \maketitle
 
     \begin{abstract}
-        Sequential circuits are circuits with feedback and delay constructed
-        from primitive logic gates.
-        There has been recent work into developing an \emph{equational theory}
-        for sequential circuits using \emph{string diagrams}, giving an
-        intuitive graphical framework for comparing and evaluating circuits.
-        However, while they are suitable for pen-and-paper reasoning, string
-        diagrams are not an efficient data structure for reasoning
-        computationally.
-        In this paper we extend previous work on rewriting string diagrams using
-        \emph{hypergraphs} to solve this problem, by considering the case when
-        the underlying category has a traced comonoid structure, both features
-        of the category of sequential circuits.
+        In this paper we adapt previous work on rewriting string diagrams using
+        hypergraphs to the case where the underlying category has a
+        \emph{traced comonoid structure}, in which wires can be forked and
+        the outputs of a morphism can be connected to its input.
+        Such a structure is particularly interesting because any traced
+        Cartesian (dataflow) category has an underlying traced comonoid
+        structure.
         We show that certain subclasses of hypergraphs are sound and complete
         for traced comonoid categories: that is to say, every term in such a
         category has a unique corresponding hypergraph up to isomorphism, and
@@ -40,16 +35,19 @@
         We also show how the framework of double pushout rewriting (DPO) can be
         adapted for traced comonoid categories by characterising the valid
         pushout complements for rewriting in our setting.
-        Finally, we conclude by demonstrating how an operational semantics for
-        sequential circuits can be implemented using the previously developed
-        equational theory and graph rewriting.
+
+        We conclude by presenting a case study in the form of recent work on
+        an equational theory for \emph{sequential circuits}: circuits built from
+        primitive logic gates with delay and feedback.
+        The graph rewriting framework allows for the definition of an
+        \emph{operational semantics} for sequential circuits.
     \end{abstract}
 
     \input{sections/intro}
-    \input{sections/circuits}
     \input{sections/hypergraphs}
     \input{sections/comonoid}
     \input{sections/rewriting}
+    \input{sections/circuits}
     \input{sections/operational}
     \input{sections/conclusion}
 
