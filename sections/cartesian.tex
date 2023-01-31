@@ -1,0 +1,60 @@
+% !TeX root = ../main-conf.tex
+\section{Cartesian structure}
+
+One important class of categories with a traced comonoid structure are
+\emph{traced Cartesian categories}~\cite{cazanescu1990new,hasegawa1997recursion}.
+These categories are particularly interesting because any traced Cartesian
+category admits a fixpoint operator~\cite[Thm. 3.1]{hasegawa1997recursion}.
+
+\begin{definition}[Cartesian category]
+    A monoidal category is \emph{Cartesian} if its tensor is given by the
+    Cartesian product.
+\end{definition}
+
+Given a base category \(\mathcal{C}\) with a comonoid structure, the monoidal
+theory \(\mathbf{Cart}_\mathcal{C}\) is shown in \cref{fig:cartesian-equations}.
+Rather than two concrete equations, this actually specifies two \emph{families}
+of equations over any morphism \(\iltikzfig{strings/category/f}[F][white][m][n]\)
+in \(\mathcal{C}\).
+When implemented as DPO rewrite rules, a separate concrete rule is required for
+every combination of generators.
+Future work could use the \emph{hierarchical hypergraphs}
+of~\cite{alvarez-picallo2022rewriting} to express the complete families of rules
+in terms of two rewrite rules, as with the equational representation.
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Copy}\)}
+            \iltikzfig{strings/structure/cartesian/naturality-copy-lhs}[F][white][m][n]
+            =
+            \iltikzfig{strings/structure/cartesian/naturality-copy-rhs}[F][white][m][n]
+            \label{eq:cartesian-copy}
+        \end{equation}
+        \begin{center}
+            \includestandalone{figures/graphs/dpo/cartesian/copy/rule}
+        \end{center}
+    \end{minipage}
+    \qquad
+    \begin{minipage}{0.4\textwidth}
+        \centering
+        \begin{equation}
+            \tag{\(\mathsf{Discard}\)}
+            \iltikzfig{strings/structure/cartesian/naturality-discard-lhs}[F][white][m]
+            =
+            \iltikzfig{strings/structure/cartesian/naturality-discard-rhs}[m]
+            \label{eq:cartesian-discard}
+        \end{equation}
+        \begin{center}
+            \includestandalone{figures/graphs/dpo/cartesian/discard/rule}
+        \end{center}
+    \end{minipage}
+    \caption{
+        Equations of the monoidal theory \(\mathbf{Cart}_\mathcal{C}\),
+        where \(\iltikzfig{strings/category/f}[F][white][m][n]\) is an arbitrary
+        morphism in \(\mathcal{C}\), and the concrete interpretations of
+        these rules for a generator \(e\).
+    }
+    \label{fig:cartesian-equations}
+\end{figure}
