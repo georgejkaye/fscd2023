@@ -96,7 +96,7 @@ rewrites.
         \cospan{n}[b_1]{G}[b_2]{m} \in \mathcal{C}
     \), and traced candidate \(
         \morph{f}{L}{G} \in \hypsigma
-    \), a pushout complement as in
+    \), a pushout complement
     \begin{center}
         \includestandalone{figures/graphs/dpo/boundary-complement}
     \end{center}
@@ -113,7 +113,7 @@ rewrites.
         i + j \xrightarrow{[a_1, a_2]} L \xrightarrow{f} G
     \) satisfying the no-dangling and no-identification conditions where \(f\)
     is a traced candidate, there exists at least one traced boundary complement
-    \(L^\bot\) as in \cref{def:traced-boundary-complement}.
+    \(C\) as in \cref{def:traced-boundary-complement}.
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
@@ -128,7 +128,7 @@ rewrites.
         on these interface vertices, and as such these vertices may also be
         merged or unmerged by \(c\).
         We just need to show that, depending on whether vertices are merged
-        by \(a\) or \(f\), there is a pushout complement \(L^\bot\) such that
+        by \(a\) or \(f\), there is a pushout complement \(C\) such that
         \(c(v_1)\) and \(c(v_2)\) have degree suitable for the traced boundary
         complement condition.
 
@@ -141,13 +141,13 @@ rewrites.
         \((1,0)\); subsequently \(f(a_1(v_1)) = f(a_2(v_2))\) has degree
         \((1,1)\), both of which are contributed by the same edge \(e\).
         By the no-dangling condition the edge must be in the image of \(f\), so
-        it is not present in \(L^\bot\), so \(c(v_1)\) and \(c(v_2)\) must have
+        it is not present in \(C\), so \(c(v_1)\) and \(c(v_2)\) must have
         degree \((0,0)\).
         By partial monogamicity, \(f(a_1(v_1)) = f(a_2(v_2))\) is not in the
         image of \(b\) so \(c(v_1)\) and \(c(v_2)\) cannot be in the image of
         \(d\).
         This means that \(
-            \cospan{m+j}{L^\bot}{n+i}
+            \cospan{m+j}{C}{n+i}
         \) is a partial monogamous cospan.
 
         Conversely, assume vertices \(a_1(v_1) = a_2(v_2)\) are merged by \(a\)
@@ -294,10 +294,8 @@ which unlike regular boundary complements need not be unique.
     this graph!
 
     \begin{center}
-        \scalebox{0.95}{
-            \includestandalone{figures/graphs/dpo/non-unique/rewrite-1}
-            \includestandalone{figures/graphs/dpo/non-unique/rewrite-2}
-        }
+        \includestandalone{figures/graphs/dpo/non-unique/rewrite-1}
+        \includestandalone{figures/graphs/dpo/non-unique/rewrite-2}
     \end{center}
 
     Both derivations are valid and arise since we are rewriting modulo
@@ -325,11 +323,44 @@ which unlike regular boundary complements need not be unique.
     \end{gather*}
 \end{example}
 
+When vertices are merged in this way, the choice of traced boundary complement
+dictates the position on the yanked wires to apply the rewrite.
+Although there are multiple to choose from, there are still properties enforced
+by partial monogamy.
+
+\begin{lemma}
+    In a traced boundary complement, let \(v \in i\) and
+    \(w_0, w_1, \cdots w_k\) such that \(f(a_1(v)) = f(a_2(w_0))\),
+    \(f(a_1(v)) = f(a_2(w_1))\) and so on.
+    Then either (1) there exists exactly one \(w_l\) such that
+    \(c_1(v) = c_2(w_l)\); (2) \(c_1(v)\) is in the image of \(d_1\); or (3)
+    \(c_1(v)\) has degree \((1,0)\).
+
+    The same also holds for \(w \in j\), with the interface map as \(d_2\) and
+    the degree as \((0,1)\).
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        Since \(c_1(v)\) is in the image of \(c\), it must have either degree
+        \((0,0)\) or \((1,0)\) by partial monogamy.
+        For it to have degree \((0, 0)\), it must either be in the image of one
+        of \(c_2\) or \(d_2\).
+        In the case of the former, this means that there must be a \(w_l\) such
+        that \(c_1(v) = c_2(w_l)\), and only one such vertex as \(c_2\) is mono,
+        so (1) is satisfied.
+        In the case of the latter, (2) is immediately satisfied.
+        Otherwise, (3) is satisfied.
+
+        The proof for the flipped case is exactly the same.
+    \end{proof}
+}{}
+
 Rewriting modulo yanking also eliminates another foible of rewriting modulo
 (non-traced) symmetric monoidal structure.
 In the latter, matchings must be \emph{convex}: there cannot be a path from the
 outputs of a match back to its inputs.
-However, in the traced case this is not necessary.
+However, in the traced case this is not necessary, as this example from
+\cite{bonchi2021string} will show.
 
 \begin{example}
     Consider the following rewrite rule and its interpretation.
@@ -367,12 +398,7 @@ However, in the traced case this is not necessary.
     \begin{gather*}
         \iltikzfig{graphs/dpo/convex/example-g}
         =
-        \iltikzfig{graphs/dpo/convex/rewrite-1}
-        =
         \iltikzfig{graphs/dpo/convex/rewrite-2}
-        =
-        \iltikzfig{graphs/dpo/convex/rewrite-3}
-        \\[1em]
         =
         \iltikzfig{graphs/dpo/convex/rewrite-4}
         =
@@ -602,7 +628,7 @@ boundary complement conditions need to be weakened to the case of
         i + j \xrightarrow{[a_1, a_2]} L \xrightarrow{f} G
     \) satisfying the no-dangling and no-identification conditions where \(f\)
     is a traced candidate, there exists at least one traced left-boundary
-    complement \(L^\bot\) as in \cref{def:traced-boundary-complement}.
+    complement \(C\) as in \cref{def:traced-boundary-complement}.
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
@@ -610,7 +636,7 @@ boundary complement conditions need to be weakened to the case of
         \cref{lem:traced-boundary-complement-exists}: we just need to be aware
         that \(a_2\) may not be mono.
         For the case when \(a_2(v) = a_2(w)\), \(c_1(v) \neq c_2(w)\) as this
-        would mean that \(j + m \to L^\bot\) would not be mono, violating the
+        would mean that \(j + m \to C\) would not be mono, violating the
         the partial left-monogamy condition.
     \end{proof}
 }{
@@ -618,6 +644,6 @@ boundary complement conditions need to be weakened to the case of
         Similar to \cref{lem:traced-boundary-complement-exists}, except that
         \(a_2\) may not be mono.
         When \(a_2(v) = a_2(w)\), \(c_1(v) \neq c_2(w)\) as this
-        would mean that \(j + m \to L^\bot\) would not be mono.
+        would mean that \(j + m \to C\) would not be mono.
     \end{proof}
 }
