@@ -180,6 +180,17 @@ rewrites.
     \end{proof}
 }
 
+\begin{definition}[Traced DPO]
+    For morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in
+    \(\hypsigma\), there is a traced rewrite \(G \trgrewrite[\mcr] H\) if there
+    exists a rule \(
+        \spann{L}{i+j}{G} \in \mcr
+    \) and cospan \(
+        \cospan{i+j}{C}{n+m} \in \hypsigma
+    \) such that diagram in \cref{def:dpo} commutes and \(i+j \to C\) is a
+    traced boundary complement.
+\end{definition}
+
 Some intuition regarding the construction of traced boundary complements may be
 required.
 This will be provided by a series of lemmas:
@@ -212,8 +223,8 @@ This will be provided by a series of lemmas:
         \(v^{\prime\prime}\).
         So \(f(a_1(v)) = f(a_2(w))\) also has degree \((0,0)\).
 
-        Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\) are
-        not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree
+        Now for the \(\ifdir\) direction, assume that \(c_1(v)\) and \(c_2(w)\)
+        are not in the image of \(d\), and \(f(a_1(v)) = f(a_2(w))\) has degree
         \((0,0)\).
         Assume that \(c_1(v) \neq c_2(w)\).
         By semi-monogamy of (\ref{gat:traced-complement}), \(c_1(v)\) must have
@@ -224,31 +235,42 @@ This will be provided by a series of lemmas:
     \end{proof}
 }{}
 
-Effectively, this means that vertices merged by \(a\) are looking for
-\emph{identities} into which we are going to insert one or more edges.
+Effectively, this means that is vertices are merged by \(a\), the rewrite rule
+is looking for \emph{identities} into which one or more edges will be inserted.
 This means that for the most part these vertices must be broken apart in the
 pushout complement in order to make room for the new edges.
+The only time they \emph{cannot} be broken apart is if the matching is into
+a closed loop: a vertex with degree \((0, 0)\) that is not in the image of
+\(b\).
+If this vertex were to be broken apart in the pushout complement, then this
+data about the closed loop would be lost.
 
+Loops can also be created when vertices that are not merged in \(L\) are merged
+by the matching \(f\).
+This data must also be captured by the pushout complement.
 
-If two vertices \(v\) and \(w\) are merged by \(\morph{a}{i + j}{L}\), then
-these must not be
+\begin{lemma}
+    In a traced boundary complement, if \(a_1(v) \neq a_2(w)\) but \(
+        f(a_1(v)) = f(a_2(w))
+    \), and the degree of \(a_1(v)\) and \(a_2(w)\) is not \((0,0)\), then
+    \(c_1(v) = c_2(w)\).
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        Since the diagram is a pushout, if \(a_1(v) \neq a_2(w)\) but \(
+            f(a_1(v)) = f(a_2(w))
+        \) then vertices must be merged \(c\) to force the latter to the equal.
+        Since \(a_1(v)\) and \(a_2(w)\) do not have degree \((0,0)\), they
+        have not been merged by \(a\) by partial monogamicity, so there is only
+        one choice of map for \([c_1, c_2]\): to merge the vertices together.
+    \end{proof}
+}{}
 
-
-\begin{definition}[Traced DPO]
-    For morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in
-    \(\hypsigma\), there is a traced rewrite \(G \trgrewrite[\mcr] H\) if there
-    exists a rule \(
-        \spann{L}{i+j}{G} \in \mcr
-    \) and cospan \(
-        \cospan{i+j}{C}{n+m} \in \hypsigma
-    \) such that diagram in \cref{def:dpo} commutes and \(i+j \to C\) is a
-    traced boundary complement.
-\end{definition}
-
-A crucial part of~\cite{bonchi2022string} is that (non-traced) boundary
-complements are \emph{unique}.
-One might assume the same for traced boundary complements, but this is not the
-case.
+The merging of vertices by \(f\) with degree \((0, 0)\) is an important edge
+case, as it corresponds to rewriting modulo the \emph{yanking} axiom of traced
+categories.
+It is this case that yields a \emph{choice} of traced boundary complement,
+which unlike regular boundary complements need not be unique.
 
 \begin{example}
     Consider the rule and its interpretation.
@@ -307,8 +329,7 @@ Rewriting modulo yanking also eliminates another foible of rewriting modulo
 (non-traced) symmetric monoidal structure.
 In the latter, matchings must be \emph{convex}: there cannot be a path from the
 outputs of a match back to its inputs.
-However, in the traced case this is redundant, as illustrated in the following
-example.
+However, in the traced case this is not necessary.
 
 \begin{example}
     Consider the following rewrite rule and its interpretation.
