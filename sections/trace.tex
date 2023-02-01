@@ -1,0 +1,544 @@
+% !TeX root = ../main-conf.tex
+\section{Hypergraphs for traced categories}
+
+We wish to use the hypergraph framework for a setting with a \emph{trace}.
+
+\begin{definition}[\cite{joyal1996traced,hasegawa2009traced}]
+    A \emph{symmetric traced monoidal category} (STMC) is a symmetric monoidal
+    category \(\mathbf{C}\) equipped with functions \(
+        \morph{
+            \trace{X}[A][B]{-}
+        }{
+            \mathbf{C}(X \tensor A, X \tensor B)
+        }{
+            \mathbf{C}(X, Y)
+        }
+    \) for any objects \(A,B\) and \(X\) satisfying the axioms of STMCs listed
+    in \cref{app:equations}, \cref{fig:stmc-axioms}.
+\end{definition}
+
+In the string diagram notation, the trace is represented by joining some of the
+inputs of a circuit to its outputs.
+%
+\begin{center}
+    \(
+        \trace{X}[A][B]{\iltikzfig{strings/traced/trace-lhs}[F][comb][X][A][B]}
+        \xrightarrow{\text{def}}
+        \iltikzfig{strings/traced/trace-rhs}[F][comb][A][B]
+    \)
+\end{center}
+
+The category of interfaced hypergraphs we have just defined already
+contains the structure necessary to define a trace.
+
+\iftoggle{conf}{}{
+    \begin{definition}[Hypergraph category \cite{fong2019hypergraph}]
+        A \emph{hypergraph category} is a symmetric monoidal category in which each
+        object \(X\) is equipped with a Frobenius structure.
+    \end{definition}
+
+    \begin{proposition}\label{prop:hypergraph-category}
+        \(\cspdhyp\) is a hypergraph category.
+    \end{proposition}
+    \begin{proof}
+        The Frobenius structure is defined as follows:
+        \begin{gather*}
+            \iltikzfig{strings/structure/monoid/merge}[white]
+            :=
+            \cospan{m + m}{m}{m}
+            \quad
+            \iltikzfig{strings/structure/monoid/init}[white]
+            :=
+            \cospan{0}{m}{m}
+            \\
+            \iltikzfig{strings/structure/comonoid/copy}[white]
+            :=
+            \cospan{m}{m}{m+m}
+            \quad
+            \iltikzfig{strings/structure/comonoid/discard}[white]
+            :=
+            \cospan{m}{m}{0}
+        \end{gather*}
+    \end{proof}
+    \begin{corollary}[\cite{bonchi2022string}]
+        \(\cspdhyp\) is compact closed.
+    \end{corollary}
+}{
+    \begin{proposition}[\cite{carboni1987cartesian,bonchi2022string}]
+        \(\cspdhyp\) is compact closed.
+    \end{proposition}
+
+}
+
+It is well known that every compact closed category is equipped with a
+\emph{canonical trace}~\cite{joyal1996traced}, constructed by combining the cup,
+cap and an identity.
+So in some sense, \(\cspfihyp\) is already traced.
+However, it is useful to consider a(n equivalent) formulation in which the trace
+is constructed directly.
+To take the \((f,g)\)-trace of a cospan \(\cospan{x+m}[f+h]{H}[g+k]{x+n}\), we
+coalesce the \(i\)th elements of the image of \(f\) and \(g\).
+\begin{center}
+    \(
+        \trace{1}{\iltikzfig{graphs/trace/before-trace}}
+        \equiv
+        \iltikzfig{graphs/trace/after-trace}
+    \)
+\end{center}
+
+This is defined formally using a pushout, in a similar vein
+to~\cite{dixon2013opengraphs}.
+
+\begin{definition}
+    For a cospan of hypergraphs \(
+        \cospan{x+m}[f+h]{H}[g+k]{x+n},
+    \) its trace on \(x\) is \(
+        \cospan{m}[h \seq p]{H^\prime}[k \seq p]{n},
+    \) where \(p\) and \(H^\prime\) are computed%
+    \iftoggle{conf}{
+        as the pushout of \(f + h\) and \([\id, \id]\).
+    }{
+        by the following pushout:
+        \begin{center}
+            \tikzfig{graphs/trace/trace-pushout}
+        \end{center}
+    }
+\end{definition}
+
+\begin{example}
+    Below is an example of tracing a simple hypergraph in this manner.
+    \begin{center}
+        \iltikzfig{graphs/trace/trace-pushout-example}
+    \end{center}
+\end{example}
+
+\subsection{Monogamy}
+
+In~\cite{bonchi2016rewriting}, it is shown that terms in a (non-traced)
+symmetric monoidal category are interpreted as a certain sub-prop of
+\(\cspdhyp\), in which all hypergraphs are \emph{acyclic}.
+Clearly, to model trace this condition must be dropped.
+
+However, there is also another condition known as \emph{monogamy}: informally,
+this means that every vertex has exactly one `in' and `out' connection, be it to
+an edge or an interface.
+For the most part, this condition also applies to the traced case: wires cannot
+arbitrarily fork and join.
+There is one nuance: the trace of the identity.
+This is depicted as a closed loop \(
+    \trace{1}{\iltikzfig{strings/category/identity}[white]}
+    =
+    \iltikzfig{strings/traced/trace-id}
+\), and one might think that it can be discarded, i.e. \(
+    \iltikzfig{strings/traced/trace-id}
+    =
+    \iltikzfig{strings/monoidal/empty}
+\).
+This is \emph{not} always the case, such as in the category of finite
+dimensional vector spaces~\cite[Sec. 6.1]{hasegawa1997recursion}.
+Closed loops must therefore be represented in the hypergraph framework:
+there is a natural representation of such a loop as a lone vertex disconnected
+from either interface.
+
+\begin{definition}
+    For a hypergraph \(H \in \hyp\), the \emph{degree} of a vertex
+    \(v \in \vertices{H}\) is a tuple \((i,o)\) where \(i\) is the number of
+    pairs \((e,i)\) where \(e\) is a hyperedge with \(v\) as its \(i\)th target,
+    and \(o\) is similarly the number of pairs \((e,j)\) where \(e\) is a
+    hyperedge with \(v\) as its \(j\)th target.
+\end{definition}
+
+\begin{definition}
+    For a cospan \(\cospan{m}[f]{H}[g]{n}\), we say it is
+    \emph{partial monogamous} if \(f\) and \(g\) are mono and, for all nodes
+    \(v \in H_\star\), the degree of \(v\) is
+
+    \begin{center}
+        \begin{tabular}{rlcrl}
+            \((0,0)\)
+            &
+            if \(v \in f_\star \wedge v \in g_\star\)
+            &
+            \quad
+            &
+            \((0,1)\)
+            &
+            if \(v \in f_\star\)
+            \\
+            \((1,0)\)
+            &
+            if \(v \in g_\star\)
+            &
+            \quad
+            &
+            \((0,0)\)
+            or \((1,1)\)
+            &
+            otherwise
+        \end{tabular}
+    \end{center}
+\end{definition}
+
+\iftoggle{conf}{}{
+    \begin{lemma}\label{lem:trace-degree}
+        Given a cospan \(\cospan{x+m}[f+h]{F}[g+k]{x+n}\), and its corresponding
+        traced cospan \(\cospan{m}[g \seq p]{F^\prime}[h \seq p]{n}\).
+        For \(i < x\), let \((k_1,l_1)\) be the degree of \(f(i)\) and \((k_2,l_2)\)
+        be the degree of \(g(i)\).
+        Then, the degree of \(p(f(i)) = p(h(i))\) is \((k_1 + k_2, l_1 + l_2)\).
+    \end{lemma}
+    \iftoggle{proofs}{
+        \begin{proof}
+            \(p(f(i))\) and \(p(g(i))\) are coalesced by the pushout.
+            The pushout cannot coalesce the edges in \(H\) as \(x\) contains no
+            edges,
+            so the degree of \(f(i)\) and \(h(i)\) must be preserved.
+        \end{proof}
+    }{}
+
+    \begin{lemma}\label{lem:trace-interface}
+        Given a partial monogamous cospan \(\cospan{x+m}[f+h]{F}[g+k]{x+n}\) and its
+        trace \(\cospan{m}[h \seq p]{F^\prime}[k \seq p]{n},\) any vertex in the
+        image of \(f\) is not in the image of \(h \seq p\), and similarly any vertex
+        in the image of \(g\) is not in the image of \(k \seq p\).
+    \end{lemma}
+    \iftoggle{proofs}{
+        \begin{proof}
+            Since this is a partial monogamous cospan, the images of \(f\) and \(h\)
+            are disjoint, as are the images of \(g\) and \(k\).
+            Therefore, \(f(v)\) is not in the image of \(h\), so it cannot be in the
+            image of \(h \seq p\), and similarly for \(g(v)\) and \(k\).
+        \end{proof}
+    }{}
+}
+
+\begin{lemma}~\label{lem:partial monogamous-ops}
+    Let \(\cospan{m}{F}{n}\), \(\cospan{n}{G}{p}\), \(\cospan{p}{H}{q}\) and
+    \(\cospan{x+m}{K}{x+n}\) be partial monogamous cospans.
+    Then,
+    \begin{itemize}
+        \item Identities and symmetries are partial monogamous.
+        \item \(\cospan{m}{F}{n} \seq \cospan{n}{G}{p}\) is partial monogamous.
+        \item \(\cospan{m}{F}{n} \tensor \cospan{p}{H}{q}\) is partial
+        monogamous.
+        \item \(
+            \trace{x}{\cospan{x+m}[f+h]{K}[g+k]{x+n}}
+            =
+            \cospan{m}[h \seq p]{pK}[k \seq p]{n}
+        \) is partial monogamous.
+    \end{itemize}
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        Since any monogamous hypergraph is also partial monogamous, the first
+        three points hold due to~\cite[Prop.16]{bonchi2022string}, dropping the
+        acyclicity condition.
+        For the final condition, consider the image of \(f\) and \(g\).
+        For each \(i \in x\), there are two cases to consider: \(f(i) = g(i)\)
+        and \(f(i) \neq g(i)\).
+
+        In the former, the degree of \(v^\prime = f(v) = h(v)\) must be
+        \((0,0)\) by definition of semi-monogamicity.
+        Therefore in the traced hypergraph \(
+            \cospan{m}[g \seq p]{K^\prime}[h \seq p]{n}
+        \), \(v^\prime\) will still have degree \((0,0)\), and will not be in
+        the image of \(g \seq p\) or \(h \seq p\) by \cref{lem:trace-interface}.
+        So the cospan is partial monogamous.
+
+        In the latter case, \(f(i)\) must have degree of \((0,0)\) if it in the
+        image of \(k\) or \((0,1)\) otherwise.
+        Similarly \(g(i)\) either has degree \((0,0)\) or \((1,0)\).
+        Let \(v := p(f(i)) = p(g(i))\); we now consider the degree of \(v\)
+        computed using \cref{lem:trace-degree}:
+        \begin{itemize}
+            \item If \(f(i)\) is in the image of \(k\) and \(g(i)\) is in the
+                    image of \(h\), then \(v\) has degree \((0,0)\).
+                    \(v\) is in the image of \(h \seq p\) and \(h \seq p\), so
+                    the cospan is partial monogamous.
+            \item If \(f(i)\) is in the image of \(k\), then \(v\) has degree
+                    \((1, 0)\); since \(v\) is in the image of \(k \seq p\), the
+                    cospan is partial monogamous.
+            \item If \(g(i)\) is in the image of \(h\), then \(v\) has degree
+                    \((0, 1)\); since \(v\) is in the image of \(h \seq p\), the
+                    cospan is partial monogamous.
+            \item Otherwise, \(v\) will have degree \((1, 1)\), and is not in
+                    the image of either interface so the cospan is partial
+                    monogamous.
+        \end{itemize}
+    \end{proof}
+}{}
+
+\noindent
+This means that the partial monogamous hypergraphs form a sub-prop of
+\(\cspdhyp\), which we name \(\pmcspdhyp\).
+
+\subsection{From terms to graphs}
+
+For \(\pmcspfihyp\) to be suitable for reasoning with traced categories, it must
+be \emph{sound and complete}: there must be a two-way correspondence between
+terms in a traced monoidal theory and interfaced hypergraphs.
+
+\begin{definition}
+    For a SMT \((\generators,\equations)\), let
+    \(\stmc{\generators}\) be the STMC freely generated over the
+    generators in \(\generators\).
+    Let \(\stmc{\generators, \equations}\) be \(\stmc{\generators}\) quotiented
+    by equations in \(\equations\).
+\end{definition}
+
+A \emph{(traced) prop morphism} is a strict (traced) symmetric monoidal functor
+between props .
+Since \(\stmc{\Sigma}\) and \(\pmcspfihyp\) are freely generated, to define a
+prop morphism between them it suffices to define it on the generators in the
+former.
+
+\begin{definition}
+    Let \(\morph{\termtohyp{\Sigma}}{\stmc{\Sigma}}{\pmcspfihyp}\) be a prop
+    morphism defined on the generators of \(\Sigma\) as shown in
+    \cref{fig:termtohyp}.
+    \begin{figure}
+        \begin{gather*}
+            \termtohyp[\iltikzfig{strings/category/f}[\phi][white][m][n]]{\Sigma}
+            :=
+            \iltikzfig{graphs/terms/generator}
+            \quad
+            \termtohyp[\iltikzfig{strings/category/identity}[white][m][n]]{\Sigma}
+            :=
+            \iltikzfig{graphs/terms/identity}[white]
+            \\[1em]
+            \termtohyp[\iltikzfig{strings/symmetric/symmetry}[white][m][n]]{\Sigma}
+            :=
+            \iltikzfig{graphs/terms/symmetry}[white]
+        \end{gather*}
+        \caption{Definition of \(\termtohyp{\Sigma}\) on generators in \(\smc{\Sigma}\).}
+        \label{fig:termtohyp}
+    \end{figure}
+\end{definition}
+
+\iftoggle{conf}{}{
+    Recall one of the key theorems from~\cite{bonchi2021string}.
+
+    \begin{theorem}[\cite{bonchi2021string}, Corollary 20]\label{thm:smc-graph-iso}
+        \(\smc{\Sigma} \cong \macspfihyp\).
+    \end{theorem}
+}
+
+Our goal is to extend the results of \cite{bonchi2021string} to terms in
+\(\stmcsigma\) and \emph{partial monogamous hypergraphs}.
+We first characterise the image of \(\termtohypsigma\) and show that it is
+exactly \(\pmcspfihyp\).
+Before progressing to the main theorem, we must show a result about terms in
+\(\smc{}\), i.e.\ terms constructed from just symmetries and identities.
+
+In particular, there is a correspondence between \(\smc{}\) and
+\emph{bijective} functions.
+
+\begin{definition}
+    Let \(\perms\) be the subprop of \(\finset\) containing only the
+    bijective functions.
+\end{definition}
+
+\begin{lemma}\label{lem:symmetries-prop}
+    \(\smc{} \cong \perms\).
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        The morphism \(\morph{\phi}{\smc{}}{\perms}\) is defined over
+        generators in \(\smc{}\) as \[
+            \phi(\iltikzfig{strings/monoidal/empty}) = \{\}
+            \quad
+            \phi(\iltikzfig{strings/category/identity}[white])
+            =
+            \{0 \mapsto 0\}
+            \quad
+            \phi(\iltikzfig{strings/symmetric/symmetry}[white])
+            =
+            \{0 \mapsto 1, 1 \mapsto 0\}
+        \]
+        Since any term in \(\smc{}\) can be expressed using these generators,
+        this defines the complete transformation.
+
+        The reverse morphism \(\morph{\psi}{\finset}{\smc{}}\) is inductively
+        over the size of \(m\).
+        For the base case \(\morph{f}{[0]}{[0]}\), let \(
+            \phi(f) := \iltikzfig{strings/monoidal/empty}
+        \).
+        For \(
+            \morph{f}{[k+1]}{[k+1]}
+        \), let \(i\) such that \(f(i) = k+1\), and define the function \(
+            \morph{f^\prime}{\nat_{k}}{\nat_{k}}
+        \) as the function such that \(
+            f^\prime(j) = f(j)
+        \) if \(j < i\), and \(f(j+1)\) otherwise.
+        Then \[
+            \psi(f) := \iltikzfig{strings/symmetric/f-construction}.
+        \]
+
+        \noindent
+        These are shown to be inverses by a simple induction in both directions.
+    \end{proof}
+}{}
+
+This allows us to establish a correspondence between terms in \(\smc{}\)
+and cospans of discrete hypergraphs.
+
+\begin{lemma}\label{lem:monog-discrete-cospan}
+    Given a monogamous cospan \(\cospan{m}[f]{m}[g]{m}\), there exists a unique
+    term \(\morph{h}{m}{m} \in \smc{}\) up to the axioms of SMCs such that
+    \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        Since the cospan is monogamous, \(f\) and \(g\) are mono.
+        As the cospan is also discrete, there exists a (unique) bijective
+        function \(\morph{h^\prime}{[m]}{[m]}\) such that \(h^\prime(i) = j\) if
+        \(f(i) = g(j)\).
+        By \cref{lem:symmetries-prop}, there is a corresponding term
+        \(h \in \smc{}\) that is unique up to SMC axioms: a simple induction
+        shows that \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
+    \end{proof}
+}{}
+
+We now proceed to the first main result.
+
+\begin{theorem}\label{thm:termtohyp-image}
+    A cospan \(\cospan{m}{F}{n}\) is in the image of \(\termtohyp{\Sigma}\) if
+    and only if it is partial monogamous.
+\end{theorem}
+\iftoggle{proofs}{
+    \begin{proof}
+        \input{proofs/hypergraphs/termtohyp-image}
+    \end{proof}
+}{
+    \begin{proof}[Proof (Sketch)]
+        The \(\onlyifdir\) direction is by induction on the structure of the term.
+        For the \(\ifdir\) direction, a cospan isomorphic to the original
+        cospan can be constructed from which a term in \(\stmcsigma\) can be
+        read off.
+        Informally, this cospan is
+        \begin{gather}
+            \trace{}{
+                \cospan{x + m}{V}{x + n}
+                \seq
+                \cospan{x + n}{L + E + n}{x + n}
+            }
+        \end{gather}
+        where \(V\) is all the vertices in \(F\), \(L\) is the vertices with
+        degree \((0, 0)\) not in the image of the interfaces, and \(E\) is the
+        all the hyperedges in \(F\).
+        The morphisms then connect the components appropriately.
+        The first component corresponds to a term in \(\smc{}\) by
+        \cref{lem:symmetries-prop}, and the stack of edges to a tensor of
+        generators in \(\stmc{\Sigma}\).
+    \end{proof}
+}
+
+The final step is to show that \(\termtohypsigma\) is \emph{faithful}, i.e.\
+no two terms \(\stmcsigma\) equal up to the equations of STMCs corresponds to
+the same cospan of hypergraphs.
+First we isolate the terms that actually contain traces:
+
+\begin{lemma}
+    If \(\iltikzfig{strings/category/f}[H][white]\) is a term in \(
+        \stmc{\Sigma} \setminus \smc{\Sigma}
+    \), then \(
+        \termtohypsigma[\iltikzfig{strings/category/f}[H][white]]
+    \) either fails to be monogamous, acyclic, or both.
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        Assume that \(\iltikzfig{strings/category/f}[H][white]\) is monogamous
+        acyclic, so it is in \(\macspfihyp\).
+        By \cref{thm:smc-graph-iso}, any graph in \(\macspfihyp\) corresponds to
+        a unique term in \(\smc{\Sigma}\) up to axioms of SMCs: a contradiction,
+        as \(
+            \iltikzfig{strings/category/f}[H][white]
+            \in
+            \stmc{\Sigma} \setminus \smc{\Sigma}
+        \).
+    \end{proof}
+}{}
+
+\begin{corollary}
+    The images of \(\smc{\Sigma}\) and \(\stmc{\Sigma} \setminus \smc{\Sigma}\)
+    are disjoint under \(\termtohypsigma\).
+\end{corollary}
+
+Finally, we use a result from \cite{bonchi2022string} for the symmetric monoidal
+case to conclude a similar result about our traced case.
+
+\begin{corollary}[\cite{bonchi2022string}, Corollary 3.11]\label{cor:termtohyp-faithful-smc}
+    \(\morph{\termtohypsigma}{\stmc{\Sigma}}{\pmcspfihyp}\) is faithful when the
+    domain is restricted to \(\smc{\Sigma}\).
+\end{corollary}
+
+\begin{theorem}
+    \(\termtohypsigma\) is faithful when the domain is restricted to \(
+        \stmc{\Sigma} \setminus \smc{\Sigma}
+    \).
+\end{theorem}
+\iftoggle{proofs}{
+    \begin{proof}
+        Let \(
+            \iltikzfig{strings/category/f}[F][white]
+        \) and \(
+            \iltikzfig{strings/category/f}[G][white]
+        \) be terms in \(\stmc{\Sigma}\) such that \(
+            \iltikzfig{strings/category/f}[F][white]
+            \neq
+            \iltikzfig{strings/category/f}[G][white]
+        \).
+        By applying axioms of STMCs, these terms can be rewritten as \(
+            \iltikzfig{strings/traced/trace-rhs}[f^\prime][white]
+        \) and \(
+            \iltikzfig{strings/traced/trace-rhs}[g^\prime][white]
+        \) respectively, where \(
+            \iltikzfig{strings/traced/trace-lhs}[f^\prime][white]
+        \) and \(
+            \iltikzfig{strings/traced/trace-lhs}[g^\prime][white]
+        \) are terms in \(\smc{\Sigma}\).
+        Since \(
+            \iltikzfig{strings/category/f}[F][white]
+            \neq
+            \iltikzfig{strings/category/f}[F][white]
+        \), then \(
+            \iltikzfig{strings/traced/trace-lhs}[f^\prime][white]
+            \neq
+            \iltikzfig{strings/traced/trace-lhs}[g^\prime][white]
+        \).
+        Assume that \(
+            \termtohypsigma[\iltikzfig{strings/category/f}[F][white]]
+        \) and \(
+            \termtohypsigma[\iltikzfig{strings/category/f}[F][white]]
+        \) are isomorphic as cospans.
+        Then \(
+            \termtohypsigma[\iltikzfig{strings/traced/trace-rhs}[f^\prime][white]]
+        \) and \(
+            \termtohypsigma[\iltikzfig{strings/traced/trace-rhs}[g^\prime][white]]
+        \) are also isomorphic.
+        However, since \(\termtohypsigma\) is faithful on terms in \(\smc{\Sigma}\)
+        by \cref{cor:termtohyp-faithful-smc}, \(
+            \termtohypsigma[\iltikzfig{strings/traced/trace-lhs}[f^\prime][white]]
+        \) and \(
+            \termtohypsigma[\iltikzfig{strings/traced/trace-lhs}[g^\prime][white]]
+        \) are not isomorphic.
+
+        The only axiom of STMCs that allows for the trace of non-equal morphisms
+        to be equal is the sliding axiom.
+        But for such a situation to be valid here, the original terms must also
+        be equal by sliding, a contradiction.
+        So \(
+            \termtohypsigma[\iltikzfig{strings/category/f}[F][white]]
+        \) and \(
+            \termtohypsigma[\iltikzfig{strings/category/f}[G][white]]
+        \) are not isomorphic: \(\termtohypsigma\) is faithful.
+    \end{proof}
+}{}
+
+\begin{corollary}
+    \(\termtohypsigma\) is faithful.
+\end{corollary}
+
+\begin{corollary}\label{cor:stmc-graph-iso}
+    \(\stmc{\Sigma} \cong \pmcspfihyp\).
+\end{corollary}

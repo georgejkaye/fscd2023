@@ -1,0 +1,50 @@
+\section{Equations}
+\label{app:equations}
+
+Equations that hold in any symmetric traced monoidal category are listed in
+\cref{fig:stmc-axioms}.
+These axioms were originally presented in~\cite{joyal1996traced}: an additional
+vanishing axiom was originally also included but it was shown in
+\cite{hasegawa2009traced} that this was redundant.
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.54\textwidth}
+        \begin{align*}
+            \tag{\(\mathsf{Tightening}\)}
+            \iltikzfig{strings/traced/naturality-lhs}
+            &=
+            \iltikzfig{strings/traced/naturality-rhs}
+            \label{eq:tightening}
+            \\[0.75em]
+            \tag{\(\mathsf{Sliding}\)}
+            \iltikzfig{strings/traced/sliding-lhs}
+            &=
+            \iltikzfig{strings/traced/sliding-rhs}
+            \label{eq:sliding}
+            \\[0.75em]
+            \tag{\(\mathsf{Vanishing}\)}
+            \iltikzfig{strings/traced/vanishing-lhs}
+            &=
+            \iltikzfig{strings/traced/vanishing-rhs}
+            \label{eq:vanishing}
+        \end{align*}
+    \end{minipage}
+    \begin{minipage}{0.45\textwidth}
+        \begin{align*}
+            \tag{\(\mathsf{Superposing}\)}
+            \iltikzfig{strings/traced/superposing-lhs}
+            &=
+            \iltikzfig{strings/traced/superposing-rhs}
+            \label{eq:superposing}
+            \\[0.75em]
+            \tag{\(\mathsf{Yanking}\)}
+            \iltikzfig{strings/traced/yanking-lhs}
+            &=
+            \iltikzfig{strings/traced/yanking-rhs}
+            \label{eq:yanking}
+        \end{align*}
+    \end{minipage}
+    \caption{Equations that hold in any STMC.}
+    \label{fig:stmc-axioms}
+\end{figure}
