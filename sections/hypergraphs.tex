@@ -1,46 +1,65 @@
 % !TeX root = ../main-conf.tex
 \section{Hypergraphs}
 
+When modelling a system using monoidal categories, its components and
+properties is specified using a \emph{monoidal theory}.
+
 \begin{definition}[Symmetric monoidal theory]
     A \emph{(single-sorted) symmetric monoidal theory} (SMT) is a tuple \(
         (\generators,\equations)
     \) where \(\generators\) is a set of \emph{generators} and \(\equations\)
     is a set of \(\equations\).
     Given a SMT \((\generators,\equations)\), let \(
-        \smc{\generators,\equations}
+        \smc{\generators}
     \) be the symmetric monoidal category freely generated over \(\generators\)
-    and quotiented by the equations in \(\equations\).
+    and let \(
+        \smc{\generators,\equations}
+    \) be \(\smc{\generators}\) quotiented by the equations in \(\equations\).
+    We write \(\smc{} := \smc{\emptyset}\), for the SMC with terms
+    constructed solely from identities and symmetries.
 \end{definition}
 
-Although one can reason with \(\smc{\generators, \equations}\) using terms, it
-is far more intuitive to reason with \emph{string diagrams}, which represent
-\emph{equivalence classes} of terms up to the axioms of symmetric monoidal
-categories.
+While one could reason using one-dimensional text strings representing morphisms
+in \(\smc{\generators.\equations}\), it is more intuitive to reason with
+\emph{string diagrams}~\cite{joyal1991geometry,selinger2011survey}, which
+represent \emph{equivalence classes} of terms up to the axioms of SMCs.
 In the language of string diagrams, a generator \(\morph{\phi}{X}{Y}\) is drawn
 as a box \(
     \iltikzfig{strings/category/f}[\phi][white][X][Y]
-\), identities as \(
+\), the identity \(\id[x]\) as \(
     \iltikzfig{strings/category/identity}[white][X]
-\), symmetries as \(
+\), the symmetry \(\swap{X}{Y}\) as \(
     \iltikzfig{strings/symmetric/symmetry}[white][X][Y]
 \), (diagrammatic order) composition \(f \seq g\) as horizontal juxtaposition \(
     \iltikzfig{strings/category/composition}[f][g][white][X][Y][Z]
 \) and tensor \(f \tensor g\) as vertical juxtaposition \(
     \iltikzfig{strings/monoidal/tensor}[f][g][white][X][Y][Z][W]
 \).
+When clear from context, wire labels may be omitted.
 
-While reasoning equationally using string diagrams is certainly attractive
-as a pen-and-paper method, circuits can contain thousands of components and it
-would quickly become intractible to do this by hand.
+A class of SMC particularly interesting to us is that of
+\emph{props}~\cite{maclane1965categorical} (`categories of \emph{PRO}ducts and
+\emph{P}ermutations'), which have natural numbers as objects and addition as
+tensor product.
+In a prop, a morphism \(m \to n\) can be drawn as a box with \(m\) input wires
+and \(n\) output wires.
+
+Reasoning equationally using string diagrams is certainly attractive
+as a pen-and-paper method, but for larger systems it quickly becomes intractible
+to do this by hand.
 Instead, it is desirable to perform equational reasoning \emph{computationally}.
 Unfortunately, string diagrams as topological objects are not particular suited
-for this purpose.
-Instead, we require a combinatorial representation.
+for this purpose: instead, we require a combinatorial representation.
 Fortunately, this has been well studied
-recently~\cite{bonchi2022string,bonchi2021string,bonchi2022stringa}, in the
-form of \emph{hypergraphs}: a generalisation of regular graphs in which edges
-can be the source or target of an arbitary number of vertices.
-They are formally defined as objects in a functor category.
+recently, first with
+\emph{string graphs}~\cite{dixon2013opengraphs,kissinger2012pictures}
+and later with
+\emph{hypergraphs}~\cite{bonchi2022string,bonchi2021string,bonchi2022stringa},
+a generalisation of regular graphs in which edges can be the source or target of
+an arbitrary number of vertices.
+In this paper we are concerned in the latter.
+
+Hypergraphs are formally defined as objects in a functor category.
 
 \begin{definition}[Hypergraph]
     Let \(\mathbf{X}\) be the category containing objects \((k, l)\) for
@@ -51,14 +70,14 @@ They are formally defined as objects in a functor category.
 
 An object in \(\hyp\) maps \(\star\) to a set of vertices, and each \((k,l)\) to
 a set of hyperedges with \(k\) sources and \(l\) targets,
-Given a hypergraph \(H \in \hyp\), we write \(\vertices{H}\) for its set of
-vertices and \(\edges{H}{k}{l}\) for the set of edges with \(k\) sources and
+Given a hypergraph \(F \in \hyp\), we write \(\vertices{F}\) for its set of
+vertices and \(\edges{F}{k}{l}\) for the set of edges with \(k\) sources and
 \(l\) targets.
 
-A hypergraph morphism \(\morph{f}{F}{G} \in \hyp\) consists of functions
+A morphism of hypergraphs \(\morph{f}{F}{G} \in \hyp\) consists of functions
 \(\vertices{f}\) and \(\edges{f}{k}{l}\) for each \(k,l \in \nat\) preserving
 sources and targets in the obvious way.
-Using hypergraph morphisms, a hypergraph can be \emph{labelled}.
+With such morphisms a hypergraph can be \emph{labelled}.
 
 \begin{definition}[Slice category]
     For a category \(\mathbf{C}\) and an object \(C \in \mathbf{C}\), the
@@ -74,13 +93,10 @@ Using hypergraph morphisms, a hypergraph can be \emph{labelled}.
     For a given monoidal signature \(\signature\), its corresponding
     \emph{hypergraph signature} \(\hypsignature{\Sigma}\) is the hypergraph with
     edges \(
-        e_\phi \in \edges{\hypsignature{\Sigma}}{|\dom{\phi}|}{|\cod{\phi}|}
-    \) for each \(\phi \in \Sigma\), and a vertex \(v_n\) for each
-    \(n \in \nat\).
-    For a hyperedge \(e_\phi\), \(
-        \sources{i}(e_\phi) = v_{\dom{\phi}}
-    \) and \(
-        \targets{i}(e_\phi) = v_{\cod{\phi}}
+        e_\phi \in \edges{\hypsignature{\Sigma}}{\dom{\phi}}{\cod{\phi}}
+    \) for each \(\phi \in \Sigma\), and a vertex \(v\).
+    For a hyperedge \(e_\phi\), \(i < \dom{\phi}\) and \(j < \cod{\phi}\), \(
+        \sources{i}(e_\phi) = \targets{j}(e_\phi) = v
     \).
 \end{definition}
 
@@ -89,24 +105,16 @@ Using hypergraph morphisms, a hypergraph can be \emph{labelled}.
     defined as the slice category \(\hyp \setminus \hypsignature{\Sigma}\).
 \end{definition}
 
-\begin{remark}
-    This is a slight variant of the single-sorted hypergraph signature
-    from~\cite{bonchi2022string} which introduces some elements of the
-    multi-sorted case: i.e. each natural number is treated as a separate colour.
-    This is because we want to reflect the notion of `bundles' of wires that
-    always remain `stuck' togethr in the hypergraph realm.
-\end{remark}
-
 While (labelled) hypergraphs may have dangling vertices, they do not have
 \emph{interfaces}.
 These can be provided using \emph{cospans}.
 
 \begin{definition}[Categories of cospans~\cite{bonchi2021string}]\label{def:cospans}
-    For a finitely cocomplete category \(\mcc\), a \emph{cospan} from \(X \to Y\)
-    is a pair of arrows \(X \to A \leftarrow Y\).
+    For a finitely cocomplete category \(\mathbf{C}\), a \emph{cospan} from
+    \(X \to Y\) is a pair of arrows \(X \to A \leftarrow Y\).
     A \emph{cospan morphism} \(
         (\cospan{X}[f]{A}[g]{Y}) \to (\cospan{X}[h]{B}[k]{Y})
-    \) is a morphism \(\morph{\alpha}{A}{B} \in \mcc\)%
+    \) is a morphism \(\morph{\alpha}{A}{B} \in \mathbf{C}\)%
     \iftoggle{conf}{
         such that \(f \seq \alpha = g\) and \(h \seq \alpha = k\).
     }{
@@ -129,27 +137,25 @@ These can be provided using \emph{cospans}.
         \end{center}
     }
     The identity is \(X \xrightarrow{\id[X]} X \xleftarrow{\id[X]} X\).
-    The category of cospans over \(\mcc\), denoted \(\csp{\mcc}\) has as objects
-    the objects of \(\mcc\) and as morphisms the isomorphism classes of cospans.
-    This category has monoidal product given by the coproduct in \(\mcc\) with
-    unit the initial object \(0 \in \mcc\).
+    The category of cospans over \(\mathbf{C}\), denoted \(\csp{\mathbf{C}}\)
+    has as objects the objects of \(\mathbf{C}\) and as morphisms the
+    isomorphism classes of cospans.
+    This category has monoidal product given by the coproduct in \(\mathbf{C}\)
+    with unit the initial object \(0 \in \mathbf{C}\).
 \end{definition}
 
-The interfaces of a hypergraph are then specified using morphisms to `pick'
-the input and output vertices.
+The interfaces of a hypergraph can be specified as cospans by having the `legs'
+of the cospan pick vertices in the graph at the apex.
+For this purpose a special type of hypergraph is required.
 
 \begin{definition}[Discrete hypergraph]
     A hypergraph is called \emph{discrete} if it has no edges.
 \end{definition}
 
-A discrete hypergraph \(H\) with \(|\vertices{H}| = n\) is often written as
+A discrete hypergraph \(F\) with \(|\vertices{F}| = n\) is often written as
 \(n\) when clear from context.
-Finally, a notion of \emph{ordering} must be placed on the interfaces.
-
-\begin{definition}
-    Let \(\finset\) be the prop with morphisms \(m \to n\) the functions
-    between finite sets \([m] \to [n]\).
-\end{definition}
+Morphisms from discrete hypergraphs to a main graph pick out the vertices in the
+interface, but there is still the notion of \emph{ordering} to consider.
 
 \begin{theorem}[\cite{bonchi2022string}, Thm. 3.6]
     Let \(\mathbb{X}\) be a prop whose monoidal product is a coproduct,
@@ -163,15 +169,20 @@ Finally, a notion of \emph{ordering} must be placed on the interfaces.
 \iftoggle{conf}{}{
     \begin{theorem}[\cite{bonchi2022string}, Thm. 3.8]
         \label{thm:cospan-homomorphism}
-        Let \(\mathbb{X}\) be a prop whose monoidal product is a coproduct, \(\mcc\)
-        a category with finite colimits, and \(\morph{F}{\mathbb{X}}{\mcc}\) a
-        coproduct-preserving functor.
+        Let \(\mathbb{X}\) be a prop whose monoidal product is a coproduct,
+        \(\mathbf{C}\) a category with finite colimits, and
+        \(\morph{F}{\mathbb{X}}{\mathbf{C}}\) a coproduct-preserving functor.
         Then there is a homomorphism of props \(
-            \morph{\tilde{F}}{\csp{\mathbb{X}}}{\csp[F]{\mcc}}
+            \morph{\tilde{F}}{\csp{\mathbb{X}}}{\csp[F]{\mathbf{C}}}
         \) that sends \(\cospan{m}[f]{X}[g]{n}\) to \(\cospan{Fm}[Ff]{FX}[Fg]{Fn}\).
         If \(F\) is full and faithful, then \(\tilde{F}\) is faithful.
     \end{theorem}
 }
+
+\begin{definition}
+    Let \(\finset\) be the prop with morphisms \(m \to n\) the functions
+    between finite sets \([m] \to [n]\).
+\end{definition}
 
 \begin{definition}[\cite{bonchi2022string}]
     Let \(\morph{D}{\finset}{\hypsigma}\) be the faithful, coproduct-preserving
@@ -189,46 +200,74 @@ this another prop.
 
 \subsection{Adding a trace}
 
-Our first goal is to adapt this hypergraph framework for a setting with a
-\emph{trace}.
-Fortunately, the category of interfaced hypergraphs we have just defined already
-contains a great deal of useful structure.
+We wish to use the hypergraph framework for a setting with a \emph{trace}.
 
-\begin{definition}[Hypergraph category \cite{fong2019hypergraph}]
-    A \emph{hypergraph category} is a symmetric monoidal category in which each
-    object \(X\) is equipped with a Frobenius structure.
+\begin{definition}[\cite{joyal1996traced,hasegawa2009traced}]
+    A \emph{symmetric traced monoidal category} (STMC) is a symmetric monoidal
+    category \(\mathbf{C}\) equipped with a family of functions \(
+        \morph{
+            \trace{X}[A][B]{-}
+        }{
+            \mathbf{C}(X \tensor A, X \tensor B)
+        }{
+            \mathbf{C}(X, Y)
+        }
+    \) satisfying the axioms of STMCs listed in \cref{app:equations},
+    \cref{fig:stmc-axioms}.
 \end{definition}
 
-\begin{proposition}\label{prop:hypergraph-category}
-    \(\cspdhyp\) is a hypergraph category.
-\end{proposition}
-\begin{proof}
-    The Frobenius structure is defined as follows:
-    \begin{gather*}
-        \iltikzfig{strings/structure/monoid/merge}[white]
-        :=
-        \cospan{m + m}{m}{m}
-        \quad
-        \iltikzfig{strings/structure/monoid/init}[white]
-        :=
-        \cospan{0}{m}{m}
-        \\
-        \iltikzfig{strings/structure/comonoid/copy}[white]
-        :=
-        \cospan{m}{m}{m+m}
-        \quad
-        \iltikzfig{strings/structure/comonoid/discard}[white]
-        :=
-        \cospan{m}{m}{0}
-    \end{gather*}
-    \iftoggle{conf}{}{
-        It is a simple exercise to check the axioms are satisfied.
-    }
-\end{proof}
+In the string diagram notation, the trace is represented by joining some of the
+inputs of a circuit to its outputs.
+%
+\begin{center}
+    \(
+        \trace{x}[m][n]{\iltikzfig{strings/traced/trace-lhs}[F][comb][x][m][n]}
+        \xrightarrow{\text{def}}
+        \iltikzfig{strings/traced/trace-rhs}[F][comb][m][n]
+    \)
+\end{center}
 
-\begin{corollary}[\cite{carboni1987cartesian}]
-    \(\cspdhyp\) is compact closed.
-\end{corollary}
+The category of interfaced hypergraphs we have just defined already
+contains the structure necessary to define a trace.
+
+\iftoggle{conf}{}{
+    \begin{definition}[Hypergraph category \cite{fong2019hypergraph}]
+        A \emph{hypergraph category} is a symmetric monoidal category in which each
+        object \(X\) is equipped with a Frobenius structure.
+    \end{definition}
+
+    \begin{proposition}\label{prop:hypergraph-category}
+        \(\cspdhyp\) is a hypergraph category.
+    \end{proposition}
+    \begin{proof}
+        The Frobenius structure is defined as follows:
+        \begin{gather*}
+            \iltikzfig{strings/structure/monoid/merge}[white]
+            :=
+            \cospan{m + m}{m}{m}
+            \quad
+            \iltikzfig{strings/structure/monoid/init}[white]
+            :=
+            \cospan{0}{m}{m}
+            \\
+            \iltikzfig{strings/structure/comonoid/copy}[white]
+            :=
+            \cospan{m}{m}{m+m}
+            \quad
+            \iltikzfig{strings/structure/comonoid/discard}[white]
+            :=
+            \cospan{m}{m}{0}
+        \end{gather*}
+    \end{proof}
+    \begin{corollary}[\cite{bonchi2022string}]
+        \(\cspdhyp\) is compact closed.
+    \end{corollary}
+}{
+    \begin{proposition}[\cite{carboni1987cartesian,bonchi2022string}]
+        \(\cspdhyp\) is compact closed.
+    \end{proposition}
+
+}
 
 It is well known that every compact closed category is equipped with a
 \emph{canonical trace}~\cite{joyal1996traced}, constructed by combining the cup,
@@ -236,7 +275,6 @@ cap and an identity.
 So in some sense, \(\cspfihyp\) is already traced.
 However, it is useful to consider a(n equivalent) formulation in which the trace
 is constructed directly.
-
 To take the \((f,g)\)-trace of a cospan \(\cospan{x+m}[f+h]{H}[g+k]{x+n}\), we
 coalesce the \(i\)th elements of the image of \(f\) and \(g\).
 \begin{center}
@@ -283,11 +321,10 @@ Clearly, to model trace this condition must be dropped.
 However, there is also another condition known as \emph{monogamy}: informally,
 this means that every vertex has exactly one `in' and `out' connection, be it to
 an edge or an interface.
-
 For the most part, this condition also applies to the traced case: wires cannot
 arbitrarily fork and join.
 There is one nuance: the trace of the identity.
-This is depicted as a cloed loop \(
+This is depicted as a closed loop \(
     \trace{1}{\iltikzfig{strings/category/identity}[white]}
     =
     \iltikzfig{strings/traced/trace-id}
@@ -432,12 +469,27 @@ from either interface.
 
 \noindent
 This means that the partial monogamous hypergraphs form a sub-prop of
-\(\cspfihyp\), which we name \(\pmcspfihyp\).
+\(\cspdhyp\), which we name \(\pmcspdhyp\).
 
 \subsection{From terms to graphs}
 
+For \(\pmcspfihyp\) to be suitable for reasoning with traced categories, it must
+be \emph{sound and complete}: there must be a two-way correspondence between
+terms in a traced monoidal theory and interfaced hypergraphs.
+
+\begin{definition}
+    For a SMT \((\generators,\equations)\), let
+    \(\stmc{\generators}\) be the STMC freely generated over the
+    generators in \(\generators\).
+    Let \(\stmc{\generators, \equations}\) be \(\stmc{\generators}\) quotiented
+    by equations in \(\equations\).
+\end{definition}
+
+A \emph{(traced) prop morphism} is a strict (traced) symmetric monoidal functor
+between props .
 Since \(\stmc{\Sigma}\) and \(\pmcspfihyp\) are freely generated, to define a
-morphism between them it suffices to define it on the generators in the former.
+prop morphism between them it suffices to define it on the generators in the
+former.
 
 \begin{definition}
     Let \(\morph{\termtohyp{\Sigma}}{\stmc{\Sigma}}{\pmcspfihyp}\) be a prop
@@ -462,32 +514,36 @@ morphism between them it suffices to define it on the generators in the former.
     \end{figure}
 \end{definition}
 
-\noindent
-Recall one of the key theorems from~\cite{bonchi2021string}.
+\iftoggle{conf}{}{
+    Recall one of the key theorems from~\cite{bonchi2021string}.
 
-\begin{theorem}[\cite{bonchi2021string}, Corollary 20]\label{thm:smc-graph-iso}
-    \(\smc{\Sigma} \cong \macspfihyp\).
-\end{theorem}
+    \begin{theorem}[\cite{bonchi2021string}, Corollary 20]\label{thm:smc-graph-iso}
+        \(\smc{\Sigma} \cong \macspfihyp\).
+    \end{theorem}
+}
 
-\noindent
-Our goal is to extend this to terms in \(\stmcsigma\) and
-\emph{partial monogamous hypergraphs}.
+Our goal is to extend the results of \cite{bonchi2021string} to terms in
+\(\stmcsigma\) and \emph{partial monogamous hypergraphs}.
 We first characterise the image of \(\termtohypsigma\) and show that it is
 exactly \(\pmcspfihyp\).
-Before progressing to the main theorem, we must show some results about terms in
+Before progressing to the main theorem, we must show a result about terms in
 \(\smc{}\), i.e.\ terms constructed from just symmetries and identities.
-In particular, there is a correspondence between \(\smc{}\) and \(\perms\), the
-subprop of the prop of finite sets and functions containing only the bijective
-functions.
 
+In particular, there is a correspondence between \(\smc{}\) and
+\emph{bijective} functions.
+
+\begin{definition}
+    Let \(\perms\) be the subprop of \(\finset\) containing only the
+    bijective functions.
+\end{definition}
 
 \begin{lemma}\label{lem:symmetries-prop}
     \(\smc{} \cong \perms\).
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
-        The morphism \(\morph{\phi}{\smc{}}{\perms}\) is defined over generators
-        in \(\smc{}\) as \[
+        The morphism \(\morph{\phi}{\smc{}}{\perms}\) is defined over
+        generators in \(\smc{}\) as \[
             \phi(\iltikzfig{strings/monoidal/empty}) = \{\}
             \quad
             \phi(\iltikzfig{strings/category/identity}[white])
@@ -522,9 +578,8 @@ functions.
     \end{proof}
 }{}
 
-\noindent
-This allows us to establish a correspondence between terms in \(\smc{}\) and
-cospans of discrete hypergraphs.
+This allows us to establish a correspondence between terms in \(\smc{}\)
+and cospans of discrete hypergraphs.
 
 \begin{lemma}\label{lem:monog-discrete-cospan}
     Given a monogamous cospan \(\cospan{m}[f]{m}[g]{m}\), there exists a unique
@@ -543,96 +598,44 @@ cospans of discrete hypergraphs.
     \end{proof}
 }{}
 
-\noindent
 We now proceed to the first main result.
 
-\begin{proposition}\label{prop:termtohyp-image}
-    A cospan \(\cospan{m}{H}{n}\) is in the image of \(\termtohyp{\Sigma}\) if
+\begin{theorem}\label{thm:termtohyp-image}
+    A cospan \(\cospan{m}{F}{n}\) is in the image of \(\termtohyp{\Sigma}\) if
     and only if it is partial monogamous.
-\end{proposition}
+\end{theorem}
 \iftoggle{proofs}{
     \begin{proof}
-        To show that \(\termtohyp[f]{\Sigma}\) is partial monogamous for any
-        \(f \in \smc{\Sigma}\) we use induction on the structure of \(f\).
-        Generators, identities and symmetries are partial monogamous, as
-        semi-monogamicity is preserved by composition, tensor and trace by
-        \cref{lem:partial monogamous-ops}.
-        So \(\termtohyp[f]{\Sigma}\) is partial monogamous.
-
-        Now we show that any partial monogamous cospan \(
-            \cospan{m}[f]{F}[g]{n}
-        \)
-        must be in the image of \(\termtohyp{\Sigma}\).
-        To do this, we will now construct a cospan that is isomorphic to
-        \(\cospan{m}[f]{F}[g]{n}\), but from which it is possible to read off a
-        unique term in \(\smc{\Sigma}\).
-        The components of the new cospan are as follows:
-        \begin{itemize}
-            \item let \(L\) be the hypergraph containing vertices with degree
-                    \((0,0)\) that are not in the image of \(f\) or \(g\);
-            \item let \(E\) be the hypergraph containing hyperedges of \(F\) and
-                    their source and target vertices, but disconnected;
-            \item let \(V\) be the discrete hypergraph containing all the
-                    vertices of \(F\); and
-            \item let \(S\) and \(T\) be the discrete hypergraphs containing
-                    the source and target vertices of hyperedges in \(F\)
-                    respectively, with the ordering determined by some order
-                    \(e_1,e_2,\cdots,e_n\) on the edges in \(F\).
-        \end{itemize}
-
-        \noindent
-        These parts can be composed and a trace applied to obtain the follow
-        cospan:
-        \begin{gather}
-            \trace{T}{
-                \cospan{T + m}[\id + f]{V}[\id + g]{S + n}
-                \,\seq\,
-                \cospan{\emptyset + S + n}[\id]{L + E + n}[\id]{\emptyset + T + n}
-            }
-            \label{gat:cospan}
-        \end{gather}
-
-        \noindent
-        This can be checked to be isomorphic to the original cospan
-        \(\cospan{m}[f]{F}[g]{n}\) by applying the pushouts.
-        From this we can read off a term in \(\smc{\Sigma}\):
-        Since the first cospan is monogamous, it corresponds to a term \(
-            \iltikzfig{graphs/isomorphism/construction-f}
-        \) by \cref{lem:monog-discrete-cospan}.
-        The second cospan corresponds to \(
-            \iltikzfig{graphs/isomorphism/construction-g}
-            :=
-            \bigtensor_{v \in \vertices{L}}
-            \iltikzfig{strings/traced/trace-id}
-            \tensor
-            \bigtensor_{e \in 0 \leq i \leq n}
-            \iltikzfig{graphs/isomorphism/label-e}
-            \tensor
-            \iltikzfig{strings/category/identity}[white][n]
-        \).
-        Putting this all together yields \(
-            h := \termtohypsigma[\iltikzfig{graphs/isomorphism/construction}]
-        \).
-        While there may be multiple orderings on the edges, the possible terms
-        are equal by sliding and the naturality of symmetry, so there is one
-        unique term \(
-            \iltikzfig{strings/category/f}[H][white]
-        \) that corresponds to cospan (\ref{gat:cospan}).
-
-        It is clear by definition that \(
-            \termtohypsigma[\iltikzfig{strings/category/f}[H][white]]
-        \) produces (\ref{gat:cospan}), which is isomorphic to the original
-        cospan \(\cospan{m}[f]{F}[g]{n}\), so it is in the image of
-        \(\termtohypsigma\).
+        \input{proofs/hypergraphs/termtohyp-image}
     \end{proof}
-}{}
+}{
+    \begin{proof}[Proof (Sketch)]
+        The \(\onlyifdir\) direction is by induction on the structure of the term.
+        For the \(\ifdir\) direction, a cospan isomorphic to the original
+        cospan can be constructed from which a term in \(\stmcsigma\) can be
+        read off.
+        Informally, this cospan is
+        \begin{gather}
+            \trace{}{
+                \cospan{x + m}{V}{x + n}
+                \seq
+                \cospan{x + n}{L + E + n}{x + n}
+            }
+        \end{gather}
+        where \(V\) is all the vertices in \(F\), \(L\) is the vertices with
+        degree \((0, 0)\) not in the image of the interfaces, and \(E\) is the
+        all the hyperedges in \(F\).
+        The morphisms then connect the components appropriately.
+        The first component corresponds to a term in \(\smc{}\) by
+        \cref{lem:symmetries-prop}, and the stack of edges to a tensor of
+        generators in \(\stmc{\Sigma}\).
+    \end{proof}
+}
 
-\noindent
 The final step is to show that \(\termtohypsigma\) is \emph{faithful}, i.e.\
-each unique term in \(\stmcsigma\) up to the equations of STMCs corresponds to a
-unique cospan of hypergraphs.
-First we show that any term in \(\stmcsigma\) not equal to a term in
-\(\smcsigma\) cannot correspond to a cospan in \(\macspdhyp\).
+no two terms \(\stmcsigma\) equal up to the equations of STMCs corresponds to
+the same cospan of hypergraphs.
+First we isolate the terms that actually contain traces:
 
 \begin{lemma}
     If \(\iltikzfig{strings/category/f}[H][white]\) is a term in \(
@@ -659,6 +662,9 @@ First we show that any term in \(\stmcsigma\) not equal to a term in
     The images of \(\smc{\Sigma}\) and \(\stmc{\Sigma} \setminus \smc{\Sigma}\)
     are disjoint under \(\termtohypsigma\).
 \end{corollary}
+
+Finally, we use a result from \cite{bonchi2022string} for the symmetric monoidal
+case to conclude a similar result about our traced case.
 
 \begin{corollary}[\cite{bonchi2022string}, Corollary 3.11]\label{cor:termtohyp-faithful-smc}
     \(\morph{\termtohypsigma}{\stmc{\Sigma}}{\pmcspfihyp}\) is faithful when the
@@ -732,6 +738,6 @@ First we show that any term in \(\stmcsigma\) not equal to a term in
     \(\termtohypsigma\) is faithful.
 \end{corollary}
 
-\begin{corollary}
+\begin{corollary}\label{cor:stmc-graph-iso}
     \(\stmc{\Sigma} \cong \pmcspfihyp\).
 \end{corollary}

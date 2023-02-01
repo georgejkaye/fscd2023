@@ -1,0 +1,72 @@
+To show that \(\termtohyp[f]{\Sigma}\) is partial monogamous for any
+\(f \in \smc{\Sigma}\) we use induction on the structure of \(f\).
+Generators, identities and symmetries are partial monogamous, as
+semi-monogamicity is preserved by composition, tensor and trace by
+\cref{lem:partial monogamous-ops}.
+So \(\termtohyp[f]{\Sigma}\) is partial monogamous.
+
+Now we show that any partial monogamous cospan \(
+    \cospan{m}[f]{F}[g]{n}
+\)
+must be in the image of \(\termtohyp{\Sigma}\).
+To do this, we will now construct a cospan that is isomorphic to
+\(\cospan{m}[f]{F}[g]{n}\), but from which it is possible to read off a
+unique term in \(\smc{\Sigma}\).
+The components of the new cospan are as follows:
+\begin{itemize}
+    \item let \(L\) be the hypergraph containing vertices with degree
+            \((0,0)\) that are not in the image of \(f\) or \(g\);
+    \item let \(E\) be the hypergraph containing hyperedges of \(F\) and
+            their source and target vertices, but disconnected;
+    \item let \(V\) be the discrete hypergraph containing all the
+            vertices of \(F\); and
+    \item let \(S\) and \(T\) be the discrete hypergraphs containing
+            the source and target vertices of hyperedges in \(F\)
+            respectively, with the ordering determined by some order
+            \(e_1,e_2,\cdots,e_n\) on the edges in \(F\).
+\end{itemize}
+
+\noindent
+These parts can be composed and a trace applied to obtain the follow
+cospan:
+\begin{gather}
+    \trace{T}{
+        \cospan{T + m}[\id + f]{V}[\id + g]{S + n}
+        \,\seq\,
+        \cospan{\emptyset + S + n}[\id]{L + E + n}[\id]{\emptyset + T + n}
+    }
+    \label{gat:cospan}
+\end{gather}
+
+\noindent
+This can be checked to be isomorphic to the original cospan
+\(\cospan{m}[f]{F}[g]{n}\) by applying the pushouts.
+From this we can read off a term in \(\smc{\Sigma}\):
+Since the first cospan is monogamous, it corresponds to a term \(
+    \iltikzfig{graphs/isomorphism/construction-f}
+\) by \cref{lem:monog-discrete-cospan}.
+The second cospan corresponds to \(
+    \iltikzfig{graphs/isomorphism/construction-g}
+    :=
+    \bigtensor_{v \in \vertices{L}}
+    \iltikzfig{strings/traced/trace-id}
+    \tensor
+    \bigtensor_{e \in 0 \leq i \leq n}
+    \iltikzfig{graphs/isomorphism/label-e}
+    \tensor
+    \iltikzfig{strings/category/identity}[white][n]
+\).
+Putting this all together yields \(
+    h := \termtohypsigma[\iltikzfig{graphs/isomorphism/construction}]
+\).
+While there may be multiple orderings on the edges, the possible terms
+are equal by sliding and the naturality of symmetry, so there is one
+unique term \(
+    \iltikzfig{strings/category/f}[H][white]
+\) that corresponds to cospan (\ref{gat:cospan}).
+
+It is clear by definition that \(
+    \termtohypsigma[\iltikzfig{strings/category/f}[H][white]]
+\) produces (\ref{gat:cospan}), which is isomorphic to the original
+cospan \(\cospan{m}[f]{F}[g]{n}\), so it is in the image of
+\(\termtohypsigma\).

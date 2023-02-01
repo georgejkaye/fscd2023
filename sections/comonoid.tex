@@ -45,8 +45,8 @@
 
 In addition to the trace, there is another element of structure we are
 interested in: the ability to \emph{copy} and \emph{discard} wires.
-This is known as a \emph{comonoid structure}: categories equipped with such a
-structure are also known as \emph{gs-monoidal}
+This is known as a \emph{(commutative) comonoid structure}: categories equipped
+with such a structure are also known as \emph{gs-monoidal}
 (\emph{garbage-sharing}) categories~\cite{fritz2022free}.
 
 \begin{definition}
@@ -63,12 +63,12 @@ structure are also known as \emph{gs-monoidal}
     using \eqref{eq:comonoid-commutativity} and \eqref{eq:comonoid-unitality-l}.
 \end{remark}
 
+From now on, we write `comonoid' to mean `commutative comonoid'.
 There has already been work into hypergraphs at the `halfway point' between
 symmetric monoidal and Frobenius terms: \cite{fritz2022free} examines a general
 construction for constructing free gs-categories as hypergraphs, and
 \cite{milosavljevic2022string} presensts results for rewriting with a
 commutative \emph{monoid} structure.
-
 However, both of these papers consider \emph{acyclic} hypergraphs: we must
 ensure that removing the acyclicity condition does not lead to any degeneracies.
 
@@ -79,28 +79,38 @@ ensure that removing the acyclicity condition does not lead to any degeneracies.
     \((0,m)\) or \((1,m)\) otherwise, for some \(m \in \nat\).
 \end{definition}
 
+\begin{remark}
+    As with the vertices not in the interfaces with degree \((0, 0)\) in the
+    vanilla traced case, the vertices not in the interface with degree
+    \((0, m)\) allow for terms such as \(
+        \trace{}{\iltikzfig{strings/structure/comonoid/copy}[white]}
+    \).
+\end{remark}
+
 \begin{lemma}
     Any partial monogamous cospan is also partial left-monogamous.
 \end{lemma}
 
-\begin{lemma}
-    \label{lem:trace-in-degree}
-    Given a partial left-monogamous cospan \(\cospan{x+m}[f+h]{K}[g+k]{x+n}\)
-    and its trace \(\cospan{m}[h \seq p]{pK}[k \seq p]{n}\), let vertices
-    \(v_0, v_1, \cdots, v_n\) such that each \(v_i\) is in the image of \(g\)
-    and \(p(v_0) = p(v_1) = \cdots = p(v_n)\).
-    Then, there exists at most one \(v_i\) with in-degree \(1\).
-\end{lemma}
-\iftoggle{proofs}{
-    \begin{proof}
-        Assume that there exist vertices \(g(i),g(j)\) with in-degree \(1\).
-        For \(p(g(i)) = p(g(j))\) to hold, then there must either exist a sequence
-        \(f(i) = g(i_0), f(i_0) = g(i_1), \cdots, f(i_n) = g(j)\), or vice versa.
-        But \(f(i_n) = g(j)\) must have in-degree \(0\) by partial left-monogamy, a
-        contradiction.
-        Therefore at most one \(v_i\) can have in-degree \(1\).
-    \end{proof}
-}{}
+\iftoggle{conf}{}{
+    \begin{lemma}
+        \label{lem:trace-in-degree}
+        Given a partial left-monogamous cospan \(\cospan{x+m}[f+h]{K}[g+k]{x+n}\)
+        and its trace \(\cospan{m}[h \seq p]{pK}[k \seq p]{n}\), let vertices
+        \(v_0, v_1, \cdots, v_n\) such that each \(v_i\) is in the image of \(g\)
+        and \(p(v_0) = p(v_1) = \cdots = p(v_n)\).
+        Then, there exists at most one \(v_i\) with in-degree \(1\).
+    \end{lemma}
+    \iftoggle{proofs}{
+        \begin{proof}
+            Assume that there exist vertices \(g(i),g(j)\) with in-degree \(1\).
+            For \(p(g(i)) = p(g(j))\) to hold, then there must either exist a sequence
+            \(f(i) = g(i_0), f(i_0) = g(i_1), \cdots, f(i_n) = g(j)\), or vice versa.
+            But \(f(i_n) = g(j)\) must have in-degree \(0\) by partial left-monogamy, a
+            contradiction.
+            Therefore at most one \(v_i\) can have in-degree \(1\).
+        \end{proof}
+    }{}
+}
 
 \begin{lemma}
     \label{lem:partial-monogamous-ops}
@@ -160,41 +170,58 @@ Therefore cospans of partial left-monogamous hypergraphs form a category, which
 we name \(\plmcspfihyp\).
 This category can be equipped with a comonoid structure.
 
-\begin{proposition}[\cite{lack2004composing}, Example 5.2]
-    \label{prop:ccomon-iso-finsetop}
-    \(\ccomon \cong \op{\finset}\).
-\end{proposition}
+\iftoggle{conf}{
+    \begin{definition}
+        Let \(\morph{\comonoidtohyp}{\smc{\ccomon}}{\cspdhyp}\) be the prop
+        morphism defined on generators as
+        \(
+            \comonoidtohyp[\iltikzfig{strings/structure/comonoid/copy}[white]]
+            :=
+            \cospan{1}{1}{2}
+        \) and \(
+            \comonoidtohyp[\iltikzfig{strings/structure/comonoid/discard}[white]]
+            :=
+            \cospan{1}{1}{0}
+        \).
+    \end{definition}
+}{
+    \begin{proposition}[\cite{lack2004composing}, Example 5.2]
+        \label{prop:ccomon-iso-finsetop}
+        \(\ccomon \cong \op{\finset}\).
+    \end{proposition}
 
-\noindent
-The following is a corollary of \cref{thm:cospan-homomorphism}.
+    \iftoggle{conf}{}{
+        The following is a corollary of \cref{thm:cospan-homomorphism}.
+    }
 
-\begin{corollary}
-    \label{cor:prop-homomorphism-finset}
-    There is a faithful prop homomorphism \(
-        \morph{\tilde{D}}{\csp{\op{\finset}}}{\csp[D]{\hypsigma}}
-    \).
-\end{corollary}
+    \begin{corollary}
+        \label{cor:prop-homomorphism-finset}
+        There is a faithful prop homomorphism \(
+            \morph{\tilde{D}}{\csp{\op{\finset}}}{\csp[D]{\hypsigma}}
+        \).
+    \end{corollary}
 
-\begin{definition}
-    Let \(\morph{\comonoidtohyp}{\ccomon}{\cspdhyp}\) be the homomorphism
-    obtained by composing the isomorphism of \cref{prop:ccomon-iso-finsetop}
-    with the homomorphism of \cref{cor:prop-homomorphism-finset}.
-    Concretely, it is defined on objects in the obvious way and on morphisms as
-    \(
-        \comonoidtohyp[\iltikzfig{strings/structure/comonoid/copy}[white]]
-        :=
-        \cospan{1}{1}{2}
-    \) and \(
-        \comonoidtohyp[\iltikzfig{strings/structure/comonoid/discard}[white]]
-        :=
-        \cospan{1}{1}{0}
-    \).
-\end{definition}
+    \begin{definition}
+        Let \(\morph{\comonoidtohyp}{\ccomon}{\cspdhyp}\) be the homomorphism
+        obtained by composing the isomorphism of \cref{prop:ccomon-iso-finsetop}
+        with the homomorphism of \cref{cor:prop-homomorphism-finset}.
+        Concretely, it is defined on objects in the obvious way and on morphisms as
+        \(
+            \comonoidtohyp[\iltikzfig{strings/structure/comonoid/copy}[white]]
+            :=
+            \cospan{1}{1}{2}
+        \) and \(
+            \comonoidtohyp[\iltikzfig{strings/structure/comonoid/discard}[white]]
+            :=
+            \cospan{1}{1}{0}
+        \).
+    \end{definition}
+}
 
 \begin{lemma}
     The image of \(\comonoidtohyp\) is in \(\plmcspdhyp\).
 \end{lemma}
-\iftoggle{conf}{
+\iftoggle{proofs}{
     \begin{proof}
         By definition.
     \end{proof}
@@ -205,9 +232,9 @@ The following is a corollary of \cref{thm:cospan-homomorphism}.
     defined as the copairing of \(\termtohypsigma\) and \(\comonoidtohyp\).
 \end{definition}
 
-\begin{lemma}
+\begin{lemma}\label{lem:ccomon-term}
     Given a left-monogamous cospan \(\cospan{m}[f]{m}[g]{n}\), there exists a
-    unique term \(\morph{h}{m}{n} \in \ccomon\) up to the axioms of SMCs such
+    unique term \(\morph{h}{m}{n} \in \smc{\ccomon}\) up to the axioms of SMCs such
     that \(\comonoidtohyp\) = \(\cospan{m}[f]{m}[g]{n}\).
 \end{lemma}
 \iftoggle{proofs}{
@@ -217,13 +244,15 @@ The following is a corollary of \cref{thm:cospan-homomorphism}.
 }{}
 
 \begin{theorem}
-    \(\stmcsigma + \ccomon \cong \plmcspfihyp\).
+    \(\stmcsigma + \smc{\ccomon} \cong \plmcspfihyp\).
 \end{theorem}
-\iftoggle{proofs}{
-    \begin{proof}
-        Since \(\termandfrobtohypsigma\) and \(\comonoidtohyp\) are faithful, it
-        suffices to show that every cospan \(\cospan{m}{F}{n} \in \plmcspfihyp\)
-        can be decomposed in such a way that each component is in the image of
-        either \(\termandfrobtohypsigma\) or \(\comonoidtohyp\).
-    \end{proof}
-}{}
+\begin{proof}
+    Since \(\termandfrobtohypsigma\) and \(\comonoidtohyp\) are faithful, it
+    suffices to show that every cospan \(\cospan{m}{F}{n} \in \plmcspfihyp\)
+    can be decomposed in such a way that each component is in the image of
+    either \(\termandfrobtohypsigma\) or \(\comonoidtohyp\).
+    This is achieved by taking the construction of \cref{thm:termtohyp-image}
+    and allowing the component made of symmetries and identities to also contain
+    the copy and discard generator: by \cref{lem:ccomon-term} a term in
+    \(\smc{\ccomon}\) can be retrieved from this.
+\end{proof}
