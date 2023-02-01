@@ -1,21 +1,76 @@
 % !TeX root = ../main-conf.tex
-\section{Comonoid structure}
+\section{Commutative comonoid structure}
 
-Digital circuits do not just have a traced structure, but moreover the ability
-to \emph{copy} and \emph{discard} wires: \(\scircsigmal\) has a
-\emph{comonoid structure}.
-Such categories are also known as \emph{gs-monoidal} (\emph{garbage-sharing})
-categories~\cite{fritz2022free}.
+\begin{figure}
+    \centering
+    \begin{minipage}{0.2\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{C1}\)}
+            \iltikzfig{strings/structure/comonoid/unitality-l-lhs}
+            =
+            \iltikzfig{strings/structure/comonoid/unitality-l-rhs}
+            \label{eq:comonoid-unitality-l}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.22\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{C2}\)}
+            \iltikzfig{strings/structure/comonoid/unitality-r-lhs}
+            =
+            \iltikzfig{strings/structure/comonoid/unitality-r-rhs}
+            \label{eq:comonoid-unitality-r}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.27\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{C3}\)}
+            \iltikzfig{strings/structure/comonoid/associativity-lhs}
+            =
+            \iltikzfig{strings/structure/comonoid/associativity-rhs}
+            \label{eq:comonoid-associativity}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.27\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{C4}\)}
+            \iltikzfig{strings/structure/comonoid/commutativity-lhs}
+            =
+            \iltikzfig{strings/structure/comonoid/commutativity-rhs}
+            \label{eq:comonoid-commutativity}
+        \end{equation}
+    \end{minipage}
+    \caption{Equations of \(\ccomon\).}
+    \label{fig:comonoid-equations}
+\end{figure}
 
-There has been recent work into hypergraphs at the `halfway point' between
+In addition to the trace, there is another element of structure we are
+interested in: the ability to \emph{copy} and \emph{discard} wires.
+This is known as a \emph{comonoid structure}: categories equipped with such a
+structure are also known as \emph{gs-monoidal}
+(\emph{garbage-sharing}) categories~\cite{fritz2022free}.
+
+\begin{definition}
+    Let \((\generators[\ccomon], \equations[\ccomon])\) be the symmetric
+    monoidal theory of \emph{commutative comonoids}, with \(\Sigma_\ccomon := \{
+        \iltikzfig{strings/structure/comonoid/copy}[white],
+        \iltikzfig{strings/structure/comonoid/discard}[white]
+    \}\) and \(\mce_\ccomon\) defined as the equations in
+    \cref{fig:comonoid-equations}.
+\end{definition}
+
+\begin{remark}
+    \eqref{eq:comonoid-unitality-r} is actually redundant and can be derived
+    using \eqref{eq:comonoid-commutativity} and \eqref{eq:comonoid-unitality-l}.
+\end{remark}
+
+There has already been work into hypergraphs at the `halfway point' between
 symmetric monoidal and Frobenius terms: \cite{fritz2022free} examines a general
-construction for constructing free gs-categories as hypergraphs, but does not
-continue as far as graph rewriting.
-Conversely, \cite{milosavljevic2022string} presensts results for rewriting with
-a \emph{monoid} structure: similar results can be extracted for a comonoid
-structure by flipping all the directions.
-Both of these papers consider \emph{acyclic} hypergraphs: we must ensure that
-removing the acyclicity condition does not lead to any degeneracies.
+construction for constructing free gs-categories as hypergraphs, and
+\cite{milosavljevic2022string} presensts results for rewriting with a
+commutative \emph{monoid} structure.
+
+However, both of these papers consider \emph{acyclic} hypergraphs: we must
+ensure that removing the acyclicity condition does not lead to any degeneracies.
 
 \begin{definition}[Partial left-monogamy]
     For a cospan \(\cospan{m}[f]{H}[g]{n}\), we say it is
@@ -104,12 +159,6 @@ removing the acyclicity condition does not lead to any degeneracies.
 Therefore cospans of partial left-monogamous hypergraphs form a category, which
 we name \(\plmcspfihyp\).
 This category can be equipped with a comonoid structure.
-Let \(\ccomon\) be the prop freely generated over signature \(
-    \{
-        \iltikzfig{strings/structure/comonoid/copy}[white],
-        \iltikzfig{strings/structure/comonoid/discard}[white]
-    \}
-\).
 
 \begin{proposition}[\cite{lack2004composing}, Example 5.2]
     \label{prop:ccomon-iso-finsetop}
@@ -127,7 +176,7 @@ The following is a corollary of \cref{thm:cospan-homomorphism}.
 \end{corollary}
 
 \begin{definition}
-    Let \(\morph{\comonoidtohyp}{\ccomon}{\cspfihyp}\) be the homomorphism
+    Let \(\morph{\comonoidtohyp}{\ccomon}{\cspdhyp}\) be the homomorphism
     obtained by composing the isomorphism of \cref{prop:ccomon-iso-finsetop}
     with the homomorphism of \cref{cor:prop-homomorphism-finset}.
     Concretely, it is defined on objects in the obvious way and on morphisms as
@@ -143,11 +192,13 @@ The following is a corollary of \cref{thm:cospan-homomorphism}.
 \end{definition}
 
 \begin{lemma}
-    The image of \(\comonoidtohyp\) is in \(\plmcspfihyp\).
+    The image of \(\comonoidtohyp\) is in \(\plmcspdhyp\).
 \end{lemma}
-\begin{proof}
-    By definition.
-\end{proof}
+\iftoggle{conf}{
+    \begin{proof}
+        By definition.
+    \end{proof}
+}{}
 
 \begin{definition}
     Let \(\morph{\termandfrobtohypsigma}{\stmcsigma + \ccomon}{\plmcspfihyp}\) be
