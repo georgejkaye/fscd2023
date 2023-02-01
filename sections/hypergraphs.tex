@@ -1,6 +1,34 @@
 % !TeX root = ../main-conf.tex
 \section{Hypergraphs}
 
+\begin{definition}[Symmetric monoidal theory]
+    A \emph{(single-sorted) symmetric monoidal theory} (SMT) is a tuple \(
+        (\generators,\equations)
+    \) where \(\generators\) is a set of \emph{generators} and \(\equations\)
+    is a set of \(\equations\).
+    Given a SMT \((\generators,\equations)\), let \(
+        \smc{\generators,\equations}
+    \) be the symmetric monoidal category freely generated over \(\generators\)
+    and quotiented by the equations in \(\equations\).
+\end{definition}
+
+Although one can reason with \(\smc{\generators, \equations}\) using terms, it
+is far more intuitive to reason with \emph{string diagrams}, which represent
+\emph{equivalence classes} of terms up to the axioms of symmetric monoidal
+categories.
+In the language of string diagrams, a generator \(\morph{\phi}{X}{Y}\) is drawn
+as a box \(
+    \iltikzfig{strings/category/f}[\phi][white][X][Y]
+\), identities as \(
+    \iltikzfig{strings/category/identity}[white][X]
+\), symmetries as \(
+    \iltikzfig{strings/symmetric/symmetry}[white][X][Y]
+\), (diagrammatic order) composition \(f \seq g\) as horizontal juxtaposition \(
+    \iltikzfig{strings/category/composition}[f][g][white][X][Y][Z]
+\) and tensor \(f \tensor g\) as vertical juxtaposition \(
+    \iltikzfig{strings/monoidal/tensor}[f][g][white][X][Y][Z][W]
+\).
+
 While reasoning equationally using string diagrams is certainly attractive
 as a pen-and-paper method, circuits can contain thousands of components and it
 would quickly become intractible to do this by hand.
@@ -26,7 +54,21 @@ a set of hyperedges with \(k\) sources and \(l\) targets,
 Given a hypergraph \(H \in \hyp\), we write \(\vertices{H}\) for its set of
 vertices and \(\edges{H}{k}{l}\) for the set of edges with \(k\) sources and
 \(l\) targets.
-A hypergraph can also be \emph{labelled}.
+
+A hypergraph morphism \(\morph{f}{F}{G} \in \hyp\) consists of functions
+\(\vertices{f}\) and \(\edges{f}{k}{l}\) for each \(k,l \in \nat\) preserving
+sources and targets in the obvious way.
+Using hypergraph morphisms, a hypergraph can be \emph{labelled}.
+
+\begin{definition}[Slice category]
+    For a category \(\mathbf{C}\) and an object \(C \in \mathbf{C}\), the
+    \emph{slice category} \(\mathbb{C} / C\) is the category with objects the
+    morphisms of \(\mathbf{C}\) with target \(C\), and morphisms \(
+        (\morph{f}{X}{C}) \to (\morph{f^\prime}{X^\prime}{C})
+    \) are the morphisms \(\morph{g}{X}{X^\prime} \in \mathbf{C}\) such that
+    \(f^\prime \circ g = f\).
+\end{definition}
+
 
 \begin{definition}[Hypergraph signature~\cite{bonchi2022string}]
     For a given monoidal signature \(\signature\), its corresponding
