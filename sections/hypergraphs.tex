@@ -135,31 +135,45 @@ These can be provided using \emph{cospans}.
     unit the initial object \(0 \in \mcc\).
 \end{definition}
 
+The interfaces of a hypergraph are then specified using morphisms to `pick'
+the input and output vertices.
+
 \begin{definition}[Discrete hypergraph]
     A hypergraph is called \emph{discrete} if it has no edges.
 \end{definition}
 
-\noindent
 A discrete hypergraph \(H\) with \(|\vertices{H}| = n\) is often written as
 \(n\) when clear from context.
-Discrete hypergraphs are used as the `legs' of a cospan to select the inputs and
-outputs of hypergraphs.
-There still needs to be a notion of \emph{ordering} on the interfaces, which is
-obtained using a functor from \(\finset\), the prop of finite sets and
-functions.
-
-\begin{theorem}[\cite{bonchi2022string}, Thm. 3.8]
-    \label{thm:cospan-homomorphism}
-    Let \(\mathbb{X}\) be a prop whose monoidal product is a coproduct, \(\mcc\)
-    a category with finite colimits, and \(\morph{F}{\mathbb{X}}{\mcc}\) a
-    coproduct-preserving functor.
-    Then there is a homomorphism of props \(
-        \morph{\tilde{F}}{\csp{\mathbb{X}}}{\csp[F]{\mcc}}
-    \) that sends \(\cospan{m}[f]{X}[g]{n}\) to \(\cospan{Fm}[Ff]{FX}[Fg]{Fn}\).
-    If \(F\) is full and faithful, then \(\tilde{F}\) is faithful.
-\end{theorem}
+Finally, a notion of \emph{ordering} must be placed on the interfaces.
 
 \begin{definition}
+    Let \(\finset\) be the prop with morphisms \(m \to n\) the functions
+    between finite sets \([m] \to [n]\).
+\end{definition}
+
+\begin{theorem}[\cite{bonchi2022string}, Thm. 3.6]
+    Let \(\mathbb{X}\) be a prop whose monoidal product is a coproduct,
+    \(\mathbf{C}\) a category with finite colimits, and \(
+        \morph{F}{\mathbb{X}}{\mathbf{C}}
+    \) a coproduct-preserving functor.
+    Then there exists a prop \(\csp[F]{\mathbf{C}}\) whose arrows \(m \to n\)
+    are isomorphism classes of \(\mathbf{C}\) cospans \(\cospan{Fm}{C}{Fn}\).
+\end{theorem}
+
+\iftoggle{conf}{}{
+    \begin{theorem}[\cite{bonchi2022string}, Thm. 3.8]
+        \label{thm:cospan-homomorphism}
+        Let \(\mathbb{X}\) be a prop whose monoidal product is a coproduct, \(\mcc\)
+        a category with finite colimits, and \(\morph{F}{\mathbb{X}}{\mcc}\) a
+        coproduct-preserving functor.
+        Then there is a homomorphism of props \(
+            \morph{\tilde{F}}{\csp{\mathbb{X}}}{\csp[F]{\mcc}}
+        \) that sends \(\cospan{m}[f]{X}[g]{n}\) to \(\cospan{Fm}[Ff]{FX}[Fg]{Fn}\).
+        If \(F\) is full and faithful, then \(\tilde{F}\) is faithful.
+    \end{theorem}
+}
+
+\begin{definition}[\cite{bonchi2022string}]
     Let \(\morph{D}{\finset}{\hypsigma}\) be the faithful, coproduct-preserving
     functor that sends each object \(m \in \finset\) to the discrete hypergraph
     \(m \in \hypsigma\) and each morphism to the induced homomorphism of
@@ -171,7 +185,7 @@ From this we define the category \(\cspdhyp\) with objects
 \emph{discrete cospans of hypergraphs}.
 Since the legs of each cospan are discrete hypergraphs containing some number of
 vertices, the objects of this category can be viewed as natural numbers, making
-this a prop.
+this another prop.
 
 \subsection{Adding a trace}
 
@@ -185,7 +199,7 @@ contains a great deal of useful structure.
     object \(X\) is equipped with a Frobenius structure.
 \end{definition}
 
-\begin{proposition}
+\begin{proposition}\label{prop:hypergraph-category}
     \(\cspdhyp\) is a hypergraph category.
 \end{proposition}
 \begin{proof}
@@ -207,7 +221,9 @@ contains a great deal of useful structure.
         :=
         \cospan{m}{m}{0}
     \end{gather*}
-    It is a simple exercise to check the axioms are satisfied.
+    \iftoggle{conf}{}{
+        It is a simple exercise to check the axioms are satisfied.
+    }
 \end{proof}
 
 \begin{corollary}[\cite{carboni1987cartesian}]
@@ -230,6 +246,7 @@ coalesce the \(i\)th elements of the image of \(f\) and \(g\).
         \iltikzfig{graphs/trace/after-trace}
     \)
 \end{center}
+
 This is defined formally using a pushout, in a similar vein
 to~\cite{dixon2013opengraphs}.
 
@@ -259,23 +276,31 @@ to~\cite{dixon2013opengraphs}.
 \subsection{Monogamy}
 
 In~\cite{bonchi2016rewriting}, it is shown that terms in a (non-traced)
-symmetric monoidal category are interpreted as monogamous acyclic graphs, in
-which each vertex has an `in' connection and an 'out' connection, be it to an
-edge or the interface.
-Clearly, to model trace we must drop the acyclicity condition.
-However, we must also tweak the monogamicity condition.
-This stems from considering the trace of the identity, which is defined as
-\(
+symmetric monoidal category are interpreted as a certain sub-prop of
+\(\cspdhyp\), in which all hypergraphs are \emph{acyclic}.
+Clearly, to model trace this condition must be dropped.
+
+However, there is also another condition known as \emph{monogamy}: informally,
+this means that every vertex has exactly one `in' and `out' connection, be it to
+an edge or an interface.
+
+For the most part, this condition also applies to the traced case: wires cannot
+arbitrarily fork and join.
+There is one nuance: the trace of the identity.
+This is depicted as a cloed loop \(
     \trace{1}{\iltikzfig{strings/category/identity}[white]}
     =
     \iltikzfig{strings/traced/trace-id}
+\), and one might think that it can be discarded, i.e. \(
+    \iltikzfig{strings/traced/trace-id}
+    =
+    \iltikzfig{strings/monoidal/empty}
 \).
-One might think that such a closed loop can be discarded.
-However, this is not always the case, such as the category of finite dimensional
-vector spaces~\cite[Sec. 6.1]{hasegawa1997recursion}.
-This means that closed loops must be represented in the hypergraph framework:
-fortunately, there is a natural representation of such a loop as a lone vertex
-disconnected from either interface.
+This is \emph{not} always the case, such as in the category of finite
+dimensional vector spaces~\cite[Sec. 6.1]{hasegawa1997recursion}.
+Closed loops must therefore be represented in the hypergraph framework:
+there is a natural representation of such a loop as a lone vertex disconnected
+from either interface.
 
 \begin{definition}
     For a hypergraph \(H \in \hyp\), the \emph{degree} of a vertex
@@ -316,36 +341,38 @@ disconnected from either interface.
     \end{center}
 \end{definition}
 
-\begin{lemma}\label{lem:trace-degree}
-    Given a cospan \(\cospan{x+m}[f+h]{F}[g+k]{x+n}\), and its corresponding
-    traced cospan \(\cospan{m}[g \seq p]{F^\prime}[h \seq p]{n}\).
-    For \(i < x\), let \((k_1,l_1)\) be the degree of \(f(i)\) and \((k_2,l_2)\)
-    be the degree of \(g(i)\).
-    Then, the degree of \(p(f(i)) = p(h(i))\) is \((k_1 + k_2, l_1 + l_2)\).
-\end{lemma}
-\iftoggle{proofs}{
-    \begin{proof}
-        \(p(f(i))\) and \(p(g(i))\) are coalesced by the pushout.
-        The pushout cannot coalesce the edges in \(H\) as \(x\) contains no
-        edges,
-        so the degree of \(f(i)\) and \(h(i)\) must be preserved.
-    \end{proof}
-}{}
+\iftoggle{conf}{}{
+    \begin{lemma}\label{lem:trace-degree}
+        Given a cospan \(\cospan{x+m}[f+h]{F}[g+k]{x+n}\), and its corresponding
+        traced cospan \(\cospan{m}[g \seq p]{F^\prime}[h \seq p]{n}\).
+        For \(i < x\), let \((k_1,l_1)\) be the degree of \(f(i)\) and \((k_2,l_2)\)
+        be the degree of \(g(i)\).
+        Then, the degree of \(p(f(i)) = p(h(i))\) is \((k_1 + k_2, l_1 + l_2)\).
+    \end{lemma}
+    \iftoggle{proofs}{
+        \begin{proof}
+            \(p(f(i))\) and \(p(g(i))\) are coalesced by the pushout.
+            The pushout cannot coalesce the edges in \(H\) as \(x\) contains no
+            edges,
+            so the degree of \(f(i)\) and \(h(i)\) must be preserved.
+        \end{proof}
+    }{}
 
-\begin{lemma}\label{lem:trace-interface}
-    Given a partial monogamous cospan \(\cospan{x+m}[f+h]{F}[g+k]{x+n}\) and its
-    trace \(\cospan{m}[h \seq p]{F^\prime}[k \seq p]{n},\) any vertex in the
-    image of \(f\) is not in the image of \(h \seq p\), and similarly any vertex
-    in the image of \(g\) is not in the image of \(k \seq p\).
-\end{lemma}
-\iftoggle{proofs}{
-    \begin{proof}
-        Since this is a partial monogamous cospan, the images of \(f\) and \(h\)
-        are disjoint, as are the images of \(g\) and \(k\).
-        Therefore, \(f(v)\) is not in the image of \(h\), so it cannot be in the
-        image of \(h \seq p\), and similarly for \(g(v)\) and \(k\).
-    \end{proof}
-}{}
+    \begin{lemma}\label{lem:trace-interface}
+        Given a partial monogamous cospan \(\cospan{x+m}[f+h]{F}[g+k]{x+n}\) and its
+        trace \(\cospan{m}[h \seq p]{F^\prime}[k \seq p]{n},\) any vertex in the
+        image of \(f\) is not in the image of \(h \seq p\), and similarly any vertex
+        in the image of \(g\) is not in the image of \(k \seq p\).
+    \end{lemma}
+    \iftoggle{proofs}{
+        \begin{proof}
+            Since this is a partial monogamous cospan, the images of \(f\) and \(h\)
+            are disjoint, as are the images of \(g\) and \(k\).
+            Therefore, \(f(v)\) is not in the image of \(h\), so it cannot be in the
+            image of \(h \seq p\), and similarly for \(g(v)\) and \(k\).
+        \end{proof}
+    }{}
+}
 
 \begin{lemma}~\label{lem:partial monogamous-ops}
     Let \(\cospan{m}{F}{n}\), \(\cospan{n}{G}{p}\), \(\cospan{p}{H}{q}\) and
