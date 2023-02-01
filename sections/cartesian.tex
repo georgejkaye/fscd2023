@@ -1,26 +1,45 @@
 % !TeX root = ../main-conf.tex
-\section{Cartesian structure}
+\section{Case studies}
+
+\subsection{Cartesian structure}
 
 One important class of categories with a traced comonoid structure are
 \emph{traced Cartesian categories}~\cite{cazanescu1990new,hasegawa1997recursion}.
 These categories are particularly interesting because any traced Cartesian
 category admits a fixpoint operator~\cite[Thm. 3.1]{hasegawa1997recursion}.
 
-\begin{definition}[Cartesian category]
+\begin{definition}[Cartesian category~\cite{fox1976coalgebras}]
     A monoidal category is \emph{Cartesian} if its tensor is given by the
     Cartesian product.
 \end{definition}
 
+As a result of this, the unit is a terminal object in any Cartesian category.
+Any Cartesian category is equipped with a diagonal \(
+    \iltikzfig{strings/structure/comonoid/copy}[white][X]
+\) and discard \(
+    \iltikzfig{strings/structure/comonoid/discard}[white][X]
+\) for any object \(X\).
+
+
 Given a base category \(\mathcal{C}\) with a comonoid structure, the monoidal
-theory \(\mathbf{Cart}_\mathcal{C}\) is shown in \cref{fig:cartesian-equations}.
-Rather than two concrete equations, this actually specifies two \emph{families}
-of equations over any morphism \(\iltikzfig{strings/category/f}[F][white][m][n]\)
-in \(\mathcal{C}\).
-When implemented as DPO rewrite rules, a separate concrete rule is required for
-every combination of generators.
-Future work could use the \emph{hierarchical hypergraphs}
-of~\cite{alvarez-picallo2022rewriting} to express the complete families of rules
-in terms of two rewrite rules, as with the equational representation.
+theory \(\mathbf{Cart}_\mathcal{C}\) is shown in \cref{fig:cartesian-equations},
+along with their interpretations as rewrite rules for a given generator.
+
+\begin{remark}
+    Note that rather than two concrete equations, this actually specifies two
+    \emph{families} of equations for any morphism \(
+        \iltikzfig{strings/category/f}[F][white][m][n]
+    \) in \(\mathcal{C}\).
+    This means that when interpreted as DPO rewrite rules, as separate rule is
+    required for every combination of generators.
+    Even if one imagines the edge as `syntax sugar' for a subgraph, there are
+    still nuances to consider:
+    One possible solution would be to use the \emph{hierarchical hypergraphs}
+    of~\cite{alvarez-picallo2022rewriting} to replace the concrete generator edge
+    with a single edge representing an arbitrary subgraph, but this remains as
+    future work.
+\end{remark}
+
 
 \begin{figure}
     \centering
@@ -53,8 +72,8 @@ in terms of two rewrite rules, as with the equational representation.
     \caption{
         Equations of the monoidal theory \(\mathbf{Cart}_\mathcal{C}\),
         where \(\iltikzfig{strings/category/f}[F][white][m][n]\) is an arbitrary
-        morphism in \(\mathcal{C}\), and the concrete interpretations of
-        these rules for a generator \(e\).
+        morphism in \(\mathcal{C}\), and the interpretations of these equations
+        as rewrite rules for an arbitrary generator \(e\).
     }
     \label{fig:cartesian-equations}
 \end{figure}
