@@ -44,6 +44,22 @@ tensor product.
 In a prop, a morphism \(m \to n\) can be drawn as a box with \(m\) input wires
 and \(n\) output wires.
 
+\begin{example}\label{ex:frobenius}
+    The symmetric monoidal theory of
+    \emph{special commutative Frobenius algebras} is defined as \(
+        (\generators[\frob], \equations[\frob])
+    \) where \(
+        \generators[\frob] := \{
+            \iltikzfig{strings/structure/monoid/merge}[white],
+            \iltikzfig{strings/structure/monoid/init}[white]
+            \iltikzfig{strings/structure/comonoid/copy}[white],
+            \iltikzfig{strings/structure/comonoid/discard}[white]
+        \}
+    \) and the equations of \(\equations[\frob]\) are listed in
+    \cref{app:equations}, \cref{fig:frobenius-equations}.
+    We write \(\frob := \smc{\generators[\frob], \equations[\frob]}\).
+\end{example}
+
 Reasoning equationally using string diagrams is certainly attractive
 as a pen-and-paper method, but for larger systems it quickly becomes intractible
 to do this by hand.

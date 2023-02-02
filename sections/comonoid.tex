@@ -56,18 +56,8 @@ with such a structure are also known as \emph{gs-monoidal}
         \iltikzfig{strings/structure/comonoid/discard}[white]
     \}\) and \(\mce_\ccomon\) defined as the equations in
     \cref{fig:comonoid-equations}.
+    We write \(\ccomon := \smc{\generators[\ccomon], \equations[\ccomon]}\).
 \end{definition}
-
-\begin{remark}
-    \eqref{eq:comonoid-unitality-r} is actually redundant and can be derived
-    using \eqref{eq:comonoid-commutativity} and \eqref{eq:comonoid-unitality-l}.
-\end{remark}
-
-\begin{remark}
-    While \(\generators[\ccomon]\) contains only the copy and discard for
-    wires of width \(1\), corresponding generators for `thicker' wires can be
-    constructed in the obvious way by combining the thinner versions together.
-\end{remark}
 
 From now on, we write `comonoid' to mean `commutative comonoid'.
 There has already been work into hypergraphs at the `halfway point' between
@@ -94,7 +84,7 @@ ensure that removing the acyclicity condition does not lead to any degeneracies.
 \end{remark}
 
 \begin{lemma}
-    Any partial monogamous cospan is also partial left-monogamous.
+    \(\pmcspdhyp\) is a sub-prop of \(\plmcspdhyp\).
 \end{lemma}
 
 \iftoggle{conf}{}{
@@ -178,17 +168,9 @@ This category can be equipped with a comonoid structure.
 
 \iftoggle{conf}{
     \begin{definition}
-        Let \(\morph{\comonoidtohyp}{\smc{\ccomon}}{\cspdhyp}\) be the prop
-        morphism defined on generators as
-        \(
-            \comonoidtohyp[\iltikzfig{strings/structure/comonoid/copy}[white]]
-            :=
-            \cospan{1}{1}{2}
-        \) and \(
-            \comonoidtohyp[\iltikzfig{strings/structure/comonoid/discard}[white]]
-            :=
-            \cospan{1}{1}{0}
-        \).
+        Let \(\morph{\comonoidtohyp{\Sigma}}{\ccomon}{\cspdhyp}\) be the
+        restriction of \(\frobtohyp{\Sigma}\) from \cref{def:hyp-morphisms} to the
+        generators in \(\generators[\ccomon]\).
     \end{definition}
 }{
     \begin{proposition}[\cite{lack2004composing}, Example 5.2]
@@ -208,7 +190,7 @@ This category can be equipped with a comonoid structure.
     \end{corollary}
 
     \begin{definition}
-        Let \(\morph{\comonoidtohyp}{\ccomon}{\cspdhyp}\) be the homomorphism
+        Let \(\morph{\comonoidtohyp{\Sigma}}{\ccomon}{\cspdhyp}\) be the homomorphism
         obtained by composing the isomorphism of \cref{prop:ccomon-iso-finsetop}
         with the homomorphism of \cref{cor:prop-homomorphism-finset}.
         Concretely, it is defined on objects in the obvious way and on morphisms as
@@ -225,7 +207,7 @@ This category can be equipped with a comonoid structure.
 }
 
 \begin{lemma}
-    The image of \(\comonoidtohyp\) is in \(\plmcspdhyp\).
+    The image of \(\comonoidtohyp{\Sigma}\) is in \(\plmcspdhyp\).
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
@@ -235,13 +217,13 @@ This category can be equipped with a comonoid structure.
 
 \begin{definition}
     Let \(\morph{\termandfrobtohypsigma}{\stmcsigma + \ccomon}{\plmcspfihyp}\) be
-    defined as the copairing of \(\termtohypsigma\) and \(\comonoidtohyp\).
+    defined as the copairing of \(\tracedtosymandfrob\) and \(\comonoidtohyp{\Sigma}\).
 \end{definition}
 
 \begin{lemma}\label{lem:ccomon-term}
     Given a left-monogamous cospan \(\cospan{m}[f]{m}[g]{n}\), there exists a
-    unique term \(\morph{h}{m}{n} \in \smc{\ccomon}\) up to the axioms of SMCs such
-    that \(\comonoidtohyp\) = \(\cospan{m}[f]{m}[g]{n}\).
+    unique term \(\morph{h}{m}{n} \in \ccomon\) up to the axioms of SMCs such
+    that \(\comonoidtohyp{\Sigma}\) = \(\cospan{m}[f]{m}[g]{n}\).
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
@@ -250,15 +232,15 @@ This category can be equipped with a comonoid structure.
 }{}
 
 \begin{theorem}
-    \(\stmcsigma + \smc{\ccomon} \cong \plmcspfihyp\).
+    \(\stmcsigma + \ccomon \cong \plmcspfihyp\).
 \end{theorem}
 \begin{proof}
-    Since \(\termandfrobtohypsigma\) and \(\comonoidtohyp\) are faithful, it
-    suffices to show that every cospan \(\cospan{m}{F}{n} \in \plmcspfihyp\)
+    Since \(\termandfrobtohypsigma\) and \(\comonoidtohyp{\Sigma}\) are faithful,
+    it suffices to show that every cospan \(\cospan{m}{F}{n} \in \plmcspfihyp\)
     can be decomposed in such a way that each component is in the image of
-    either \(\termandfrobtohypsigma\) or \(\comonoidtohyp\).
+    either \(\termandfrobtohypsigma\) or \(\comonoidtohyp{\Sigma}\).
     This is achieved by taking the construction of \cref{thm:termtohyp-image}
     and allowing the component made of symmetries and identities to also contain
     the copy and discard generator: by \cref{lem:ccomon-term} a term in
-    \(\smc{\ccomon}\) can be retrieved from this.
+    \(\ccomon\) can be retrieved from this.
 \end{proof}

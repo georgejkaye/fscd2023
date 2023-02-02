@@ -3,7 +3,7 @@
 
 We wish to use the hypergraph framework for a setting with a \emph{trace}.
 
-\begin{definition}[\cite{joyal1996traced,hasegawa2009traced}]
+\begin{definition}[Symmetric tracd monoidal category \cite{joyal1996traced,hasegawa2009traced}]
     A \emph{symmetric traced monoidal category} (STMC) is a symmetric monoidal
     category \(\mathbf{C}\) equipped with functions \(
         \morph{
@@ -28,108 +28,110 @@ inputs of a circuit to its outputs.
     \)
 \end{center}
 
-The category of interfaced hypergraphs we have just defined already
-contains the structure necessary to define a trace.
+Traced monoidal categories are not the only kind of category in which wires can
+`bend'.
 
-\iftoggle{conf}{}{
-    \begin{definition}[Hypergraph category \cite{fong2019hypergraph}]
-        A \emph{hypergraph category} is a symmetric monoidal category in which each
-        object \(X\) is equipped with a Frobenius structure.
-    \end{definition}
-
-    \begin{proposition}\label{prop:frobenius-map}
-        \(\cspdhyp\) is a hypergraph category.
-    \end{proposition}
-    \begin{proof}
-        The Frobenius structure is defined as follows:
-        \begin{gather*}
-            \iltikzfig{strings/structure/monoid/merge}[white]
-            :=
-            \cospan{m + m}{m}{m}
-            \quad
-            \iltikzfig{strings/structure/monoid/init}[white]
-            :=
-            \cospan{0}{m}{m}
-            \\
-            \iltikzfig{strings/structure/comonoid/copy}[white]
-            :=
-            \cospan{m}{m}{m+m}
-            \quad
-            \iltikzfig{strings/structure/comonoid/discard}[white]
-            :=
-            \cospan{m}{m}{0}
-        \end{gather*}
-    \end{proof}
-    \begin{corollary}[\cite{bonchi2022string}]
-        \(\cspdhyp\) is compact closed.
-    \end{corollary}
-}{
-    \begin{proposition}[\cite{carboni1987cartesian,bonchi2022string}]\label{prop:frobenius-map}
-        \(\cspdhyp\) is compact closed.
-    \end{proposition}
-    \begin{proof}
-        A Frobenius structure can be defined on \(\cspdhyp\) as follows:
-        \begin{gather*}
-            \iltikzfig{strings/structure/monoid/merge}[white]
-            :=
-            \cospan{m + m}{m}{m}
-            \quad
-            \iltikzfig{strings/structure/monoid/init}[white]
-            :=
-            \cospan{0}{m}{m}
-            \\
-            \iltikzfig{strings/structure/comonoid/copy}[white]
-            :=
-            \cospan{m}{m}{m+m}
-            \quad
-            \iltikzfig{strings/structure/comonoid/discard}[white]
-            :=
-            \cospan{m}{m}{0}
-        \end{gather*}
-        Then a cup can be constructed as \(
-            \iltikzfig{strings/structure/monoid/init}[white]
-            \seq
-            \iltikzfig{strings/structure/comonoid/copy}[white]
-        \) and a cap as \(
-            \iltikzfig{strings/structure/comonoid/discard}[white]
-            \seq
-            \iltikzfig{strings/structure/monoid/merge}[white]
-        \).
-    \end{proof}
-}
-
-It is well known that every compact closed category is equipped with a
-\emph{canonical trace}~\cite{joyal1996traced}, constructed by combining the cup,
-cap and an identity, so \(\cspfihyp\) is already traced.
-
-\begin{definition}[Canonical trace]
-    Given a cospan \(\cospan{x+m}{F}{x+n} \in \cspdhyp\), its trace on \(x\) is
-    defined as \[
-        \begin{array}{cc}
-            \cospan{0}{x}{x} \seq \cospan{x}{x}{x+x} \\
-            \tensor \\
-            \cospan{m}{m}{m}
-        \end{array}
-        \seq
-        \begin{array}{cc}
-            \cospan{x}{x}{x} \\
-            \tensor \\
-            \cospan{x+m}{F}{x+n}
-        \end{array}
-        \seq
-        \begin{array}{cc}
-            \cospan{x+x}{x}{x} \seq \cospan{x}{x}{0} \\
-            \tensor \\
-            \cospan{n}{n}{n}
-        \end{array}.
-    \]
+\begin{definition}[Compact closed category]
+    A \emph{compact closed category} (CCC) is a symmetric monoidal category in
+    which every object \(X\) has a \emph{dual} \(\dual{X}\) equipped with
+    morphisms called the \emph{unit} \(
+        \iltikzfig{strings/compact-closed/cup}[white][\dual{X}][X]
+    \) and the \emph{counit} \(
+        \iltikzfig{strings/compact-closed/cap}[white][X][\dual{X}]
+    \) satisfying the equations of CCCs listed in \cref{app:equations},
+    \cref{fig:ccc-axioms}.
 \end{definition}
 
-However, we must be cautious as there are terms in a compact closed category
-which are not valid traced terms, such as those where outputs of generators are
-connected to outputs.
-In the next section we will confirm that computing the trace in this way does
-not lead to any degeneracies.
+Dual objects are conventionally drawn as wires flowing the `other way', but in
+this paper all compact closed categories will be \emph{self-dual} so there will
+no distinction between them.
+
+\begin{proposition}[Canonical trace (\cite{joyal1996traced}, Prop. 3.1)]
+    \label{prop:canonical-trace}
+    Any compact closed category has a trace called the \emph{canonical trace} \(
+        \trace{X}[A][B]{\iltikzfig{strings/category/f-2-2}[f][white][X][A][X][B]}
+    \) defined for the self-dual case as \[
+        \iltikzfig{strings/compact-closed/cup}[white][X][X]
+        \tensor
+        \iltikzfig{strings/category/identity}[white][A]
+        \seq
+        \iltikzfig{strings/category/identity}[white][X]
+        \tensor
+        \iltikzfig{strings/category/f-2-2}[f][white][X][A][X][B]
+        \seq
+        \iltikzfig{strings/compact-closed/cap}[white][X][X]
+        \tensor
+        \iltikzfig{strings/category/identity}[white][B].
+    \]
+\end{proposition}
+
+The category of interfaced hypergraphs as defined in the previous section
+already contains the structure necessary to define a trace.
+
+\begin{definition}[Hypergraph category \cite{fong2019hypergraph}]
+    A \emph{hypergraph category} is a symmetric monoidal category in which
+    each object \(X\) has a special commutative Frobenius structure in the sense
+    of \cref{ex:frobenius}.
+\end{definition}
+
+\begin{proposition}[\cite{rosebrugh2005generic}]
+    Any hypergraph category is self-dual compact closed.
+\end{proposition}
+\begin{proof}
+    The cup is constructed as \(
+        \iltikzfig{strings/structure/monoid/init}[white]
+        \seq
+        \iltikzfig{strings/structure/comonoid/copy}[white]
+    \) and the cap as \(
+        \iltikzfig{strings/structure/monoid/merge}[white]
+        \seq
+        \iltikzfig{strings/structure/comonoid/discard}[white]
+    \).
+\end{proof}
+
+A generic `hypergraph category' should not be confused with the
+category of hypergraphs \(\hyp\), which is not itself a hypergraph category.
+However, the category of \emph{cospans} of hypergraphs is such a category.
+
+\begin{proposition}[\cite{carboni1987cartesian,bonchi2022string}]\label{prop:frobenius-map}
+    \(\cspdhyp\) is a hypergraph category.
+\end{proposition}
+\begin{proof}
+    A Frobenius structure can be defined on \(\cspdhyp\) for each \(m \in \nat\)
+    as follows:
+    \begin{gather*}
+        \iltikzfig{strings/structure/monoid/merge}[white]
+        :=
+        \cospan{m + m}{m}{m}
+        \quad
+        \iltikzfig{strings/structure/monoid/init}[white]
+        :=
+        \cospan{0}{m}{m}
+        \\
+        \iltikzfig{strings/structure/comonoid/copy}[white]
+        :=
+        \cospan{m}{m}{m+m}
+        \quad
+        \iltikzfig{strings/structure/comonoid/discard}[white]
+        :=
+        \cospan{m}{m}{0}
+        \qedhere
+    \end{gather*}
+\end{proof}
+
+\begin{corollary}
+    \(\cspdhyp\) is compact closed.
+\end{corollary}
+
+\begin{corollary}
+    \(\cspdhyp\) has a trace.
+\end{corollary}
+
+Even though \(\cspdhyp\) has a trace, we must be cautious as there are terms in
+a CCC which are not valid traced terms, such as those where
+outputs of generators are connected to outputs.
+In the next section we will confirm that, when restricting the type of
+hypergraphs we use, using the canonical trace does not lead to degeneracies.
 
 \subsection{Monogamy}
 
@@ -312,7 +314,7 @@ former.
 Moreover, since \(\pmcspdhyp\) is a sub-prop of \(\cspdhyp\), we can simply
 use the construction for the Frobenius case.
 
-\begin{definition}[\cite{bonchi2022string}]
+\begin{definition}[\cite{bonchi2022string}]\label{def:hyp-morphisms}
     Let \(\morph{\termtohyp{\Sigma}^\mathbf{S}}{\smc{\Sigma}}{\cspdhyp}\) be a prop
     morphism defined on the generators of \(\Sigma\) as shown in
     \cref{fig:termtohyp}.
@@ -333,11 +335,11 @@ use the construction for the Frobenius case.
         \caption{Definition of \(\termtohyp{\Sigma}\) on generators in \(\smc{\Sigma}\).}
         \label{fig:termtohyp}
     \end{figure}
-
     Let \(\morph{\frobtohyp{\Sigma}}{\frob}{\cspdhyp}\) be a prop morphism
     defined as illustrated in \cref{prop:frobenius-map}.
-
-    Then, let \(\morph{\termandfrobtohypsigma}{\smc{\Sigma} + \frob}{\cspdhyp}\)
+    Then, let \(
+        \morph{\termandfrobtohypsigma}{\smc{\Sigma} + \frob}{\cspdhyp}
+    \)
     be the copairing \(\termtohyp{\Sigma} + \frobtohyp{\Sigma}\).
 \end{definition}
 
@@ -347,10 +349,12 @@ order to use these existing prop morphisms
 \begin{lemma}\label{lem:smc-core}
     Let \(\iltikzfig{strings/category/f}[F][white]\) be a term in
     \(\stmc{\Sigma}\).
-    Then there exists \(
-        \iltikzfig{strings/category/f}[G][white][x][m][x][n] \in \smc{\Sigma}
+    Then there exists at least one \(
+        \iltikzfig{strings/category/f-2-2}[G][white][x][m][x][n] \in \smc{\Sigma}
     \) such that \(
-        \trace{}{\termtohyp{\Sigma}[\iltikzfig{strings/category/f}[F^\prime][white]]}
+        \trace{x}{
+            \termtohyp[\iltikzfig{strings/category/f-2-2}[G][white]]{\Sigma}
+        }
         =
         \iltikzfig{strings/category/f}[G][white]
     \).
@@ -363,14 +367,14 @@ order to use these existing prop morphisms
 }{}
 
 \begin{proposition}
-    There exists a faithful embedding \(
-        \morph{ct}{\stmc{\Sigma}}{\smc{\Sigma} + \frob}
+    There exists a faithful prop morphism \(
+        \morph{\tracedtosymandfrob}{\stmc{\Sigma}}{\smc{\Sigma} + \frob}
     \).
 \end{proposition}
 \begin{proof}
-    First \cref{lem:smc-core} can be used to isolate a term in \(\smc{\Sigma}\).
-    Then, the corresponding term in \(\smc{\Sigma} + \frob\) can be read as
-    the canonical trace as defined in \cref{thm:canonical-trace} on top of this
+    \cref{lem:smc-core} is used to isolate a term in \(\smc{\Sigma}\).
+    The corresponding term in \(\smc{\Sigma} + \frob\) can be read as
+    the canonical trace as defined in \cref{prop:canonical-trace} on top of this
     term.
 \end{proof}
 
@@ -382,13 +386,8 @@ order to use these existing prop morphisms
     \end{theorem}
 }
 
-Our goal is to extend the results of \cite{bonchi2021string} to terms in
-\(\stmcsigma\) and \emph{partial monogamous hypergraphs}.
-We first characterise the image of \(\termtohypsigma\) and show that it is
-exactly \(\pmcspfihyp\).
 Before progressing to the main theorem, we must show a result about terms in
 \(\smc{}\), i.e.\ terms constructed from just symmetries and identities.
-
 In particular, there is a correspondence between \(\smc{}\) and
 \emph{bijective} functions.
 
@@ -438,7 +437,7 @@ In particular, there is a correspondence between \(\smc{}\) and
     \end{proof}
 }{}
 
-This allows us to establish a correspondence between terms in \(\smc{}\)
+This establishes a correspondence between terms in \(\smc{}\)
 and cospans of discrete hypergraphs.
 
 \begin{lemma}\label{lem:monog-discrete-cospan}
@@ -462,7 +461,7 @@ We now proceed to the first main result.
 
 \begin{theorem}\label{thm:termtohyp-image}
     A cospan \(\cospan{m}{F}{n}\) is in the image of \(
-        \termandfrobtohypsigma{\Sigma} \circ ct\) if
+        \termandfrobtohypsigma \circ \tracedtosymandfrob\) if
     and only if it is partial monogamous.
 \end{theorem}
 \iftoggle{proofs}{
@@ -494,7 +493,7 @@ We now proceed to the first main result.
 }
 
 \begin{proposition}[\cite{bonchi2022string}]
-    \(\termtohypsigma{\Sigma}\) is faithful.
+    \(\termtohypsigma\) is faithful.
 \end{proposition}
 
 \begin{corollary}\label{cor:stmc-graph-iso}
