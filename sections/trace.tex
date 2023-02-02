@@ -37,7 +37,7 @@ contains the structure necessary to define a trace.
         object \(X\) is equipped with a Frobenius structure.
     \end{definition}
 
-    \begin{proposition}\label{prop:hypergraph-category}
+    \begin{proposition}\label{prop:frobenius-map}
         \(\cspdhyp\) is a hypergraph category.
     \end{proposition}
     \begin{proof}
@@ -64,53 +64,72 @@ contains the structure necessary to define a trace.
         \(\cspdhyp\) is compact closed.
     \end{corollary}
 }{
-    \begin{proposition}[\cite{carboni1987cartesian,bonchi2022string}]
+    \begin{proposition}[\cite{carboni1987cartesian,bonchi2022string}]\label{prop:frobenius-map}
         \(\cspdhyp\) is compact closed.
     \end{proposition}
-
+    \begin{proof}
+        A Frobenius structure can be defined on \(\cspdhyp\) as follows:
+        \begin{gather*}
+            \iltikzfig{strings/structure/monoid/merge}[white]
+            :=
+            \cospan{m + m}{m}{m}
+            \quad
+            \iltikzfig{strings/structure/monoid/init}[white]
+            :=
+            \cospan{0}{m}{m}
+            \\
+            \iltikzfig{strings/structure/comonoid/copy}[white]
+            :=
+            \cospan{m}{m}{m+m}
+            \quad
+            \iltikzfig{strings/structure/comonoid/discard}[white]
+            :=
+            \cospan{m}{m}{0}
+        \end{gather*}
+        Then a cup can be constructed as \(
+            \iltikzfig{strings/structure/monoid/init}[white]
+            \seq
+            \iltikzfig{strings/structure/comonoid/copy}[white]
+        \) and a cap as \(
+            \iltikzfig{strings/structure/comonoid/discard}[white]
+            \seq
+            \iltikzfig{strings/structure/monoid/merge}[white]
+        \).
+    \end{proof}
 }
 
 It is well known that every compact closed category is equipped with a
 \emph{canonical trace}~\cite{joyal1996traced}, constructed by combining the cup,
-cap and an identity.
-So in some sense, \(\cspfihyp\) is already traced.
-However, it is useful to consider a(n equivalent) formulation in which the trace
-is constructed directly.
-To take the \((f,g)\)-trace of a cospan \(\cospan{x+m}[f+h]{H}[g+k]{x+n}\), we
-coalesce the \(i\)th elements of the image of \(f\) and \(g\).
-\begin{center}
-    \(
-        \trace{1}{\iltikzfig{graphs/trace/before-trace}}
-        \equiv
-        \iltikzfig{graphs/trace/after-trace}
-    \)
-\end{center}
+cap and an identity, so \(\cspfihyp\) is already traced.
 
-This is defined formally using a pushout, in a similar vein
-to~\cite{dixon2013opengraphs}.
-
-\begin{definition}
-    For a cospan of hypergraphs \(
-        \cospan{x+m}[f+h]{H}[g+k]{x+n},
-    \) its trace on \(x\) is \(
-        \cospan{m}[h \seq p]{H^\prime}[k \seq p]{n},
-    \) where \(p\) and \(H^\prime\) are computed%
-    \iftoggle{conf}{
-        as the pushout of \(f + h\) and \([\id, \id]\).
-    }{
-        by the following pushout:
-        \begin{center}
-            \tikzfig{graphs/trace/trace-pushout}
-        \end{center}
-    }
+\begin{definition}[Canonical trace]
+    Given a cospan \(\cospan{x+m}{F}{x+n} \in \cspdhyp\), its trace on \(x\) is
+    defined as \[
+        \begin{array}{cc}
+            \cospan{0}{x}{x} \seq \cospan{x}{x}{x+x} \\
+            \tensor \\
+            \cospan{m}{m}{m}
+        \end{array}
+        \seq
+        \begin{array}{cc}
+            \cospan{x}{x}{x} \\
+            \tensor \\
+            \cospan{x+m}{F}{x+n}
+        \end{array}
+        \seq
+        \begin{array}{cc}
+            \cospan{x+x}{x}{x} \seq \cospan{x}{x}{0} \\
+            \tensor \\
+            \cospan{n}{n}{n}
+        \end{array}.
+    \]
 \end{definition}
 
-\begin{example}
-    Below is an example of tracing a simple hypergraph in this manner.
-    \begin{center}
-        \iltikzfig{graphs/trace/trace-pushout-example}
-    \end{center}
-\end{example}
+However, we must be cautious as there are terms in a compact closed category
+which are not valid traced terms, such as those where outputs of generators are
+connected to outputs.
+In the next section we will confirm that computing the trace in this way does
+not lead to any degeneracies.
 
 \subsection{Monogamy}
 
@@ -220,12 +239,8 @@ from either interface.
         \item Identities and symmetries are partial monogamous.
         \item \(\cospan{m}{F}{n} \seq \cospan{n}{G}{p}\) is partial monogamous.
         \item \(\cospan{m}{F}{n} \tensor \cospan{p}{H}{q}\) is partial
-        monogamous.
-        \item \(
-            \trace{x}{\cospan{x+m}[f+h]{K}[g+k]{x+n}}
-            =
-            \cospan{m}[h \seq p]{pK}[k \seq p]{n}
-        \) is partial monogamous.
+                monogamous.
+        \item \(\trace{x}{\cospan{x+m}{K}{x+n}} \) is partial monogamous.
     \end{itemize}
 \end{lemma}
 \iftoggle{proofs}{
@@ -271,6 +286,9 @@ from either interface.
 \noindent
 This means that the partial monogamous hypergraphs form a sub-prop of
 \(\cspdhyp\), which we name \(\pmcspdhyp\).
+Crucially, while we step outside \(\pmcspdhyp\) in order to construct
+the trace by composing the cup and cap, we always step back before finishing,
+so the construction is not degenerate.
 
 \subsection{From terms to graphs}
 
@@ -287,13 +305,15 @@ terms in a traced monoidal theory and interfaced hypergraphs.
 \end{definition}
 
 A \emph{(traced) prop morphism} is a strict (traced) symmetric monoidal functor
-between props .
-Since \(\stmc{\Sigma}\) and \(\pmcspfihyp\) are freely generated, to define a
+between props.
+Since \(\stmc{\Sigma}\) and \(\pmcspdhyp\) are freely generated, to define a
 prop morphism between them it suffices to define it on the generators in the
 former.
+Moreover, since \(\pmcspdhyp\) is a sub-prop of \(\cspdhyp\), we can simply
+use the construction for the Frobenius case.
 
-\begin{definition}
-    Let \(\morph{\termtohyp{\Sigma}}{\stmc{\Sigma}}{\pmcspfihyp}\) be a prop
+\begin{definition}[\cite{bonchi2022string}]
+    Let \(\morph{\termtohyp{\Sigma}^\mathbf{S}}{\smc{\Sigma}}{\cspdhyp}\) be a prop
     morphism defined on the generators of \(\Sigma\) as shown in
     \cref{fig:termtohyp}.
     \begin{figure}
@@ -313,7 +333,46 @@ former.
         \caption{Definition of \(\termtohyp{\Sigma}\) on generators in \(\smc{\Sigma}\).}
         \label{fig:termtohyp}
     \end{figure}
+
+    Let \(\morph{\frobtohyp{\Sigma}}{\frob}{\cspdhyp}\) be a prop morphism
+    defined as illustrated in \cref{prop:frobenius-map}.
+
+    Then, let \(\morph{\termandfrobtohypsigma}{\smc{\Sigma} + \frob}{\cspdhyp}\)
+    be the copairing \(\termtohyp{\Sigma} + \frobtohyp{\Sigma}\).
 \end{definition}
+
+We can exploit the interplay between compact closed and traced categories in
+order to use these existing prop morphisms
+
+\begin{lemma}\label{lem:smc-core}
+    Let \(\iltikzfig{strings/category/f}[F][white]\) be a term in
+    \(\stmc{\Sigma}\).
+    Then there exists \(
+        \iltikzfig{strings/category/f}[G][white][x][m][x][n] \in \smc{\Sigma}
+    \) such that \(
+        \trace{}{\termtohyp{\Sigma}[\iltikzfig{strings/category/f}[F^\prime][white]]}
+        =
+        \iltikzfig{strings/category/f}[G][white]
+    \).
+\end{lemma}
+\iftoggle{proofs}{
+    \begin{proof}
+        Any trace can be made a `global trace' by applying \eqref{eq:tightening}
+        and \eqref{eq:superposing}.
+    \end{proof}
+}{}
+
+\begin{proposition}
+    There exists a faithful embedding \(
+        \morph{ct}{\stmc{\Sigma}}{\smc{\Sigma} + \frob}
+    \).
+\end{proposition}
+\begin{proof}
+    First \cref{lem:smc-core} can be used to isolate a term in \(\smc{\Sigma}\).
+    Then, the corresponding term in \(\smc{\Sigma} + \frob\) can be read as
+    the canonical trace as defined in \cref{thm:canonical-trace} on top of this
+    term.
+\end{proof}
 
 \iftoggle{conf}{}{
     Recall one of the key theorems from~\cite{bonchi2021string}.
@@ -402,7 +461,8 @@ and cospans of discrete hypergraphs.
 We now proceed to the first main result.
 
 \begin{theorem}\label{thm:termtohyp-image}
-    A cospan \(\cospan{m}{F}{n}\) is in the image of \(\termtohyp{\Sigma}\) if
+    A cospan \(\cospan{m}{F}{n}\) is in the image of \(
+        \termandfrobtohypsigma{\Sigma} \circ ct\) if
     and only if it is partial monogamous.
 \end{theorem}
 \iftoggle{proofs}{
@@ -433,111 +493,9 @@ We now proceed to the first main result.
     \end{proof}
 }
 
-The final step is to show that \(\termtohypsigma\) is \emph{faithful}, i.e.\
-no two terms \(\stmcsigma\) equal up to the equations of STMCs corresponds to
-the same cospan of hypergraphs.
-First we isolate the terms that actually contain traces:
-
-\begin{lemma}
-    If \(\iltikzfig{strings/category/f}[H][white]\) is a term in \(
-        \stmc{\Sigma} \setminus \smc{\Sigma}
-    \), then \(
-        \termtohypsigma[\iltikzfig{strings/category/f}[H][white]]
-    \) either fails to be monogamous, acyclic, or both.
-\end{lemma}
-\iftoggle{proofs}{
-    \begin{proof}
-        Assume that \(\iltikzfig{strings/category/f}[H][white]\) is monogamous
-        acyclic, so it is in \(\macspfihyp\).
-        By \cref{thm:smc-graph-iso}, any graph in \(\macspfihyp\) corresponds to
-        a unique term in \(\smc{\Sigma}\) up to axioms of SMCs: a contradiction,
-        as \(
-            \iltikzfig{strings/category/f}[H][white]
-            \in
-            \stmc{\Sigma} \setminus \smc{\Sigma}
-        \).
-    \end{proof}
-}{}
-
-\begin{corollary}
-    The images of \(\smc{\Sigma}\) and \(\stmc{\Sigma} \setminus \smc{\Sigma}\)
-    are disjoint under \(\termtohypsigma\).
-\end{corollary}
-
-Finally, we use a result from \cite{bonchi2022string} for the symmetric monoidal
-case to conclude a similar result about our traced case.
-
-\begin{corollary}[\cite{bonchi2022string}, Corollary 3.11]\label{cor:termtohyp-faithful-smc}
-    \(\morph{\termtohypsigma}{\stmc{\Sigma}}{\pmcspfihyp}\) is faithful when the
-    domain is restricted to \(\smc{\Sigma}\).
-\end{corollary}
-
-\begin{theorem}
-    \(\termtohypsigma\) is faithful when the domain is restricted to \(
-        \stmc{\Sigma} \setminus \smc{\Sigma}
-    \).
-\end{theorem}
-\iftoggle{proofs}{
-    \begin{proof}
-        Let \(
-            \iltikzfig{strings/category/f}[F][white]
-        \) and \(
-            \iltikzfig{strings/category/f}[G][white]
-        \) be terms in \(\stmc{\Sigma}\) such that \(
-            \iltikzfig{strings/category/f}[F][white]
-            \neq
-            \iltikzfig{strings/category/f}[G][white]
-        \).
-        By applying axioms of STMCs, these terms can be rewritten as \(
-            \iltikzfig{strings/traced/trace-rhs}[f^\prime][white]
-        \) and \(
-            \iltikzfig{strings/traced/trace-rhs}[g^\prime][white]
-        \) respectively, where \(
-            \iltikzfig{strings/traced/trace-lhs}[f^\prime][white]
-        \) and \(
-            \iltikzfig{strings/traced/trace-lhs}[g^\prime][white]
-        \) are terms in \(\smc{\Sigma}\).
-        Since \(
-            \iltikzfig{strings/category/f}[F][white]
-            \neq
-            \iltikzfig{strings/category/f}[F][white]
-        \), then \(
-            \iltikzfig{strings/traced/trace-lhs}[f^\prime][white]
-            \neq
-            \iltikzfig{strings/traced/trace-lhs}[g^\prime][white]
-        \).
-        Assume that \(
-            \termtohypsigma[\iltikzfig{strings/category/f}[F][white]]
-        \) and \(
-            \termtohypsigma[\iltikzfig{strings/category/f}[F][white]]
-        \) are isomorphic as cospans.
-        Then \(
-            \termtohypsigma[\iltikzfig{strings/traced/trace-rhs}[f^\prime][white]]
-        \) and \(
-            \termtohypsigma[\iltikzfig{strings/traced/trace-rhs}[g^\prime][white]]
-        \) are also isomorphic.
-        However, since \(\termtohypsigma\) is faithful on terms in \(\smc{\Sigma}\)
-        by \cref{cor:termtohyp-faithful-smc}, \(
-            \termtohypsigma[\iltikzfig{strings/traced/trace-lhs}[f^\prime][white]]
-        \) and \(
-            \termtohypsigma[\iltikzfig{strings/traced/trace-lhs}[g^\prime][white]]
-        \) are not isomorphic.
-
-        The only axiom of STMCs that allows for the trace of non-equal morphisms
-        to be equal is the sliding axiom.
-        But for such a situation to be valid here, the original terms must also
-        be equal by sliding, a contradiction.
-        So \(
-            \termtohypsigma[\iltikzfig{strings/category/f}[F][white]]
-        \) and \(
-            \termtohypsigma[\iltikzfig{strings/category/f}[G][white]]
-        \) are not isomorphic: \(\termtohypsigma\) is faithful.
-    \end{proof}
-}{}
-
-\begin{corollary}
-    \(\termtohypsigma\) is faithful.
-\end{corollary}
+\begin{proposition}[\cite{bonchi2022string}]
+    \(\termtohypsigma{\Sigma}\) is faithful.
+\end{proposition}
 
 \begin{corollary}\label{cor:stmc-graph-iso}
     \(\stmc{\Sigma} \cong \pmcspfihyp\).
