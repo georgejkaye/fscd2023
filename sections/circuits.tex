@@ -1,6 +1,7 @@
 % !TeX root = ../main-conf.tex
 
 \subsection{Digital circuits}
+\label{sec:digital-circuits}
 
 A traced monoidal theory with a comonoid structure that is of particular
 interest to us is the \emph{local theory of sequential circuits} from
@@ -26,9 +27,14 @@ interest to us is the \emph{local theory of sequential circuits} from
             \iltikzfig{circuits/components/values/v}[\belnapboth],
             \iltikzfig{circuits/components/waveforms/delay}
         \}
-    \] and \[
+    \] and the equations of \(
         \equations[\mathbf{SCirc}]
-    \] are listed in \cref{fig:local-equations}, where \(
+    \) are listed in \cref{app:equations}, \cref{fig:circuit-equations}, where
+    \(
+        \gateinterpretation
+    \) maps gates to the corresponding truth table in \cref{app:belnap},
+    \(\ljoin\) is the join in the information lattice in \cref{app:belnap}, and
+    \(
         \iltikzfig{circuits/components/circuits/f-1-2}[F^n][comb][m][x][n]
     \) is defined inductively as \(
         \iltikzfig{circuits/instant-feedback/f0-box}
@@ -41,114 +47,54 @@ interest to us is the \emph{local theory of sequential circuits} from
     \).
 \end{definition}
 
-The first generators are \emph{gates}, and the remainder are \emph{structural}
-generators for \emph{introducing}, \emph{forking}, \emph{joining}, \emph{stubbing},
-\emph{expanding} or \emph{collapsing} wires.
-The latter two generators were not present in the original formulation
-in~\cite{ghica2022compositional}: they have been adapted
-from~\cite{wilson2022stringa}.
+The generators in \(\generators[\mathbf{SCirc}]\) are, respectively:
+\(\andgate\), \(\orgate\) and \(\notgate\) gates; constructs for forking,
+joining and stubbing wires; \emph{values} representing no signal, a true signal,
+a false signal, and both signals at once; and a delay of one unit of time.
 
 
-The smaller generators with no inputs are \emph{instantaneous values}: these
-specify the initial state of a circuit.
-The diamond is a \emph{delay} generator, which can be thought of as delaying its
-input by one unit of time.
+The equations of \(\equations[\mathbf{SCirc}]\) contain the equations of a
+commutative comonoid, so this is a perfect use case for rewriting modulo
+trace commutative comonoid structure.
+Using graph rewriting, we can sketch out an \emph{operational semantics} for
+sequential circuits.
+For the interests of brevity, we will only consider circuits of the form \(
+    \iltikzfig{circuits/productivity/mealy-form-verbose}
+\): circuits with no `non-delay-guarded feedback' in which the registers of the
+circuit have been isolated from a core \(
+    \iltikzfig{strings/category/f-2-2}[F][comb]
+\) containing only `blue' (\emph{combinational}) components, which models a
+function.
 
-\begin{figure*}
-    \centering
-    \begin{minipage}[b]{0.28\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{Gate}\)}
-            \iltikzfig{circuits/axioms/gate-lhs}
-            =
-            \iltikzfig{circuits/axioms/gate-rhs}
-            \label{eq:gate}
-        \end{equation}
-    \end{minipage}%
-    \begin{minipage}[b]{0.24\textwidth}
-        \begin{equation}\textbf{}
-            \tag{\(\mathsf{Fork}\)}
-            \iltikzfig{circuits/axioms/fork-lhs}[v]
-            =
-            \iltikzfig{circuits/axioms/fork-rhs}[v]
-            \label{eq:fork}
-        \end{equation}
-    \end{minipage}%
-    \begin{minipage}[b]{0.25\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{Join}\)}
-            \iltikzfig{circuits/axioms/join-lhs}[v][w]
-            =
-            \iltikzfig{circuits/axioms/join-rhs}[v][w]
-            \label{eq:join}
-        \end{equation}
-    \end{minipage}
+We can `apply' such a circuit to an input as shown in the left-hand side of
+\cref{fig:cycle}; \cite[Thm. 104]{ghica2022compositional} shows that the
+equations in \(\equations[\mathbf{SCirc}]\) can be used to derive the right-hand
+side.
+The equations \eqref{eq:gate,eq:fork,eq:join,eq:stub} can then be applied to
+reduce the two `new' cores down to values, which represent the output and new
+state of the circuit.
 
-    \begin{minipage}[b]{0.22\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{Stub}\)}
-            \iltikzfig{circuits/axioms/stub-lhs}[v]
-            =
-            \iltikzfig{strings/monoidal/empty}
-            \label{eq:stub}
-        \end{equation}
-    \end{minipage}
-    \begin{minipage}[b]{0.3\textwidth}
-        \forkgateeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.25\textwidth}
-        \stubgateeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.25\textwidth}
-        \stubdelayeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.22\textwidth}
-        \forkjoininverseeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.4\textwidth}
-        \streamingeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.25\textwidth}
-        \disconnecteqn
-    \end{minipage}
-    \begin{minipage}[b]{0.25\textwidth}
-        \forkdelayeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.25\textwidth}
-        \joindelayeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.3\textwidth}
-        \instantfeedbackeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.35\textwidth}
-        \delaydiscardeqn
-    \end{minipage}
-    \caption{
-        Axioms of \(\scircsigmal\).
-        See also \cref{app:equations}, \cref{fig:bialgebra-axioms}.
-    }
-    \label{fig:local-equations}
-\end{figure*}
+When the circuits are interpreted as hypergraphs and the equations as rewrites,
+it would be possible for a computer to perform this sequence of rewrites to
+evaluate circuits while being able to `peek inside' and see what is going on.
 
-Reasoning with circuits can then be performed by applying equations in
-\(\scircsigmal\).
-In particular, \cite{ghica2022compositional} sketches an
-\emph{operational semantics} for digital circuits by applying an equation
-that shows how a sequential circuit processes an input.
-
-\begin{theorem}[\cite{ghica2022compositional}]
-    The \eqref{eq:cycle} equation in \cref{fig:cycle} holds in \(\scircsigmal\).
-\end{theorem}
+\begin{remark}
+    This is another framework which would benefit from a way of formalising
+    subgraphs in rewrite rules.
+\end{remark}
 
 \begin{figure*}
     \centering
     \begin{equation*}
         \tag{\(\mathsf{Cycle}\)}
-        \iltikzfig{circuits/productivity/productive-lhs}[F][s][v]
+        \iltikzfig{circuits/productivity/productive-lhs-verbose}[F][s][v]
         =
         \iltikzfig{circuits/productivity/productive-step-9}
         \label{eq:cycle}
     \end{equation*}
-    \caption{The cycle equation, which holds in \(\scircsigmal\)}
+    \caption{
+        The cycle equation, which is derivable from the equations in
+        \(\equations[\mathbf{SCirc}]\)
+    }
     \label{fig:cycle}
 \end{figure*}
