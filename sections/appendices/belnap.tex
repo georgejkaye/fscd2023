@@ -1,0 +1,66 @@
+% !TeX root = ../../main-conf.tex
+\section{Belnap logic}
+\label{app:belnap}
+
+The equational theory of gate-level sequential circuits in
+\cref{sec:digital-circuits} is based on the four-valued
+\emph{Belnap logic}~\cite{belnap1977useful}.
+The four values in question, \(\belnapnone\), \(\belnapfalse\), \(\belnaptrue\)
+and \(\belnapboth\) form a lattice in two ways.
+The first is the lattice of \emph{information order} shown in the left of
+\cref{tab:truths}, which dictates how much `information content' a particular value
+has.
+The second is the lattice of \emph{logical order}, which can be seen as the
+lattice in \cref{tab:truths} rotated by 90 degrees clockwise.
+This lattice determines the outputs of the gates: the \(\andgate\) gate \(
+    \iltikzfig{circuits/components/gates/and}
+\) is the meet in this lattice and the \(\orgate\) gate \(
+    \iltikzfig{circuits/components/gates/or}
+\) is the join.
+The \(\notgate\) gate \(
+    \iltikzfig{circuits/components/gates/not}
+\) acts in the usual way on \(\belnapfalse\) and \(\belnaptrue\), and as the
+identity otherwise.
+The truth tables are shown in the right of \cref{tab:truths}.
+
+\begin{figure*}
+    \centering
+    \tikzfig{circuits/a4}
+    \quad
+    \begin{tabular}{|c|cccc|}
+        \hline
+        \(\iltikzfig{circuits/components/gates/and}\) & \(\belnapnone\) & \(\belnapfalse\) & \(\belnaptrue\) & \(\belnapboth\) \\
+        \hline
+        \(\belnapnone\)  & \(\belnapnone\) & \(\belnapfalse\) & \(\belnapnone\) & \(\belnapfalse\) \\
+        \(\belnapfalse\) & \(\belnapfalse\) & \(\belnapfalse\) & \(\belnapfalse\) & \(\belnapfalse\) \\
+        \(\belnaptrue\) & \(\belnapnone\) & \(\belnapfalse\) & \(\belnaptrue\) & \(\belnapboth\) \\
+        \(\belnapboth\) & \(\belnapfalse\) & \(\belnapfalse\) & \(\belnapboth\) & \(\belnapboth\) \\
+        \hline
+    \end{tabular}
+    \quad
+    \begin{tabular}{|c|c|}
+        \hline
+        \(\iltikzfig{circuits/components/gates/not}\) & \\
+        \hline
+        \(\belnapnone\) & \(\belnapnone\) \\
+        \(\belnaptrue\) & \(\belnapfalse\) \\
+        \(\belnapfalse\) & \(\belnaptrue\) \\
+        \(\belnapboth\) & \(\belnapboth\) \\
+        \hline
+    \end{tabular}
+    \quad
+    \begin{tabular}{|c|cccc|}
+        \hline
+        \(\iltikzfig{circuits/components/gates/or}\) & \(\belnapnone\) & \(\belnapfalse\) & \(\belnaptrue\) & \(\belnapboth\) \\
+        \hline
+        \(\belnapnone\)  & \(\belnapnone\) & \(\belnapnone\) & \(\belnaptrue\) & \(\belnaptrue\) \\
+        \(\belnapfalse\) & \(\belnapnone\) & \(\belnapfalse\) & \(\belnaptrue\) & \(\belnapboth\) \\
+        \(\belnaptrue\) & \(\belnaptrue\) & \(\belnaptrue\) & \(\belnaptrue\) & \(\belnaptrue\) \\
+        \(\belnapboth\) & \(\belnaptrue\) & \(\belnapboth\) & \(\belnaptrue\) & \(\belnapboth\) \\
+        \hline
+    \end{tabular}
+
+    \caption{The lattice structure on Belnap values, and the truth tables
+    of Belnap logic gates~\cite{belnap1977useful}.}
+    \label{tab:truths}
+\end{figure*}

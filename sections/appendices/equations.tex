@@ -7,38 +7,44 @@ These axioms were originally presented in~\cite{joyal1996traced}: an additional
 vanishing axiom was originally also included but it was shown in
 \cite{hasegawa2009traced} that this was redundant.
 
+Equations in the monoidal theory of gate-level sequential circuits are listed in
+\cref{fig:circuit-equations}.
+These include the equations of a \emph{bialgebra}, which themselves include the
+equations of a commutative comonoid.
+
 \begin{figure}
     \centering
-    \begin{minipage}{0.54\textwidth}
+    \begin{minipage}{0.52\textwidth}
         \begin{align*}
-            \tag{\(\mathsf{Tightening}\)}
+            \tag{\(\mathsf{Tighten}\)}
             \iltikzfig{strings/traced/naturality-lhs}
             &=
             \iltikzfig{strings/traced/naturality-rhs}
             \label{eq:tightening}
             \\[0.75em]
-            \tag{\(\mathsf{Sliding}\)}
+            \tag{\(\mathsf{Slide}\)}
             \iltikzfig{strings/traced/sliding-lhs}
             &=
             \iltikzfig{strings/traced/sliding-rhs}
             \label{eq:sliding}
             \\[0.75em]
-            \tag{\(\mathsf{Vanishing}\)}
+            \tag{\(\mathsf{Vanish}\)}
             \iltikzfig{strings/traced/vanishing-lhs}
             &=
             \iltikzfig{strings/traced/vanishing-rhs}
             \label{eq:vanishing}
         \end{align*}
     \end{minipage}
-    \begin{minipage}{0.45\textwidth}
+    \hspace{-1em}
+    \begin{minipage}{0.455\textwidth}
         \begin{align*}
-            \tag{\(\mathsf{Superposing}\)}
+            \tag{\(\mathsf{Superpose}\)}
             \iltikzfig{strings/traced/superposing-lhs}
             &=
             \iltikzfig{strings/traced/superposing-rhs}
             \label{eq:superposing}
             \\[0.75em]
-            \tag{\(\mathsf{Yanking}\)}
+            \tag{\(\mathsf{Yank}\)}
             \iltikzfig{strings/traced/yanking-lhs}
             &=
             \iltikzfig{strings/traced/yanking-rhs}
@@ -47,4 +53,162 @@ vanishing axiom was originally also included but it was shown in
     \end{minipage}
     \caption{Equations that hold in any STMC.}
     \label{fig:stmc-axioms}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{minipage}{0.3\textwidth}
+        \begin{align}
+            \tag{\(\mathsf{C1}\)}
+            \iltikzfig{strings/structure/comonoid/unitality-l-lhs}
+            &=
+            \iltikzfig{strings/structure/comonoid/unitality-l-rhs}
+            \label{eq:comonoid-unitality-l}
+            \\[0.5em]
+            \tag{\(\mathsf{C2}\)}
+            \iltikzfig{strings/structure/comonoid/unitality-r-lhs}
+            &=
+            \iltikzfig{strings/structure/comonoid/unitality-r-rhs}
+            \label{eq:comonoid-unitality-r}
+            \\[0.5em]
+            \tag{\(\mathsf{C3}\)}
+            \iltikzfig{strings/structure/comonoid/associativity-lhs}
+            &=
+            \iltikzfig{strings/structure/comonoid/associativity-rhs}
+            \label{eq:comonoid-associativity}
+            \\[0.5em]
+            \tag{\(\mathsf{C4}\)}
+            \iltikzfig{strings/structure/comonoid/commutativity-lhs}
+            &=
+            \iltikzfig{strings/structure/comonoid/commutativity-rhs}
+            \label{eq:comonoid-commutativity}
+        \end{align}
+    \end{minipage}
+    \begin{minipage}{0.3\textwidth}
+        \begin{align}
+            \tag{\(\mathsf{M1}\)}
+            \iltikzfig{strings/structure/monoid/unitality-l-lhs}
+            &=
+            \iltikzfig{strings/structure/monoid/unitality-l-rhs}
+            \label{eq:monoid-unitality-l}
+            \\[0.5em]
+            \tag{\(\mathsf{M2}\)}
+            \iltikzfig{strings/structure/monoid/unitality-r-lhs}
+            &=
+            \iltikzfig{strings/structure/monoid/unitality-r-rhs}
+            \label{eq:monoid-unitality-r}
+            \\[0.5em]
+            \tag{\(\mathsf{M3}\)}
+            \iltikzfig{strings/structure/monoid/associativity-lhs}
+            &=
+            \iltikzfig{strings/structure/monoid/associativity-rhs}
+            \label{eq:monoid-associativity}
+            \\[0.5em]
+            \tag{\(\mathsf{M4}\)}
+            \iltikzfig{strings/structure/monoid/commutativity-lhs}
+            &=
+            \iltikzfig{strings/structure/monoid/commutativity-rhs}
+            \label{eq:monoid-commutativity}
+        \end{align}
+    \end{minipage}
+    \begin{minipage}{0.3\textwidth}
+        \begin{align}
+            \tag{\(\mathsf{B1}\)}
+            \iltikzfig{strings/structure/bialgebra/merge-copy-lhs}
+            &=
+            \iltikzfig{strings/structure/bialgebra/merge-copy-rhs}
+            \label{eq:bialgebra-merge-copy}
+            \\[0.5em]
+            \tag{\(\mathsf{B2}\)}
+            \iltikzfig{strings/structure/bialgebra/init-copy-lhs}
+            &=
+            \iltikzfig{strings/structure/bialgebra/init-copy-rhs}
+            \label{eq:bialgebra-init-copy}
+            \\[0.5em]
+            \tag{\(\mathsf{B3}\)}
+            \iltikzfig{strings/structure/bialgebra/merge-discard-lhs}
+            &=
+            \iltikzfig{strings/structure/bialgebra/merge-discard-rhs}
+            \label{eq:bialgebra-merge-discard}
+            \\[0.5em]
+            \tag{\(\mathsf{B4}\)}
+            \iltikzfig{strings/structure/bialgebra/init-discard-lhs}
+            &=
+            \iltikzfig{strings/structure/bialgebra/init-discard-rhs}
+            \label{eq:bialgebra-init-discard}
+        \end{align}
+    \end{minipage}
+    \begin{minipage}[b]{0.28\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Gate}\)}
+            \iltikzfig{circuits/axioms/gate-lhs}
+            =
+            \iltikzfig{circuits/axioms/gate-rhs}
+            \label{eq:gate}
+        \end{equation}
+    \end{minipage}%
+    \begin{minipage}[b]{0.24\textwidth}
+        \begin{equation}\textbf{}
+            \tag{\(\mathsf{Fork}\)}
+            \iltikzfig{circuits/axioms/fork-lhs}[v]
+            =
+            \iltikzfig{circuits/axioms/fork-rhs}[v]
+            \label{eq:fork}
+        \end{equation}
+    \end{minipage}%
+    \begin{minipage}[b]{0.25\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Join}\)}
+            \iltikzfig{circuits/axioms/join-lhs}[v][w]
+            =
+            \iltikzfig{circuits/axioms/join-rhs}[v][w]
+            \label{eq:join}
+        \end{equation}
+    \end{minipage}
+
+    \begin{minipage}[b]{0.22\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Stub}\)}
+            \iltikzfig{circuits/axioms/stub-lhs}[v]
+            =
+            \iltikzfig{strings/monoidal/empty}
+            \label{eq:stub}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+        \forkgateeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \stubgateeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \stubdelayeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.22\textwidth}
+        \forkjoininverseeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.4\textwidth}
+        \streamingeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \disconnecteqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \forkdelayeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \joindelayeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+        \instantfeedbackeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.35\textwidth}
+        \delaydiscardeqn
+    \end{minipage}
+    \caption{
+        The equations of \(\equations[\mathbf{SCirc}]\), from the monoidal
+        theory of gate-level sequential circuits.
+        \cref{sec:digital-circuits}.
+    }
+    \label{fig:circuit-equations}
 \end{figure}
