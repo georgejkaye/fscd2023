@@ -1,0 +1,107 @@
+First the \((\Rightarrow)\) direction.
+If \(
+    \iltikzfig{strings/category/f}[g][white]
+    \rewrite[\mcr]
+    \iltikzfig{strings/category/f}[H][white]
+\) then we have \(
+    \iltikzfig{strings/category/f}[g][white]
+    =
+    \iltikzfig{strings/rewriting/rewrite-l}
+\) and \(
+    \iltikzfig{strings/rewriting/rewrite-r}
+    =
+    \iltikzfig{strings/category/f}[H][white].
+\)
+Define the following cospans:
+\begin{alignat}{3}
+    \label{gath:l-cospan}
+    \cospan{0}{L}{i+j}
+    &:=
+    \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[l][white]]]
+    &&=
+    \termandfrobtohypsigma[\iltikzfig{strings/rewriting/l-folded}]
+    \\
+    \cospan{0}{R}{i+j}
+    &:=
+    \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[r][white]]]
+    &&=
+    \termandfrobtohypsigma[\iltikzfig{strings/rewriting/r-folded}]
+    \\
+    \cospan{0}{G}{m+n}
+    &:=
+    \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[f][white]]]
+    &&=
+    \termandfrobtohypsigma[\iltikzfig{strings/rewriting/lc-folded}]
+    \\
+    \label{gath:h-cospan}
+    \cospan{0}{H}{m+n}
+    &:=
+    \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]]
+    &&=
+    \termandfrobtohypsigma[\iltikzfig{strings/rewriting/rc-folded}]
+    \\
+    \cospan{i+j}{C}{m+n}
+    &:=
+    \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c-folded}]
+    &&
+\end{alignat}
+By functoriality, since \(
+    \foldinterfaces[\iltikzfig{strings/category/f}[f][white]]
+    =
+    \iltikzfig{strings/rewriting/l-folded}
+    \seq
+    \iltikzfig{strings/rewriting/c-folded}
+\) then \[
+    \cospan{0}{G}{m+n} = \cospan{0}{L}{i+j} \seq \cospan{i+j}{C}{m+n}.
+\]
+Cospan composition is pushout, so \(\cospan{L}{G}{C}\) is a pushout.
+Using the same reasoning, \(\cospan{R}{G}{C}\) is also a pushout: this
+gives us the DPO diagram.
+All that remains is to check that the aforementioned pushouts are traced
+boundary complements: this follows by inspecting components.
+
+Now the \(\ifdir\) direction: assume we have a DPO diagram (\ref{def:dpo})
+where \(L \leftarrow i + j\), \(i + j \rightarrow R\), \(m + n \to G\) and
+\(m + n \to H\) are defined as in (\ref{gath:l-cospan}-\ref{gath:h-cospan})
+above.
+We must show that \(
+    \iltikzfig{strings/category/f}[f][white]
+    =
+    \iltikzfig{strings/rewriting/rewrite-l}
+\) and \(
+    \iltikzfig{strings/category/f}[H][white]
+    =
+    \iltikzfig{strings/rewriting/rewrite-r}
+\).
+By definition of traced boundary complement \(\cospan{j+m}{C}{i+n}\) is a
+partial monogamous cospan, so by fullness of \(\termandfrobtohypsigma\),
+there exists a term \(
+    \iltikzfig{strings/category/f-2-2}[c][white][j][m][i][n]
+    \in \stmcsigma
+\) such that \(
+    \iltikzfig{strings/category/f-2-2}[c][white]
+    =
+    \cospan{j+m}{C}{i+n}
+\).
+By traced decomposition (\cref{lem:traced-decomposition}), we have that for any
+traced boundary complement \(\cospan{i+j}{C}{m+n}\) and morphism
+\(L \to G\), \(\cospan{m}{G}{n}\) can be factored as in
+(\ref{gath:decomposition}), i.e.\ \[
+    \termandfrobtohypsigma[\iltikzfig{strings/category/f}[f][white]]
+    =
+    \trace{j}{\termandfrobtohypsigma[\iltikzfig{strings/category/f}[l][white]]
+    \tensor
+    \id[n]
+    \seq
+    \termandfrobtohypsigma[\iltikzfig{strings/category/f-2-2}[c][white]]}.
+\]
+So by functoriality, we have that \(
+    \iltikzfig{strings/category/f}[f][white]
+    =
+    \iltikzfig{strings/rewriting/rewrite-l}
+\).
+The same reasoning follows for \(
+    \iltikzfig{strings/category/f}[H][white]
+    =
+    \iltikzfig{strings/rewriting/rewrite-r}
+\).

@@ -7,8 +7,33 @@ string diagrams equal by topological deformations are translated into isomorphic
 hypergraphs.
 However, to reason about an \emph{monoidal theory} with extra equations we must
 actually rewrite the components of the graph.
-This is possible with \emph{graph rewriting}.
+In the syntactic realm this is performed with \emph{term rewriting}.
 
+\begin{definition}[Term rewriting]\label{def:term-rewriting}
+    Given terms \(
+        \iltikzfig{strings/category/f}[g][white]
+    \) and \(
+        \iltikzfig{strings/category/f}[h][white]
+    \) in \(\stmc{\generators,\equations}\) we write \(
+        \iltikzfig{strings/category/f}[g][white]
+        \rewrite[\equations]
+        \iltikzfig{strings/category/f}[h][white]
+    \) if there exists equation \(
+        \iltikzfig{strings/category/f}[l][white]
+        =
+        \iltikzfig{strings/category/f}[r][white]
+    \) in \(\equations\) and \(
+        \iltikzfig{strings/category/f}[g][white]
+        =
+        \iltikzfig{strings/rewriting/rewrite-l}
+    \) and \(
+        \iltikzfig{strings/category/f}[h][white]
+        =
+        \iltikzfig{strings/rewriting/rewrite-r}
+    \) by axioms of STMCs.
+\end{definition}
+
+The graph equivalent is \emph{graph rewriting}.
 A common framework is that of \emph{double pushout rewriting} (DPO rewriting).
 We use an extension, known as \emph{double pushout rewriting with interfaces},
 (DPOI rewriting).
@@ -35,6 +60,16 @@ We use an extension, known as \emph{double pushout rewriting with interfaces},
         \includestandalone{figures/graphs/dpo/dpo}
     \end{center}
 \end{definition}
+
+The first thing to
+
+\begin{definition}
+    Let \(\foldinterfaces\) be defined
+\end{definition}
+
+Note that the image of \(\foldinterfaces\) is not in \(\stmc{\Sigma}\).
+This is not an issue, so long as we `unfold' the interfaces once rewriting is
+completed.
 
 In order to apply a given rewrite rule \(\spann{L}{i+j}{R}\) in some larger
 graph \(\cospan{m}{G}{n}\), a morphism \(L \to G\) must first be identified.
@@ -98,8 +133,10 @@ rule.
 Since a given pushout complement uniquely determines the rewrite performed, it
 might seem advantageous to always have exactly one pushout complement.
 However, as shall be detailed later, when writing modulo traced comonoid
-structure, there are settings where having multiple pushout complements is
+structure there are settings where having multiple pushout complements is
 beneficial.
+
+Before we proceed
 
 \subsection{Rewriting with traced structure}
 
@@ -239,6 +276,10 @@ case, as it corresponds to rewriting modulo the \emph{yanking} axiom of traced
 categories.
 It is this case that yields a \emph{choice} of traced boundary complement,
 which unlike regular boundary complements need not be unique.
+This is not an issue: in \cite{heumuller2011construction}, a method for
+enumerating all possible pushout complements for a given rule and matching is
+presented.
+This means we can inspect each one and choose the rewrite we want.
 
 \begin{example}
     Consider the rule and its interpretation.
@@ -303,7 +344,6 @@ by partial monogamy.
     Then either (1) there exists exactly one \(w_l\) such that
     \(c_1(v) = c_2(w_l)\); (2) \(c_1(v)\) is in the image of \(d_1\); or (3)
     \(c_1(v)\) has degree \((1,0)\).
-
     The same also holds for \(w \in j\), with the interface map as \(d_2\) and
     the degree as \((0,1)\).
 \end{lemma}
@@ -457,117 +497,22 @@ in~\cite{bonchi2022string} for the symmetric monoidal case.
         \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]].
     \)
 \end{theorem}
-% \iftoggle{proofs}{
+\iftoggle{proofs}{
     \begin{proof}
-        First the \((\Rightarrow)\) direction.
-        If \(
-            \iltikzfig{strings/category/f}[g][white]
-            \rewrite[\mcr]
-            \iltikzfig{strings/category/f}[H][white]
-        \) then we have \(
-            \iltikzfig{strings/category/f}[g][white]
-            =
-            \iltikzfig{strings/rewriting/rewrite-l}
-        \) and \(
-            \iltikzfig{strings/rewriting/rewrite-r}
-            =
-            \iltikzfig{strings/category/f}[H][white].
-        \)
-        Define the following cospans:
-        \begin{align}
-            \label{gath:l-cospan}
-            \cospan{0}{L}{i+j}
-            &:=
-            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[l][white]]]
-            &&=
-            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/l-folded}]
-            \\
-            \cospan{0}{R}{i+j}
-            &:=
-            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[r][white]]]
-            &&=
-            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/r-folded}]
-            \\
-            \cospan{0}{G}{m+n}
-            &:=
-            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[f][white]]]
-            &&=
-            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/lc-folded}]
-            \\
-            \label{gath:h-cospan}
-            \cospan{0}{H}{m+n}
-            &:=
-            \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]]
-            &&=
-            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/rc-folded}]
-            \\
-            \cospan{i+j}{C}{m+n}
-            &:=
-            \termandfrobtohypsigma[\iltikzfig{strings/rewriting/c-folded}]
-            &&
-        \end{align}
-        By functoriality, since \(
-            \foldinterfaces[\iltikzfig{strings/category/f}[f][white]]
-            =
-            \iltikzfig{strings/rewriting/l-folded}
-            \seq
-            \iltikzfig{strings/rewriting/c-folded}
-        \) then \[
-            \cospan{0}{G}{m+n} = \cospan{0}{L}{i+j} \seq \cospan{i+j}{C}{m+n}.
-        \]
-        Cospan composition is pushout, so \(\cospan{L}{G}{C}\) is a pushout.
-        Using the same reasoning, \(\cospan{R}{G}{C}\) is also a pushout: this
-        gives us the DPO diagram.
-        All that remains is to check that the aforementioned pushouts are traced
-        boundary complements: this follows by inspecting components.
-
-        Now the \(\ifdir\) direction: assume we have a DPO diagram (\ref{gath:dpo})
-        where \(L \leftarrow i + j\), \(i + j \rightarrow R\), \(m + n \to G\) and
-        \(m + n \to H\) are defined as in (\ref{gath:l-cospan}-\ref{gath:h-cospan})
-        above.
-        We must show that \(
-            \iltikzfig{strings/category/f}[f][white]
-            =
-            \iltikzfig{strings/rewriting/rewrite-l}
-        \) and \(
-            \iltikzfig{strings/category/f}[H][white]
-            =
-            \iltikzfig{strings/rewriting/rewrite-r}
-        \).
-        By definition of traced boundary complement \(\cospan{j+m}{C}{i+n}\) is a
-        partial monogamous cospan, so by fullness of \(\termandfrobtohypsigma\),
-        there exists a term \(
-            \iltikzfig{strings/category/f-2-2}[c][white][j][m][i][n]
-            \in \stmcsigma
-        \) such that \(
-            \iltikzfig{strings/category/f-2-2}[c][white]
-            =
-            \cospan{j+m}{C}{i+n}
-        \).
-        By traced decomposition (\cref{lem:traced-decomposition}), we have that for any
-        traced boundary complement \(\cospan{i+j}{C}{m+n}\) and morphism
-        \(L \to G\), \(\cospan{m}{G}{n}\) can be factored as in
-        (\ref{gath:decomposition}), i.e.\ \[
-            \termandfrobtohypsigma[\iltikzfig{strings/category/f}[f][white]]
-            =
-            \trace{j}{\termandfrobtohypsigma[\iltikzfig{strings/category/f}[l][white]]
-            \tensor
-            \id[n]
-            \seq
-            \termandfrobtohypsigma[\iltikzfig{strings/category/f-2-2}[c][white]]}.
-        \]
-        So by functoriality, we have that \(
-            \iltikzfig{strings/category/f}[f][white]
-            =
-            \iltikzfig{strings/rewriting/rewrite-l}
-        \).
-        The same reasoning follows for \(
-            \iltikzfig{strings/category/f}[H][white]
-            =
-            \iltikzfig{strings/rewriting/rewrite-r}
-        \).
+        \input{proofs/rewriting/rewriting-sound-complete}
     \end{proof}
-% }{}
+}{
+    \begin{proof}
+        The \(\onlyifdir\) follows by defining cospans corresponding each part
+        of \cref{def:term-rewriting} and composing them together appropriately:
+        since composition of cospans is by pushout, the DPO diagram can be
+        recovered and the pushouts checked to be traced boundary complements.
+
+        The \(\ifdir\) follows by using \cref{lem:traced-decomposition} and the
+        fullness of \(\termandfrobtohypsigma\) to obtain the pieces of
+        \cref{def:term-rewriting}.
+    \end{proof}
+}
 
 \subsection{Rewriting with traced comonoid structure}
 
