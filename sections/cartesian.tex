@@ -5,7 +5,7 @@
 
 One important class of categories with a traced comonoid structure are
 \emph{traced Cartesian categories}~\cite{cazanescu1990new,hasegawa1997recursion}.
-These categories are particularly interesting because any traced Cartesian
+These categories are interesting because any traced Cartesian
 category admits a fixpoint operator~\cite[Thm. 3.1]{hasegawa1997recursion}.
 
 \begin{definition}[Cartesian category~\cite{fox1976coalgebras}]
@@ -13,33 +13,38 @@ category admits a fixpoint operator~\cite[Thm. 3.1]{hasegawa1997recursion}.
     Cartesian product.
 \end{definition}
 
-As a result of this, the unit is a terminal object in any Cartesian category.
-Any Cartesian category is equipped with a diagonal \(
-    \iltikzfig{strings/structure/comonoid/copy}[white][X]
-\) and discard \(
-    \iltikzfig{strings/structure/comonoid/discard}[white][X]
-\) for any object \(X\).
+As a result of this, the unit is a terminal object in any Cartesian category,
+and any object becomes a comonoid.
+The notion of (traced) Cartesian categories can also be expressed as a monoidal
+theory:
 
+\begin{definition}
+    For a given base prop \(\stmc{\Sigma_\mathbf{C}}\) with a comonoid
+    structure, the monoidal theory \((
+        \generators[\mathbf{Cart}_\mathbf{C}],
+        \equations[\mathbf{Cart}_\mathbf{C}]
+    )\) is defined with \(
+        \generators[\mathbf{Cart}_\mathbf{C}] := \Sigma_\mathbf{C}
+    \) and \(
+        \equations[\mathbf{Cart}_\mathbf{C}]
+    \) as the equations in \cref{fig:cartesian-equations}.
+\end{definition}
 
-Given a base category \(\mathcal{C}\) with a comonoid structure, the monoidal
-theory \(\mathbf{Cart}_\mathcal{C}\) is shown in \cref{fig:cartesian-equations},
-along with their interpretations as rewrite rules for a given generator.
+As the equations in \(\equations[\mathbf{Cart}_\mathbf{C}]\) are parameterised
+over any morphism \(\iltikzfig{strings/category/f}[F][white][m][n]\), a separate
+DPO rewrite rule is required for every combination of generators: an example is
+also shown in \(\cref{fig:cartesian-equations}\).
 
 \begin{remark}
-    Note that rather than two concrete equations, this actually specifies two
-    \emph{families} of equations for any morphism \(
-        \iltikzfig{strings/category/f}[F][white][m][n]
-    \) in \(\mathcal{C}\).
-    This means that when interpreted as DPO rewrite rules, as separate rule is
-    required for every combination of generators.
-    Even if one imagines the edge as `syntax sugar' for a subgraph, there are
-    still nuances to consider:
-    One possible solution would be to use the \emph{hierarchical hypergraphs}
-    of~\cite{alvarez-picallo2022rewriting} to replace the concrete generator edge
-    with a single edge representing an arbitrary subgraph, but this remains as
-    future work.
+    A naive attempt to define a finite set of Cartesian rewrite rules might be
+    to imagine the edge as `syntax sugar' for a subgraph, but this also has
+    nuance: what do the vertices in the interface mean if the subgraph is just a
+    single vertex, for example?
+    One possible solution would be to formalise this using the
+    \emph{hierarchical hypergraphs} of~\cite{alvarez-picallo2022rewriting} to
+    replace the concrete generator edge with a single edge representing an
+    arbitrary subgraph, but this remains as future work.
 \end{remark}
-
 
 \begin{figure}
     \centering
@@ -51,9 +56,6 @@ along with their interpretations as rewrite rules for a given generator.
             \iltikzfig{strings/structure/cartesian/naturality-copy-rhs}[F][white][m][n]
             \label{eq:cartesian-copy}
         \end{equation}
-        \begin{center}
-            \includestandalone{figures/graphs/dpo/cartesian/copy/rule}
-        \end{center}
     \end{minipage}
     \qquad
     \begin{minipage}{0.4\textwidth}
@@ -65,10 +67,19 @@ along with their interpretations as rewrite rules for a given generator.
             \iltikzfig{strings/structure/cartesian/naturality-discard-rhs}[m]
             \label{eq:cartesian-discard}
         \end{equation}
+    \end{minipage}
+
+    \begin{minipage}{0.45\textwidth}
+        \begin{center}
+            \includestandalone{figures/graphs/dpo/cartesian/copy/rule}
+        \end{center}
+    \end{minipage}
+    \begin{minipage}{0.4\textwidth}
         \begin{center}
             \includestandalone{figures/graphs/dpo/cartesian/discard/rule}
         \end{center}
     \end{minipage}
+
     \caption{
         Equations of the monoidal theory \(\mathbf{Cart}_\mathcal{C}\),
         where \(\iltikzfig{strings/category/f}[F][white][m][n]\) is an arbitrary

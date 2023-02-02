@@ -37,7 +37,7 @@
 \newcommand{\streamingeqn}{
     \begin{equation}
         \tag{\(\mathsf{Str}\)}
-        \iltikzfig{circuits/axioms/streaming-lhs}
+        \iltikzfig{circuits/axioms/streaming-lhs-verbose}
         =
         \iltikzfig{circuits/axioms/streaming-rhs}
         \label{eq:streaming}
@@ -79,49 +79,11 @@
 \newcommand{\instantfeedbackeqn}{
     \begin{equation}
         \tag{\(\instantfeedbackequation\)}
-        \iltikzfig{circuits/instant-feedback/equation-lhs}
+        \iltikzfig{circuits/instant-feedback/equation-lhs}[F][m][n][x]
         =
-        \iltikzfig{circuits/instant-feedback/equation-rhs}
+        \iltikzfig{circuits/instant-feedback/fixpoint-concrete}
         \label{eq:instant-feedback}
     \end{equation}
-}
-\newcommand{\combinationalequationslist}{
-    \begin{minipage}[b]{0.24\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{Gate}_\interpretation\)}
-            \iltikzfig{circuits/axioms/gate-lhs}
-            =
-            \iltikzfig{circuits/axioms/gate-rhs}
-            \label{eq:gate}
-        \end{equation}
-    \end{minipage}%
-    \begin{minipage}[b]{0.22\textwidth}
-        \begin{equation}\textbf{}
-            \tag{\(\mathsf{Fork}\)}
-            \iltikzfig{circuits/axioms/fork-lhs}[v]
-            =
-            \iltikzfig{circuits/axioms/fork-rhs}[v]
-            \label{eq:fork}
-        \end{equation}
-    \end{minipage}%
-    \begin{minipage}[b]{0.22\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{Join}\)}
-            \iltikzfig{circuits/axioms/join-lhs}[v][w]
-            =
-            \iltikzfig{circuits/axioms/join-rhs}[v][w]
-            \label{eq:join}
-        \end{equation}
-    \end{minipage}%%
-    \begin{minipage}[b]{0.20\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{Stub}\)}
-            \iltikzfig{circuits/axioms/stub-lhs}[v]
-            =
-            \iltikzfig{strings/monoidal/empty}
-            \label{eq:stub}
-        \end{equation}
-    \end{minipage}
 }
 \newcommand{\disconnecteqn}{
     \begin{equation}
@@ -239,9 +201,9 @@
 \newcommand{\delaydiscardeqn}{
     \begin{equation}
         \tag{\(\mathsf{UDelay}\)}
-        \iltikzfig{circuits/axioms/delay-discard-lhs}
+        \iltikzfig{circuits/axioms/delay-discard-lhs}[F][m][x]
         =
-        \iltikzfig{circuits/axioms/delay-discard-rhs}
+        \iltikzfig{circuits/axioms/delay-discard-rhs}[m]
         \label{eq:delay-discard}
     \end{equation}
 }

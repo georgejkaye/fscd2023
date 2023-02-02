@@ -2,263 +2,35 @@
 
 \subsection{Digital circuits}
 
-We use the circuits framework of~\cite{ghica2022compositional}.
+A traced monoidal theory with a comonoid structure that is of particular
+interest to us is the \emph{local theory of sequential circuits} from
+\cite[Sec. VI]{ghica2022compositional}.
 
-\begin{definition}[Circuit signature, value, gate symbol~\cite{ghica2022compositional}]
-    A \emph{circuit signature} \(\circuitsignature\) is a tuple \((
-        \circuitsignaturevalues,
-        \disconnected,
-        \shortcircuit,
-        \circuitsignaturegates,
-        \circuitsignaturearity
-    )\) where \(\circuitsignaturevalues\) is a finite set of \emph{values}, \(
-        \disconnected \in \circuitsignaturevalues
-    \) is a \emph{disconnected} value, \(
-        \shortcircuit \in \circuitsignaturevalues
-    \) is a \emph{short-circuit} value, \(
-        \circuitsignaturegates
-    \) is a (usually finite) set of \emph{gate symbols}, and \(
-        \morph{\circuitsignaturearity}{\circuitsignaturegates}{\nat^\star}
-    \) is an \emph{arity} function.
-\end{definition}
-
-The distinct elements \(\bullet\) and \(\circ\) represent a
-\emph{disconnected wire} (a \emph{lack} of information) and a
-\emph{short circuit} (\emph{inconsistent} information) respectively.
-We have a made slight generalisation, motivated by the desire to succinctly
-represent wires of arbitrary bit-width.
-The arity of a gate is now expressed as a \emph{list} of natural numbers.
-This makes a clear distinction between
-
-\begin{example}[Gate-level circuits]\label{ex:sig}
-    The signature for \emph{gate-level circuits} is \(
-        \belnapsignature = (
-            \belnapvalues,
-            \belnapnone,
-            \belnapboth,
-            \belnapgates,
-            \belnaparity
-    )\), where \(
-        \belnapvalues := \{\belnapnone, \belnapfalse, \belnaptrue, \belnapboth\}
-    \), respectively representing \emph{no} signal, a \emph{false} signal, a
-        \emph{true} signal and \emph{both} signals at once, \(
-        \belnapgates := \{\andgate,\orgate,\notgate\}
-    \), and \(
-        \belnaparity :=
-            \andgate \mapsto [1, 1],
-            \orgate \mapsto [1, 1],
-            \notgate \mapsto [1]
-    \).
-\end{example}
-
-A circuit signature generates two \emph{monoidal} signatures: sets of
-generators with associated lists of (co)arities.
-
-\begin{definition}[Monoidal signature]
-    A monoidal signature is a set of \emph{generators} \(\mathcal{G}\) along
-    with two functions \(
-        \morph{\dom,\cod}{G}{nat^\star}
-    \).
-\end{definition}
-
-Since we are working with string diagrams, we will draw the generators as
-tiles, and sometimes merge wires into one, labelled when appropriate.
-
-\begin{definition}
-    Let the monoidal signature for \emph{combinational signatures} for a given
-    circuit signature be defined as \(
-        G^C_\Sigma := \{
-            \iltikzfig{circuits/components/gates/gate}[g][\circuitsignaturearity(g)]
-            \, | \,
-            g \in \circuitsignaturegates
-        \}
-        +
+\begin{definition}[Gate-level circuits]
+    Let the monoidal theory of \emph{gate-level sequential circuits} be defined
+    as \(
+        (\generators[\mathbf{SCirc}], \equations[\mathbf{SCirc}])
+    \), where \[
+        \generators[\mathbf{SCirc}]
+        :=
         \{
-            \iltikzfig{strings/structure/monoid/init}[comb][n],
-            \iltikzfig{strings/structure/comonoid/copy}[comb][n],
-            \iltikzfig{strings/structure/monoid/merge}[comb][n],
-            \iltikzfig{strings/structure/comonoid/discard}[comb][n],
-            \iltikzfig{strings/strictifiers/expand}[comb][m][n],
-            \iltikzfig{strings/strictifiers/collapse}[comb][m][n]
+            \iltikzfig{circuits/components/gates/and},
+            \iltikzfig{circuits/components/gates/or},
+            \iltikzfig{circuits/components/gates/not},
+            \iltikzfig{strings/structure/comonoid/copy}[comb],
+            \iltikzfig{strings/structure/monoid/merge}[comb],
+            \iltikzfig{strings/structure/comonoid/discard}[comb],
+            \iltikzfig{circuits/components/values/v}[\belnapnone],
+            \iltikzfig{circuits/components/values/v}[\belnaptrue],
+            \iltikzfig{circuits/components/values/v}[\belnapfalse],
+            \iltikzfig{circuits/components/values/v}[\belnapboth],
+            \iltikzfig{circuits/components/waveforms/delay}
         \}
-    \).
-\end{definition}
-
-The first generators are \emph{gates}, and the remainder are \emph{structural}
-generators for \emph{introducing}, \emph{forking}, \emph{joining}, \emph{stubbing},
-\emph{expanding} or \emph{collapsing} wires.
-The latter two generators were not present in the original formulation
-in~\cite{ghica2022compositional}: they have been adapted
-from~\cite{wilson2022stringa}.
-
-Monoidal signatures specify a freely generated \emph{prop}: a category of
-\emph{pro}ducts and \emph{p}ermutations.
-Props are symmetric monoidal categories with natural numbers as objects and
-addition as tensor product.
-Terms in a prop freely generated over a monoidal signature are defined by
-juxtaposing the generators in a signature horizontally or vertically with each
-other, the identity \(
-    \iltikzfig{strings/category/identity}[comb][n]
-\) and the symmetry \(
-    \iltikzfig{strings/symmetric/symmetry}[comb][m][n]
-\).
-
-\begin{definition}
-    Let \(\ccircsigma\) be the prop freely generated over
-    \(G^C_\Sigma\).
-\end{definition}
-
-To model real-world circuits, we need a notion of \emph{state} into circuits.
-
-\begin{definition}
-    Let the monoidal signature for \emph{sequential circuits} be defined as \(
-    G^S_\Sigma
-    +
-    \{
-        \iltikzfig{circuits/components/values/v}[v]
-        \, | \,
-        v \in \circuitsignaturevalues \setminus \bullet
-    \}
-    +
-    \iltikzfig{circuits/components/waveforms/delay}
-\).
-\end{definition}
-
-The smaller generators with no inputs are \emph{instantaneous values}: these
-specify the initial state of a circuit.
-The diamond is a \emph{delay} generator, which can be thought of as delaying its
-input by one unit of time.
-We also need a notion of \emph{feedback}, which can be handled by adding some
-extra structure to the category.
-
-\begin{definition}[\cite{joyal1996traced,hasegawa2009traced}]
-    A \emph{symmetric traced monoidal category} (STMC) is a
-    symmetric monoidal category \(\mcc\) equipped with functions
-    \(
-        \morph{
-            \trace{X}[A][B]{-}
-        }{
-            \mcc(X \tensor A, X \tensor B)
-        }{
-            \mcc(X, Y)
-        }
-    \) satisfying the axioms of STMCs listed in \cref{app:equations},
-    \cref{fig:stmc-axioms}.
-\end{definition}
-
-\begin{definition}
-    Let \(\scircsigma\) be the traced prop freely generated over \(G^S_\Sigma\).
-\end{definition}
-
-\(\ccircsigma\) and \(\scircsigma\) define the \emph{syntax} of digital
-circuits.
-Semantics are specified with an \emph{interpretation}.
-Recall that a function \(f\) between two posets is \emph{monotone}
-if \(x \leq y \Rightarrow f(x) \leq f(y)\): monotone functions are the
-interpretation of combinational circuits.
-We write \(\bot^n\) for the \(n\)-tuple containing only \(\bot\) values.
-
-\begin{definition}[Interpretation~\cite{ghica2022compositional}]\label{def:interpretation}
-    An interpretation of a signature \(
-        \circuitsignature = (
-            \circuitsignaturevalues,
-            \bullet,
-            \circ,
-            \circuitsignaturegates,
-            \circuitsignaturearity
-        )
-    \) is a tuple \(
-        \interpretation = (
-            \values,
-            \valueinterpretation,
-            \gateinterpretation
-        )
-    \) where \((\values,\sqsubseteq, \bot,\top)\) is a finite lattice,
-    \(\valueinterpretation\) is a function
-    \(\circuitsignaturevalues \to \values\),
-    and \(\gateinterpretation\) is a map sending each \(
-        g \in \circuitsignaturegates
-    \) to a monotone function \(
-        \valuetuple{\circuitsignaturearity(g)} \to \values
-    \). These functions are required to satisfy \(
-        \valueinterpretation[\bullet] = \bot
-    \); \(
-        \valueinterpretation[\circ] = \top
-    \); \(
-        \gateinterpretation[g](\bot^m) = \bot
-    \); and \(
-        \gateinterpretation[g](\overline{v})
-    \) is in the image of \(\valueinterpretation\) for all \(
-        \overline{v} \in \valuetuple{m}
-    \).
-\end{definition}
-
-The semantics of digital circuits are defined using a prop morphism into
-a category of \emph{stream functions}.
-However, it is more intuitive to reason \emph{equationally}.
-Since these are symmetric (traced) categories, the axioms of STMCs in
-\cref{fig:stmc-equations} hold by default; since we are using string diagrams
-they can be `applied' by moving boxes and wires around without altering their
-connectivity.
-However, more interesting equations that show the effects of \emph{computation}
-must be applied explicitly.
-In \cite{ghica2022compositional} several equational theories for digital
-circuits were presented: we will focus on the \emph{local} equational theory
-in this paper.
-In particular, this includes an equation for eliminating
-\emph{non-delay-guarded} feedback from circuits.
-
-\begin{figure*}
-    \centering
-    \combinationalequationslist
-    \begin{minipage}[b]{0.215\textwidth}
-        \forkgateeqn
-    \end{minipage}
-    \hspace{-0.6em}
-    \begin{minipage}[b]{0.174\textwidth}
-        \stubgateeqn
-    \end{minipage}
-    \hspace{-0.6em}
-    \begin{minipage}[b]{0.171\textwidth}
-        \stubdelayeqn
-    \end{minipage}
-    \hspace{-0.6em}
-    \begin{minipage}[b]{0.164\textwidth}
-        \forkjoininverseeqn
-    \end{minipage}
-    \hspace{-0.6em}
-    \begin{minipage}[b]{0.2714\textwidth}
-        \streamingeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.16\textwidth}
-        \disconnecteqn
-    \end{minipage}
-    \begin{minipage}[b]{0.2\textwidth}
-        \forkdelayeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.2\textwidth}
-        \joindelayeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.19\textwidth}
-        \instantfeedbackeqn
-    \end{minipage}
-    \begin{minipage}[b]{0.21\textwidth}
-        \delaydiscardeqn
-    \end{minipage}
-    \caption{
-        Axioms of \(\scircsigmal\).
-        See also \cref{app:equations}, \cref{fig:bialgebra-axioms}.
-    }
-    \label{fig:local-equations}
-\end{figure*}
-
-\begin{definition}[Iteration~\cite{ghica2022compositional}]
-    For a combinational circuit \(
-        \iltikzfig{circuits/components/circuits/f-2-2}[F][comb][x][m][x][n],
-    \)
-    let its \emph{\(n\)th iteration} \(
+    \] and \[
+        \equations[\mathbf{SCirc}]
+    \] are listed in \cref{fig:local-equations}, where \(
         \iltikzfig{circuits/components/circuits/f-1-2}[F^n][comb][m][x][n]
-    \) be defined inductively as \(
+    \) is defined inductively as \(
         \iltikzfig{circuits/instant-feedback/f0-box}
         :=
         \iltikzfig{circuits/instant-feedback/f0-definition}
@@ -269,21 +41,94 @@ In particular, this includes an equation for eliminating
     \).
 \end{definition}
 
-\begin{definition}[Fixpoint]
-    Given an interpretation with value lattice \(\values\), the \emph{fixpoint}
-    of a combinational circuit \(
-        \iltikzfig{circuits/components/circuits/f-2-2}[F][comb][x][m][x][n]
-    \), denoted as \(
-        \iltikzfig{circuits/components/circuits/f-1-2}[F^\dagger][comb][m][x][n]
-    \), is defined as \(
-        \iltikzfig{circuits/instant-feedback/fc-box}[m][x][n]
-    \) where \(c\) is the length of the longest chain in \(\valuetuple{x}\).
-\end{definition}
+The first generators are \emph{gates}, and the remainder are \emph{structural}
+generators for \emph{introducing}, \emph{forking}, \emph{joining}, \emph{stubbing},
+\emph{expanding} or \emph{collapsing} wires.
+The latter two generators were not present in the original formulation
+in~\cite{ghica2022compositional}: they have been adapted
+from~\cite{wilson2022stringa}.
 
-\begin{definition}[\cite{ghica2022compositional}]
-    Let \(\scircsigmal\) be defined as \(\scircsigma\) quotiented by the
-    equations in \cref{fig:bialgebra,fig:local-equations}.
-\end{definition}
+
+The smaller generators with no inputs are \emph{instantaneous values}: these
+specify the initial state of a circuit.
+The diamond is a \emph{delay} generator, which can be thought of as delaying its
+input by one unit of time.
+
+\begin{figure*}
+    \centering
+    \begin{minipage}[b]{0.28\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Gate}\)}
+            \iltikzfig{circuits/axioms/gate-lhs}
+            =
+            \iltikzfig{circuits/axioms/gate-rhs}
+            \label{eq:gate}
+        \end{equation}
+    \end{minipage}%
+    \begin{minipage}[b]{0.24\textwidth}
+        \begin{equation}\textbf{}
+            \tag{\(\mathsf{Fork}\)}
+            \iltikzfig{circuits/axioms/fork-lhs}[v]
+            =
+            \iltikzfig{circuits/axioms/fork-rhs}[v]
+            \label{eq:fork}
+        \end{equation}
+    \end{minipage}%
+    \begin{minipage}[b]{0.25\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Join}\)}
+            \iltikzfig{circuits/axioms/join-lhs}[v][w]
+            =
+            \iltikzfig{circuits/axioms/join-rhs}[v][w]
+            \label{eq:join}
+        \end{equation}
+    \end{minipage}
+
+    \begin{minipage}[b]{0.22\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{Stub}\)}
+            \iltikzfig{circuits/axioms/stub-lhs}[v]
+            =
+            \iltikzfig{strings/monoidal/empty}
+            \label{eq:stub}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+        \forkgateeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \stubgateeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \stubdelayeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.22\textwidth}
+        \forkjoininverseeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.4\textwidth}
+        \streamingeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \disconnecteqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \forkdelayeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.25\textwidth}
+        \joindelayeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+        \instantfeedbackeqn
+    \end{minipage}
+    \begin{minipage}[b]{0.35\textwidth}
+        \delaydiscardeqn
+    \end{minipage}
+    \caption{
+        Axioms of \(\scircsigmal\).
+        See also \cref{app:equations}, \cref{fig:bialgebra-axioms}.
+    }
+    \label{fig:local-equations}
+\end{figure*}
 
 Reasoning with circuits can then be performed by applying equations in
 \(\scircsigmal\).
