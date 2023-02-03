@@ -1,4 +1,62 @@
+% !TeX root = ../main-conf.tex
 \section{Conclusion, related and further work}
+
+We have shown how the framework for rewriting string diagrams modulo Frobenius
+structure~\cite{bonchi2022string} and symmetric monoidal
+structure~\cite{bonchi2021string} can also be adapted for rewriting modulo
+traced comonoid structure, by looking at graphs that sit `in between' the two
+settings.
+
+Graphical languages for traced categories have seen many applications, such as
+to illustrate cyclic lambda calculi~\cite{hasegawa1997recursion}, or to reason
+graphically about programs~\cite{schweimeier1999categorical}.
+The presentation as \emph{string diagrams} has existed since the
+90s~\cite{joyal1991geometry,joyal1996traced}; a soundness and completeness
+theorem for traced string diagrams, while folklore for many years but only
+proven for certain signatures~\cite{selinger2011survey}, was finally shown
+in~\cite{kissinger2014abstract}.
+Combinatorial languages predate even this, having existed since at least the 80s
+in the guise of
+\emph{flowchart schemes}~\cite{stefanescu1990feedback,cazanescu1990new,cazanescu1994feedback}
+These diagrams have also been used to show the completeness of finite dimensional
+vector spaces~\cite{hasegawa2008finite} and, when equipped with a dagger,
+Hilbert spaces~\cite{selinger2012finite}.
+
+We are not just concerned with diagrammatic languages as a standalone concept:
+we are interested in performing \emph{graph rewriting} with them in order to
+reason about monoidal theories.
+This has been been studied in the context of traced categories before with
+\emph{string graphs}~\cite{kissinger2012pictures,dixon2013opengraphs}.
+We have instead opted to use the \emph{hypergraph} framework
+of~\cite{bonchi2022string,bonchi2021string,bonchi2022stringa} as a basis for our
+rewriting framework, as it allows rewriting modulo \emph{yanking}, is more
+extensible for rewriting modulo comonoid structure, and there is less hassle
+involved with wire homeomorphisms.
+
+As mentioned during the case studies, there are still elements of the rewriting
+framework that are somewhat informal.
+One such issue involves defining rewrite spans for arbitrary subgraphs: this is
+hard to do at a general level because the edges must be concretely specified in
+DPO rewriting.
+However, if we performed rewriting with
+\emph{hierarchical hypergraphs}~\cite{alvarez-picallo2021functorial}, in
+which edges can have hypergraphs as labels, we could `compress' the subgraph
+into a single edge that can be rewritten.
+
+In situations such as the sequential circuits study in \cref{sec:digital-circuits},
+wires of width greater than one often represent bundles (or \emph{buses}) of
+wires.
+In regular prop notation this is merely syntactic sugar to avoid drawing
+multiple wires in parallel: moreover, when interpreted as hypergraphs a vertex
+is created for each wire.
+This means that simple circuits can quickly get very large.
+Usefully, the results of \cite{bonchi2021string} are also shown to extend to the
+multi-sorted case, in which vertices are labelled in addition to wires; we could
+use this in combination with the \emph{strictifiers} of~\cite{wilson2022string}
+which can transform buses of wires into thinner or thicker ones in order to
+drastically reduce the number of elements in a hypergraph, ideal from a
+computational point of view.
+
 
 \begin{figure}
     \centering
