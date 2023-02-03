@@ -366,9 +366,9 @@ order to use these existing prop morphisms
     \end{proof}
 }{}
 
-\begin{proposition}
+\begin{proposition}\label{prop:trace-to-sym-frob}
     There exists a faithful prop morphism \(
-        \morph{\tracedtosymandfrob}{\stmc{\Sigma}}{\smc{\Sigma} + \frob}
+        \morph{\tracedtosymandfrob{\Sigma}}{\stmc{\Sigma}}{\smc{\Sigma} + \frob}
     \).
 \end{proposition}
 \begin{proof}
@@ -461,7 +461,7 @@ We now proceed to the first main result.
 
 \begin{theorem}\label{thm:termtohyp-image}
     A cospan \(\cospan{m}{F}{n}\) is in the image of \(
-        \termandfrobtohypsigma \circ \tracedtosymandfrob\) if
+        \termandfrobtohypsigma \circ \tracedtosymandfrob{\Sigma}\) if
     and only if it is partial monogamous.
 \end{theorem}
 \iftoggle{proofs}{

@@ -60,13 +60,10 @@ with such a structure are also known as \emph{gs-monoidal}
 \end{definition}
 
 From now on, we write `comonoid' to mean `commutative comonoid'.
-There has already been work into hypergraphs at the `halfway point' between
-symmetric monoidal and Frobenius terms: \cite{fritz2022free} examines a general
-construction for constructing free gs-categories as hypergraphs, and
-\cite{milosavljevic2022string} presensts results for rewriting with a
-commutative \emph{monoid} structure.
-However, both of these papers consider \emph{acyclic} hypergraphs: we must
-ensure that removing the acyclicity condition does not lead to any degeneracies.
+There has already been work using hypergraphs for props with a (co)monoid
+structure~\cite{fritz2022free,milosavljevic2022string} but these consider
+\emph{acyclic} hypergraphs: we must ensure that removing the acyclicity
+condition does not lead to any degeneracies.
 
 \begin{definition}[Partial left-monogamy]
     For a cospan \(\cospan{m}[f]{H}[g]{n}\), we say it is
@@ -168,9 +165,24 @@ This category can be equipped with a comonoid structure.
 
 \iftoggle{conf}{
     \begin{definition}
-        Let \(\morph{\comonoidtohyp{\Sigma}}{\ccomon}{\cspdhyp}\) be the
-        restriction of \(\frobtohyp{\Sigma}\) from \cref{def:hyp-morphisms} to the
-        generators in \(\generators[\ccomon]\).
+        Let \(
+            \morph{
+                \comonoidtofrob
+            }{
+                \ccomon
+            }{
+                \frob
+            }
+        \) be the obvious embedding of \(\ccomon\) into \(\frob\), and let \(
+            \morph{
+                \tracedandcomonoidtofrob{\Sigma}
+            }{
+                \stmc{\Sigma} + \comon
+            }{
+                \smc{\Sigma} + \frob
+            }
+        \) be the copairing of \(\tracedtosymandfrob{\Sigma}\) and
+        \(\comonoidtofrob\).
     \end{definition}
 }{
     \begin{proposition}[\cite{lack2004composing}, Example 5.2]
@@ -207,7 +219,7 @@ This category can be equipped with a comonoid structure.
 }
 
 \begin{lemma}
-    The image of \(\comonoidtohyp{\Sigma}\) is in \(\plmcspdhyp\).
+    The image of \(\frobtohyp{\Sigma} \circ \comonoidtofrob\) is in \(\plmcspdhyp\)
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
@@ -215,15 +227,20 @@ This category can be equipped with a comonoid structure.
     \end{proof}
 }{}
 
-\begin{definition}
-    Let \(\morph{\termandfrobtohypsigma}{\stmcsigma + \ccomon}{\plmcspfihyp}\) be
-    defined as the copairing of \(\tracedtosymandfrob\) and \(\comonoidtohyp{\Sigma}\).
-\end{definition}
+\begin{corollary}
+    The image of \(
+        \termandfrobtohypsigma \circ [\tracedtosymandfrob{\Sigma}, \comonoidtofrob]
+    \) is in \(\plmcspdhyp\).
+\end{corollary}
 
 \begin{lemma}\label{lem:ccomon-term}
     Given a left-monogamous cospan \(\cospan{m}[f]{m}[g]{n}\), there exists a
     unique term \(\morph{h}{m}{n} \in \ccomon\) up to the axioms of SMCs such
-    that \(\comonoidtohyp{\Sigma}\) = \(\cospan{m}[f]{m}[g]{n}\).
+    that \(
+        \frobtohyp{\Sigma} \circ \comonoidtofrob
+        =
+        \cospan{m}[f]{m}[g]{n}
+    \).
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}

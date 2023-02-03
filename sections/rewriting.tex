@@ -10,6 +10,9 @@ actually rewrite the components of the graph.
 In the syntactic realm this is performed with \emph{term rewriting}.
 
 \begin{definition}[Term rewriting]\label{def:term-rewriting}
+    A \emph{rewriting system} \(\mcr\) for a traced prop \(\stmc{\Sigma}\)
+    consists of a set of \emph{rewrite rules} \(\rrule{l}{r}\), in which
+    \(l, r \in \stmc{\Sigma}(m,n)\).
     Given terms \(
         \iltikzfig{strings/category/f}[g][white]
     \) and \(
@@ -18,11 +21,10 @@ In the syntactic realm this is performed with \emph{term rewriting}.
         \iltikzfig{strings/category/f}[g][white]
         \rewrite[\equations]
         \iltikzfig{strings/category/f}[h][white]
-    \) if there exists equation \(
-        \iltikzfig{strings/category/f}[l][white]
-        =
+    \) if there exists rewrite rule\((
+        \iltikzfig{strings/category/f}[l][white],
         \iltikzfig{strings/category/f}[r][white]
-    \) in \(\equations\) and \(
+    )\) in \(\equations\), and the equations \(
         \iltikzfig{strings/category/f}[g][white]
         =
         \iltikzfig{strings/rewriting/rewrite-l}
@@ -30,7 +32,7 @@ In the syntactic realm this is performed with \emph{term rewriting}.
         \iltikzfig{strings/category/f}[h][white]
         =
         \iltikzfig{strings/rewriting/rewrite-r}
-    \) by axioms of STMCs.
+    \) hold by axioms of STMCs.
 \end{definition}
 
 The graph equivalent is \emph{graph rewriting}.
@@ -38,40 +40,71 @@ A common framework is that of \emph{double pushout rewriting} (DPO rewriting).
 We use an extension, known as \emph{double pushout rewriting with interfaces},
 (DPOI rewriting).
 
-\begin{definition}[Rewrite rule]
+\begin{definition}[Rewrite span]
     Given interfaced hypergraphs \(
         \cospan{i}[a_1]{L}[a_2]{j}
     \) and \(
         \cospan{i}[b_1]{R}[b_2]{j}
-    \), their rewrite rule is a span in \(\hypsigma\): \(
+    \), their \emph{rewrite span} in \(\hypsigma\): \(
         \spann{L}[[a_1,a_2]]{i+j}[[b_1,b_2]]{R}
     \).
 \end{definition}
 
 \begin{definition}[DPO(I) rewriting]\label{def:dpo}
-    For morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in
+    Let \(\mcr\) be a set of rewrite spans.
+    Then, for morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in
     \(\hypsigma\), there is a rewrite \(G \trgrewrite[\mcr] H\) if there
     exists a rule \(
-        \spann{L}{i+j}{G} \in \mcr
+        \spann{L}{i+j}{R} \in \mcr
     \) and cospan \(
         \cospan{i+j}{C}{n+m} \in \hypsigma
-    \) such that diagram below commutes:
-    \begin{center}
-        \includestandalone{figures/graphs/dpo/dpo}
-    \end{center}
+    \) such that diagram in the left of \cref{fig:dpo} commutes.
 \end{definition}
 
-The first thing to
+\begin{figure}
+    \centering
+    \raisebox{1em}{\includestandalone{figures/graphs/dpo/dpo}}
+    \qquad
+    \includestandalone{figures/graphs/dpo/pushout-complement}
+    \caption{The DPO diagram and a pushout complement.}
+    \label{fig:dpo}
+\end{figure}
 
-\begin{definition}
-    Let \(\foldinterfaces\) be defined
+The first thing to note is that the graphs in the DPO diagram have a
+\emph{single} interface \(G \leftarrow m + n\) instead of the cospans \(
+    \cospan{m}{G}{n}
+\) we are used to.
+Before performing DPO rewriting in \(\hypsigma\), the interfaces must be
+`folded' into one.
+
+\begin{definition}[\cite{bonchi2021string}]
+    Let \(\morph{\foldinterfaces}{\smc{\Sigma} + \frob}{\smc{\Sigma} + \frob}\)
+    be defined as having action \(
+        \iltikzfig{strings/category/f}[f][white][m][n]
+        \mapsto
+        \iltikzfig{strings/rewriting/folding}[f][white][m][n]
+    \).
 \end{definition}
 
-Note that the image of \(\foldinterfaces\) is not in \(\stmc{\Sigma}\).
+Note that the result of applying \(\foldinterfaces\) is not in the image of \(
+    \termandfrobtohypsigma \circ \tracedtosymandfrob{\Sigma}
+\) any more.
 This is not an issue, so long as we `unfold' the interfaces once rewriting is
 completed.
 
-In order to apply a given rewrite rule \(\spann{L}{i+j}{R}\) in some larger
+\begin{proposition}[\cite{bonchi2022string}, Prop. 4.8]
+    If \(
+        \termandfrobtohypsigma[\iltikzfig{strings/category/f}[f][white]]
+        =
+        \cospan{m}[i]{F}[o]{n}
+    \) then \(
+        \termandfrobtohypsigma[\iltikzfig{strings/category/f}[f][white]]
+    \) is isomorphic to \(
+        \cospan{0}[]{F}[i+o]{m+n}
+    \).
+\end{proposition}
+
+In order to apply a given rewrite span \(\spann{L}{i+j}{R}\) in some larger
 graph \(\cospan{m}{G}{n}\), a morphism \(L \to G\) must first be identified.
 The next step is to `cut out' the components of \(L\) which exist in \(G\).
 
@@ -80,10 +113,7 @@ The next step is to `cut out' the components of \(L\) which exist in \(G\).
     \(\hypsigma\).
     Then the \emph{pushout complement} of these morphisms is an object \(C\)
     with morphisms \(i + j \to C \to G\) such that \(\cospan{L}{G}{C}\) is a
-    pushout and the following diagram commutes:
-    \begin{center}
-        \includestandalone{figures/graphs/dpo/pushout-complement}
-    \end{center}
+    pushout and the diagram on the right of \cref{fig:dpo} commutes.
 \end{definition}
 
 Once a pushout complement \(C\) is computed, the pushout of
@@ -93,11 +123,9 @@ However, a pushout complement may not exist for a given rule and matching.
 \begin{definition}[\cite{bonchi2022string}, Definition 3.16]
     Let \(i + j \xrightarrow{a} L \xrightarrow{f} G\) be morphisms in
     \(\hypsigma\).
-
     The morphisms satisfy the \emph{no-dangling} condition if, for every
     hyperedge not in the image of \(f\), each of its source and target vertices
     is either not in the image of \(m\) or in the image of \(i \seq m\).
-
     The morphisms satisfy the \emph{no-identification} condition if, for any two
     distinct vertices \(v_1\) and \(v_2\) such that \(m(v_1) = m(v_2)\), \(v_1\)
     and \(v_2\) are in the image of \(i\).
@@ -136,14 +164,11 @@ However, as shall be detailed later, when writing modulo traced comonoid
 structure there are settings where having multiple pushout complements is
 beneficial.
 
-Before we proceed
-
 \subsection{Rewriting with traced structure}
 
 While in the Frobenius case considered in~\cite{bonchi2022string}, all valid
 pushout complements correspond to a valid rewrite, this is not the case for the
-traced monoidal case: for example, a wire cannot connect the outputs of two
-boxes together.
+traced monoidal case.
 In \cite{bonchi2021string}, pushout complements that correspond to a valid
 rewrite in the non-traced symmetric monoidal case are identified as
 \emph{boundary complements}.
@@ -485,16 +510,24 @@ in~\cite{bonchi2022string} for the symmetric monoidal case.
     \end{proof}
 }{}
 
+Given a rewrite system \(\mce\), we write \(
+    \foldinterfaces[\tracedtosymandfrob{\Sigma}[\mce]]
+\) for the map with pointwise action \(
+    (l, r)
+    \mapsto
+    (\foldinterfaces[\tracedtosymandfrob{\Sigma}[l]], \foldinterfaces[\tracedtosymandfrob{\Sigma}[r]])
+\).
+
 \begin{theorem}\label{thm:traced-rewriting}
     Let \(\mcr\) be a rewriting system on \(\stmcsigma\).
     Then, \(
         \iltikzfig{strings/category/f}[g][white]
         \rewrite[\mcr]
-        \iltikzfig{strings/category/f}[H][white]
+        \iltikzfig{strings/category/f}[h][white]
     \) if and only if \(
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[g][white]]]
-        \grewrite[\termandfrobtohypsigma[\foldinterfaces[\mcr]]]
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]].
+        \termandfrobtohypsigma[\foldinterfaces[\tracedtosymandfrob{\Sigma}[\iltikzfig{strings/category/f}[g][white]]]]
+        \grewrite[\termandfrobtohypsigma[\foldinterfaces[\tracedtosymandfrob{\Sigma}[\mcr]]]]
+        \termandfrobtohypsigma[\foldinterfaces[\tracedtosymandfrob{\Sigma}[\iltikzfig{strings/category/f}[h][white]]]].
     \)
 \end{theorem}
 \iftoggle{proofs}{
@@ -503,12 +536,11 @@ in~\cite{bonchi2022string} for the symmetric monoidal case.
     \end{proof}
 }{
     \begin{proof}
-        The \(\onlyifdir\) follows by defining cospans corresponding each part
-        of \cref{def:term-rewriting} and composing them together appropriately:
+        \(\onlyifdir\) follows by defining cospans corresponding each part
+        of \cref{def:term-rewriting} and composing them together:
         since composition of cospans is by pushout, the DPO diagram can be
         recovered and the pushouts checked to be traced boundary complements.
-
-        The \(\ifdir\) follows by using \cref{lem:traced-decomposition} and the
+        \(\ifdir\) follows by using \cref{lem:traced-decomposition} and the
         fullness of \(\termandfrobtohypsigma\) to obtain the pieces of
         \cref{def:term-rewriting}.
     \end{proof}
@@ -559,12 +591,30 @@ boundary complement conditions need to be weakened to the case of
     Then, \(
         \iltikzfig{strings/category/f}[g][white]
         \rewrite[\mcr]
-        \iltikzfig{strings/category/f}[H][white]
+        \iltikzfig{strings/category/f}[h][white]
     \) in \(\stmcsigma + \ccomon\) if and only if \(
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[g][white]]]
-        \grewrite[\termandfrobtohypsigma[\foldinterfaces[\mcr]]]
-        \termandfrobtohypsigma[\foldinterfaces[\iltikzfig{strings/category/f}[H][white]]].
-    \)
+        \termandfrobtohypsigma[
+            \foldinterfaces[
+                \tracedandcomonoidtofrob[
+                    \iltikzfig{strings/category/f}[g][white]
+                ]{\Sigma}
+            ]
+        ]
+        \grewrite[
+            \termandfrobtohypsigma[
+                \foldinterfaces[
+                    \tracedandcomonoidtofrob[\mcr]{\Sigma}
+                ]
+            ]
+        ]
+        \termandfrobtohypsigma[
+            \foldinterfaces[
+                \tracedandcomonoidtofrob[
+                    \iltikzfig{strings/category/f}[h][white]
+                ]{\Sigma}
+            ]
+        ].
+    \).
 \end{theorem}
 \begin{proof}
     This is the same as for \cref{thm:traced-rewriting} but with the replacement
