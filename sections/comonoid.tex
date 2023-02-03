@@ -1,48 +1,6 @@
 % !TeX root = ../main-conf.tex
 \section{Hypergraphs for traced commutative comonoid categories}
 
-\begin{figure}
-    \centering
-    \begin{minipage}{0.2\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{C1}\)}
-            \iltikzfig{strings/structure/comonoid/unitality-l-lhs}
-            =
-            \iltikzfig{strings/structure/comonoid/unitality-l-rhs}
-            \label{eq:comonoid-unitality-l}
-        \end{equation}
-    \end{minipage}
-    \begin{minipage}{0.22\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{C2}\)}
-            \iltikzfig{strings/structure/comonoid/unitality-r-lhs}
-            =
-            \iltikzfig{strings/structure/comonoid/unitality-r-rhs}
-            \label{eq:comonoid-unitality-r}
-        \end{equation}
-    \end{minipage}
-    \begin{minipage}{0.27\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{C3}\)}
-            \iltikzfig{strings/structure/comonoid/associativity-lhs}
-            =
-            \iltikzfig{strings/structure/comonoid/associativity-rhs}
-            \label{eq:comonoid-associativity}
-        \end{equation}
-    \end{minipage}
-    \begin{minipage}{0.27\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{C4}\)}
-            \iltikzfig{strings/structure/comonoid/commutativity-lhs}
-            =
-            \iltikzfig{strings/structure/comonoid/commutativity-rhs}
-            \label{eq:comonoid-commutativity}
-        \end{equation}
-    \end{minipage}
-    \caption{Equations of \(\ccomon\).}
-    \label{fig:comonoid-equations}
-\end{figure}
-
 In addition to the trace, there is another element of structure we are
 interested in: the ability to \emph{copy} and \emph{discard} wires.
 This is known as a \emph{(commutative) comonoid structure}: categories equipped
@@ -55,7 +13,7 @@ with such a structure are also known as \emph{gs-monoidal}
         \iltikzfig{strings/structure/comonoid/copy}[white],
         \iltikzfig{strings/structure/comonoid/discard}[white]
     \}\) and \(\mce_\ccomon\) defined as the equations in
-    \cref{fig:comonoid-equations}.
+    \cref{app:equations}, \cref{fig:comonoid-equations}.
     We write \(\ccomon := \smc{\generators[\ccomon], \equations[\ccomon]}\).
 \end{definition}
 

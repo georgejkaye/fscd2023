@@ -1,3 +1,4 @@
+% !TeX root = ../../main-conf.tex
 \section{Equations}
 \label{app:equations}
 
@@ -57,87 +58,178 @@ equations of a commutative comonoid.
 
 \begin{figure}
     \centering
-    \begin{minipage}{0.3\textwidth}
-        \begin{align}
-            \tag{\(\mathsf{C1}\)}
-            \iltikzfig{strings/structure/comonoid/unitality-l-lhs}
-            &=
-            \iltikzfig{strings/structure/comonoid/unitality-l-rhs}
-            \label{eq:comonoid-unitality-l}
-            \\[0.5em]
-            \tag{\(\mathsf{C2}\)}
-            \iltikzfig{strings/structure/comonoid/unitality-r-lhs}
-            &=
-            \iltikzfig{strings/structure/comonoid/unitality-r-rhs}
-            \label{eq:comonoid-unitality-r}
-            \\[0.5em]
-            \tag{\(\mathsf{C3}\)}
-            \iltikzfig{strings/structure/comonoid/associativity-lhs}
-            &=
-            \iltikzfig{strings/structure/comonoid/associativity-rhs}
-            \label{eq:comonoid-associativity}
-            \\[0.5em]
-            \tag{\(\mathsf{C4}\)}
-            \iltikzfig{strings/structure/comonoid/commutativity-lhs}
-            &=
-            \iltikzfig{strings/structure/comonoid/commutativity-rhs}
-            \label{eq:comonoid-commutativity}
-        \end{align}
-    \end{minipage}
-    \begin{minipage}{0.3\textwidth}
-        \begin{align}
+    \begin{minipage}{0.21\textwidth}
+        \begin{equation}
             \tag{\(\mathsf{M1}\)}
             \iltikzfig{strings/structure/monoid/unitality-l-lhs}
-            &=
+            =
             \iltikzfig{strings/structure/monoid/unitality-l-rhs}
             \label{eq:monoid-unitality-l}
-            \\[0.5em]
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.26\textwidth}
+        \begin{equation}
             \tag{\(\mathsf{M2}\)}
-            \iltikzfig{strings/structure/monoid/unitality-r-lhs}
-            &=
-            \iltikzfig{strings/structure/monoid/unitality-r-rhs}
-            \label{eq:monoid-unitality-r}
-            \\[0.5em]
-            \tag{\(\mathsf{M3}\)}
             \iltikzfig{strings/structure/monoid/associativity-lhs}
-            &=
+            =
             \iltikzfig{strings/structure/monoid/associativity-rhs}
             \label{eq:monoid-associativity}
-            \\[0.5em]
-            \tag{\(\mathsf{M4}\)}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.26\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{M3}\)}
             \iltikzfig{strings/structure/monoid/commutativity-lhs}
-            &=
+            =
             \iltikzfig{strings/structure/monoid/commutativity-rhs}
             \label{eq:monoid-commutativity}
-        \end{align}
+        \end{equation}
     \end{minipage}
-    \begin{minipage}{0.3\textwidth}
-        \begin{align}
+    \caption{Equations \(\equations[\cmon]\) of a \emph{commutative monoid}.}
+    \label{fig:monoid-equations}
+\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.21\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{C1}\)}
+            \iltikzfig{strings/structure/comonoid/unitality-l-lhs}
+            =
+            \iltikzfig{strings/structure/comonoid/unitality-l-rhs}
+            \label{eq:comonoid-unitality-l}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.26\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{C2}\)}
+            \iltikzfig{strings/structure/comonoid/associativity-lhs}
+            =
+            \iltikzfig{strings/structure/comonoid/associativity-rhs}
+            \label{eq:comonoid-associativity}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.26\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{C3}\)}
+            \iltikzfig{strings/structure/comonoid/commutativity-lhs}
+            =
+            \iltikzfig{strings/structure/comonoid/commutativity-rhs}
+            \label{eq:comonoid-commutativity}
+        \end{equation}
+    \end{minipage}
+    \caption{Equations \(\equations[\ccomon]\) of a \emph{commutative comonoid}.}
+    \label{fig:comonoid-equations}
+\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.28\textwidth}
+        \begin{equation}
             \tag{\(\mathsf{B1}\)}
             \iltikzfig{strings/structure/bialgebra/merge-copy-lhs}
-            &=
+            =
             \iltikzfig{strings/structure/bialgebra/merge-copy-rhs}
             \label{eq:bialgebra-merge-copy}
-            \\[0.5em]
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.23\textwidth}
+        \begin{equation}
             \tag{\(\mathsf{B2}\)}
             \iltikzfig{strings/structure/bialgebra/init-copy-lhs}
-            &=
+            =
             \iltikzfig{strings/structure/bialgebra/init-copy-rhs}
             \label{eq:bialgebra-init-copy}
-            \\[0.5em]
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.23\textwidth}
+        \begin{equation}
             \tag{\(\mathsf{B3}\)}
             \iltikzfig{strings/structure/bialgebra/merge-discard-lhs}
-            &=
+            =
             \iltikzfig{strings/structure/bialgebra/merge-discard-rhs}
             \label{eq:bialgebra-merge-discard}
-            \\[0.5em]
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.2\textwidth}
+        \begin{equation}
             \tag{\(\mathsf{B4}\)}
             \iltikzfig{strings/structure/bialgebra/init-discard-lhs}
-            &=
+            =
             \iltikzfig{strings/structure/bialgebra/init-discard-rhs}
             \label{eq:bialgebra-init-discard}
-        \end{align}
+        \end{equation}
     \end{minipage}
+    \caption{
+        Equations \(\equations[\bialg]\) of a \emph{bialgebra}, in
+        addition to those in
+        \cref{fig:monoid-equations,fig:comonoid-equations}.
+    }
+    \label{fig:bialgebra-equations}
+\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.27\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{F1}\)}
+            \iltikzfig{strings/structure/frobenius/frobenius-l}[X]
+            =
+            \iltikzfig{strings/structure/bialgebra/merge-copy-lhs}[X]
+            \label{eq:frobenius-l}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.27\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{F2}\)}
+            \iltikzfig{strings/structure/frobenius/frobenius-r}[X]
+            =
+            \iltikzfig{strings/structure/bialgebra/merge-copy-lhs}[X]
+            \label{eq:frobenius-r}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.24\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{F3}\)}
+            \iltikzfig{strings/structure/frobenius/copy-merge-lhs}[X]
+            =
+            \iltikzfig{strings/structure/frobenius/copy-merge-rhs}[X]
+            \label{eq:frobenius-copy-merge}
+        \end{equation}
+    \end{minipage}
+    \caption{
+        Equations \(\equations[\frob]\) of a
+        \emph{special commutative Frobenius algebra}, in addition to those in
+        \cref{fig:monoid-equations,fig:comonoid-equations}.
+    }
+    \label{fig:frobenius-equations}
+\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.29\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{CC1}\)}
+            \iltikzfig{strings/compact-closed/snake-l}[X]
+            =
+            \iltikzfig{strings/compact-closed/snake-c}[X]
+            \label{eq:snake-l}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.29\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{CC2}\)}
+            \iltikzfig{strings/compact-closed/snake-r}[X]
+            =
+            \iltikzfig{strings/compact-closed/snake-c}[X]
+            \label{eq:snake-r}
+        \end{equation}
+    \end{minipage}
+    \caption{
+        Equations \(\equations[\frob]\) of a
+        \emph{special commutative Frobenius algebra}, in addition to those in
+        \cref{fig:monoid-equations,fig:comonoid-equations}.
+    }
+    \label{fig:compact-closed-equations}
+\end{figure}
+\begin{figure}
+    \centering
     \begin{minipage}[b]{0.28\textwidth}
         \begin{equation}
             \tag{\(\mathsf{Gate}\)}
