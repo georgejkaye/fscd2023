@@ -1,1 +1,48 @@
 \section{Introduction}
+
+\begin{itemize}
+    \item We want to reason/rewrite in traced categories with comonoid structure
+            (e.g. dataflow categories are traced comonoid + cartesian,
+            digital circuits is traced + comonoid + circuit axioms)
+    \item Previous work on rewriting for traced monoidal categories with
+            \emph{string diagrams} \cite{kissinger2012pictures,dixon2013opengraphs}
+            but for these you have to work with rewriting modulo wire homeomorphisms
+            which is a pain
+    \item More recent work on rewriting with \emph{Frobenius} \cite{bonchi2022string}
+            structure with hypergraphs, and subsequently for \emph{symmetric monoidal}
+            by restricting the type of graphs and rewrites \cite{bonchi2021string}
+    \item Comonoid structure is `half' Frobenius, (co)monoid structure has been studied
+        too \cite{fritz2022free,milosavljevic2022string}
+    \item The trace sits in the middle of compact closed/frobenius and symmetric
+        monoidal (notion of causal vs relational)
+    \item The trace can be constructed using the Frobenius structure (and this
+        is fine in the land of hypergraphs because e.g. Cartesian equations do
+        not hold by default, and since we do the trace all in one go we don't
+        end up with degeneracies)
+    \item \textbf{Contribution 1:} show that a subclass of cospans of hypergraphs
+        called \emph{partial monogamous} are in correspondence with
+        traced terms, and \emph{partial left-monogamous} cospans are in
+        correspondence with traced comonoid terms.
+    \item \textbf{Design choice:} what precisely should a partial monogamous
+        hypergraph be? Sticking point e.g. how to represent trace of the
+        identity (closed loop). In the frobenius realm this is a disconnected
+        vertex not in the interfaces: is this okay for traced? When adding
+        comonoid structure does this still work with the trace of the fork?
+    \item When rewriting with Frobenius, every pushout complement is valid.
+        When rewriting with symmetric monoidal, exactly one pushout complement
+        is valid.
+        In the traced case, \emph{some} are valid.
+    \item \textbf{Contribution 2:} show that \emph{traced boundary complements}
+        correspond to valid traced rewrites
+    \item \textbf{Example}: there is a pushout complement below that is valid
+        in Frobenius because it uses the monoid structure, but not in a
+        traced or even traced comonoid setting
+    \begin{center}
+        \emph{I will draw picture later}
+    \end{center}
+    \item \textbf{Design choices:} what precisely is a traced boundary
+        complement? In the end it turned out to be very similar to the symmetric
+        monoidal case but everything was partial monogamous instead of vanilla
+        monogamous. What happens when we make the matching non-mono (it is mono
+        for symmetric monoidal)
+\end{itemize}
