@@ -32,8 +32,17 @@ theory:
 
 As the equations in \(\equations[\mathbf{Cart}_\mathbf{C}]\) are parameterised
 over any morphism \(\iltikzfig{strings/category/f}[F][white][m][n]\), a separate
-DPO rewrite rule is required for every combination of generators: an example is
-also shown in \(\cref{fig:cartesian-equations}\).
+DPO rewrite rule is required for every combination of generators as in
+\cref{fig:cartesian-equations}.
+
+\begin{remark}
+    The combination of Cartesian equations with the underlying compact closed
+    structure of \(\cspdhyp\) may prompt alarm bells, as it is well known that
+    a compact closed category with products is trivial.
+    However, it is important to note that \(\cspdhyp\) is \emph{not} subject to
+    these equations: it is only being used as a setting for performing graph
+    rewrites.
+\end{remark}
 
 \begin{remark}
     A naive attempt to define a finite set of Cartesian rewrite rules might be
@@ -45,6 +54,7 @@ also shown in \(\cref{fig:cartesian-equations}\).
     replace the concrete generator edge with a single edge representing an
     arbitrary subgraph, but this remains as future work.
 \end{remark}
+
 
 \begin{figure}
     \centering

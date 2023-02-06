@@ -65,18 +65,20 @@ circuit have been isolated from a core \(
     \iltikzfig{strings/category/f-2-2}[F][comb]
 \) containing only `blue' (\emph{combinational}) components, which models a
 function.
+It is shown in \cite[Sec. VI]{ghica2022compositional} that any sequential
+circuit can be translated into such a form by the equational theory.
 
 We can `apply' such a circuit to an input as shown in the left-hand side of
 \cref{fig:cycle}; \cite[Thm. 104]{ghica2022compositional} shows that the
 equations in \(\equations[\mathbf{SCirc}]\) can be used to derive the right-hand
 side.
-The equations \eqref{eq:gate}, \eqref{eq:fork}, \eqref{eq:join}, \eqref{eq:stub}
-can then be applied to reduce the two `new' cores down to values, which
-represent the output and new state of the circuit.
+The equations \eqref{eq:gate}, \eqref{eq:fork}, \eqref{eq:join} and
+\eqref{eq:stub} can then be applied to reduce the two `new' cores down to
+values, which represent the output and new state of the circuit.
 
 When the circuits are interpreted as hypergraphs and the equations as rewrites,
 it would be possible for a computer to perform this sequence of rewrites to
-evaluate circuits while being able to `peek inside' and see what is going on.
+evaluate circuits in a step-by-step manner.
 
 \begin{remark}
     This is another framework which would benefit from a way of formalising

@@ -1,8 +1,8 @@
+% !TeX root = ../../main-conf.tex
 To show that \(\termtohyp[f]{\Sigma}\) is partial monogamous for any
 \(f \in \smc{\Sigma}\) we use induction on the structure of \(f\).
 Generators, identities and symmetries are partial monogamous, as
-semi-monogamicity is preserved by composition, tensor and trace by
-\cref{lem:partial monogamous-ops}.
+semi-monogamicity is preserved by composition, tensor and trace.
 So \(\termtohyp[f]{\Sigma}\) is partial monogamous.
 
 Now we show that any partial monogamous cospan \(
@@ -26,7 +26,6 @@ The components of the new cospan are as follows:
             \(e_1,e_2,\cdots,e_n\) on the edges in \(F\).
 \end{itemize}
 
-\noindent
 These parts can be composed and a trace applied to obtain the follow
 cospan:
 \begin{gather}
@@ -38,15 +37,14 @@ cospan:
     \label{gat:cospan}
 \end{gather}
 
-\noindent
 This can be checked to be isomorphic to the original cospan
 \(\cospan{m}[f]{F}[g]{n}\) by applying the pushouts.
 From this we can read off a term in \(\smc{\Sigma}\):
 Since the first cospan is monogamous, it corresponds to a term \(
-    \iltikzfig{graphs/isomorphism/construction-f}
+    \iltikzfig{strings/category/f-2-2}[f][white][|\vertices{T}|][m][|\vertices{S}|][n]
 \) by \cref{lem:monog-discrete-cospan}.
 The second cospan corresponds to \(
-    \iltikzfig{graphs/isomorphism/construction-g}
+    \iltikzfig{strings/category/f}[g][white][|\vertices{S}][\vertices{T}]
     :=
     \bigtensor_{v \in \vertices{L}}
     \iltikzfig{strings/traced/trace-id}
@@ -55,7 +53,8 @@ The second cospan corresponds to \(
     \iltikzfig{graphs/isomorphism/label-e}
     \tensor
     \iltikzfig{strings/category/identity}[white][n]
-\).
+\), where \(\elabel{e}\) is the generator in \(\generators\) that \(e\) is
+labelled with.
 Putting this all together yields \(
     h := \termtohypsigma[\iltikzfig{graphs/isomorphism/construction}]
 \).
