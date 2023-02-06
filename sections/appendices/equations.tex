@@ -15,48 +15,6 @@ equations of a commutative comonoid.
 
 \begin{figure}[p]
     \centering
-    \begin{minipage}{0.52\textwidth}
-        \begin{align*}
-            \tag{\(\mathsf{Tighten}\)}
-            \iltikzfig{strings/traced/naturality-lhs}
-            &=
-            \iltikzfig{strings/traced/naturality-rhs}
-            \label{eq:tightening}
-            \\[0.75em]
-            \tag{\(\mathsf{Slide}\)}
-            \iltikzfig{strings/traced/sliding-lhs}
-            &=
-            \iltikzfig{strings/traced/sliding-rhs}
-            \label{eq:sliding}
-            \\[0.75em]
-            \tag{\(\mathsf{Vanish}\)}
-            \iltikzfig{strings/traced/vanishing-lhs}
-            &=
-            \iltikzfig{strings/traced/vanishing-rhs}
-            \label{eq:vanishing}
-        \end{align*}
-    \end{minipage}
-    \hspace{-1em}
-    \begin{minipage}{0.455\textwidth}
-        \begin{align*}
-            \tag{\(\mathsf{Superpose}\)}
-            \iltikzfig{strings/traced/superposing-lhs}
-            &=
-            \iltikzfig{strings/traced/superposing-rhs}
-            \label{eq:superposing}
-            \\[0.75em]
-            \tag{\(\mathsf{Yank}\)}
-            \iltikzfig{strings/traced/yanking-lhs}
-            &=
-            \iltikzfig{strings/traced/yanking-rhs}
-            \label{eq:yanking}
-        \end{align*}
-    \end{minipage}
-    \caption{Equations that hold in any STMC.}
-    \label{fig:stmc-axioms}
-\end{figure}
-\begin{figure}[p]
-    \centering
     \begin{minipage}{0.21\textwidth}
         \begin{equation}
             \tag{\(\mathsf{M1}\)}
@@ -86,6 +44,42 @@ equations of a commutative comonoid.
     \end{minipage}
     \caption{Equations \(\equations[\cmon]\) of a \emph{commutative monoid}.}
     \label{fig:monoid-equations}
+\end{figure}
+\begin{figure}[p]
+    \centering
+    \begin{minipage}{0.27\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{F1}\)}
+            \iltikzfig{strings/structure/frobenius/frobenius-l}[X]
+            =
+            \iltikzfig{strings/structure/bialgebra/merge-copy-lhs}[X]
+            \label{eq:frobenius-l}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.27\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{F2}\)}
+            \iltikzfig{strings/structure/frobenius/frobenius-r}[X]
+            =
+            \iltikzfig{strings/structure/bialgebra/merge-copy-lhs}[X]
+            \label{eq:frobenius-r}
+        \end{equation}
+    \end{minipage}refs
+    \begin{minipage}{0.24\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{F3}\)}
+            \iltikzfig{strings/structure/frobenius/copy-merge-lhs}[X]
+            =
+            \iltikzfig{strings/structure/frobenius/copy-merge-rhs}[X]
+            \label{eq:frobenius-copy-merge}
+        \end{equation}
+    \end{minipage}
+    \caption{
+        Equations \(\equations[\frob]\) of a
+        \emph{special commutative Frobenius algebra}, in addition to those in
+        \cref{fig:monoid-equations,fig:comonoid-equations}.
+    }
+    \label{fig:frobenius-equations}
 \end{figure}
 \begin{figure}[p]
     \centering
@@ -166,39 +160,45 @@ equations of a commutative comonoid.
 \end{figure}
 \begin{figure}[p]
     \centering
-    \begin{minipage}{0.27\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{F1}\)}
-            \iltikzfig{strings/structure/frobenius/frobenius-l}[X]
-            =
-            \iltikzfig{strings/structure/bialgebra/merge-copy-lhs}[X]
-            \label{eq:frobenius-l}
-        \end{equation}
+    \begin{minipage}{0.52\textwidth}
+        \begin{align*}
+            \tag{\(\mathsf{Tighten}\)}
+            \iltikzfig{strings/traced/naturality-lhs}
+            &=
+            \iltikzfig{strings/traced/naturality-rhs}
+            \label{eq:tightening}
+            \\[0.75em]
+            \tag{\(\mathsf{Slide}\)}
+            \iltikzfig{strings/traced/sliding-lhs}
+            &=
+            \iltikzfig{strings/traced/sliding-rhs}
+            \label{eq:sliding}
+            \\[0.75em]
+            \tag{\(\mathsf{Vanish}\)}
+            \iltikzfig{strings/traced/vanishing-lhs}
+            &=
+            \iltikzfig{strings/traced/vanishing-rhs}
+            \label{eq:vanishing}
+        \end{align*}
     \end{minipage}
-    \begin{minipage}{0.27\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{F2}\)}
-            \iltikzfig{strings/structure/frobenius/frobenius-r}[X]
-            =
-            \iltikzfig{strings/structure/bialgebra/merge-copy-lhs}[X]
-            \label{eq:frobenius-r}
-        \end{equation}
+    \hspace{-1em}
+    \begin{minipage}{0.455\textwidth}
+        \begin{align*}
+            \tag{\(\mathsf{Superpose}\)}
+            \iltikzfig{strings/traced/superposing-lhs}
+            &=
+            \iltikzfig{strings/traced/superposing-rhs}
+            \label{eq:superposing}
+            \\[0.75em]
+            \tag{\(\mathsf{Yank}\)}
+            \iltikzfig{strings/traced/yanking-lhs}
+            &=
+            \iltikzfig{strings/traced/yanking-rhs}
+            \label{eq:yanking}
+        \end{align*}
     \end{minipage}
-    \begin{minipage}{0.24\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{F3}\)}
-            \iltikzfig{strings/structure/frobenius/copy-merge-lhs}[X]
-            =
-            \iltikzfig{strings/structure/frobenius/copy-merge-rhs}[X]
-            \label{eq:frobenius-copy-merge}
-        \end{equation}
-    \end{minipage}
-    \caption{
-        Equations \(\equations[\frob]\) of a
-        \emph{special commutative Frobenius algebra}, in addition to those in
-        \cref{fig:monoid-equations,fig:comonoid-equations}.
-    }
-    \label{fig:frobenius-equations}
+    \caption{Equations that hold in any STMC.}
+    \label{fig:stmc-axioms}
 \end{figure}
 \begin{figure}[p]
     \centering
@@ -221,11 +221,9 @@ equations of a commutative comonoid.
         \end{equation}
     \end{minipage}
     \caption{
-        Equations \(\equations[\frob]\) of a
-        \emph{special commutative Frobenius algebra}, in addition to those in
-        \cref{fig:monoid-equations,fig:comonoid-equations}.
+        Equations \(\equations[\frob]\) of a \emph{compact closed category}.
     }
-    \label{fig:compact-closed-equations}
+    \label{fig:ccc-axioms}
 \end{figure}
 \begin{figure}[p]
     \centering

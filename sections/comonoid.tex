@@ -12,8 +12,8 @@ with such a structure are also known as \emph{gs-monoidal}
     monoidal theory of \emph{commutative comonoids}, with \(\Sigma_\ccomon := \{
         \iltikzfig{strings/structure/comonoid/copy}[white],
         \iltikzfig{strings/structure/comonoid/discard}[white]
-    \}\) and \(\mce_\ccomon\) defined as the equations in
-    \cref{app:equations}, \cref{fig:comonoid-equations}.
+    \}\) and \(\mce_\ccomon\) defined as in \cref{app:equations},
+    \cref{fig:comonoid-equations}.
     We write \(\ccomon := \smc{\generators[\ccomon], \equations[\ccomon]}\).
 \end{definition}
 
@@ -37,10 +37,6 @@ condition does not lead to any degeneracies.
         \trace{}{\iltikzfig{strings/structure/comonoid/copy}[white]}
     \).
 \end{remark}
-
-\begin{lemma}
-    \(\pmcspdhyp\) is a sub-prop of \(\plmcspdhyp\).
-\end{lemma}
 
 \iftoggle{conf}{}{
     \begin{lemma}
@@ -69,16 +65,12 @@ condition does not lead to any degeneracies.
     \(\cospan{x+m}{K}{x+n}\) be partial left-monogamous cospans.
     Then,
     \begin{itemize}
-        \item Identities and symmetries are partial left-monogamous.
-        \item \(\cospan{m}[f]{F}[g]{n} \seq \cospan{n}[h]{G}[k]{p}\) is partial
-                left-monogamous.
+        \item identities and symmetries are partial left-monogamous;
+        \item \(\cospan{m}{F}{n} \seq \cospan{n}{G}{p}\) is partial
+                left-monogamous;
         \item \(\cospan{m}{F}{n} \tensor \cospan{p}{H}{q}\) is partial
-                left-monogamous.
-        \item \(
-                \trace{x}{\cospan{x+m}[f+h]{K}[g+k]{x+n}}
-                =
-                \cospan{m}[h \seq p]{pK}[k \seq p]{n}
-              \) is partial left-monogamous.
+                left-monogamous; and
+        \item \(\trace{x}{\cospan{x+m}{K}{x+n}}\) is partial left-monogamous.
     \end{itemize}
 \end{lemma}
 \iftoggle{proofs}{
@@ -117,8 +109,11 @@ condition does not lead to any degeneracies.
     \end{proof}
 }{}
 
-Therefore cospans of partial left-monogamous hypergraphs form a category, which
-we name \(\plmcspfihyp\).
+\begin{definition}
+    Let \(\pmcspdhyp\) be the sub-prop of \(\cspdhyp\) containing only the
+    partial left-monogamous cospans of hypergraphs.
+\end{definition}
+
 This category can be equipped with a comonoid structure.
 
 \iftoggle{conf}{
@@ -187,14 +182,14 @@ This category can be equipped with a comonoid structure.
 
 \begin{corollary}
     The image of \(
-        \termandfrobtohypsigma \circ [\tracedtosymandfrob{\Sigma}, \comonoidtofrob]
+        \termandfrobtohypsigma \circ \tracedandcomonoidtofrob{\Sigma}
     \) is in \(\plmcspdhyp\).
 \end{corollary}
 
 \begin{lemma}\label{lem:ccomon-term}
-    Given a left-monogamous cospan \(\cospan{m}[f]{m}[g]{n}\), there exists a
-    unique term \(\morph{h}{m}{n} \in \ccomon\) up to the axioms of SMCs such
-    that \(
+    Given a partial left-monogamous cospan \(\cospan{m}[f]{m}[g]{n}\), there
+    exists a unique term \(\morph{h}{m}{n} \in \ccomon\) up to the axioms of
+    SMCs and comonoids such that \(
         \frobtohyp{\Sigma} \circ \comonoidtofrob
         =
         \cospan{m}[f]{m}[g]{n}
@@ -215,7 +210,6 @@ This category can be equipped with a comonoid structure.
     can be decomposed in such a way that each component is in the image of
     either \(\termandfrobtohypsigma\) or \(\comonoidtohyp{\Sigma}\).
     This is achieved by taking the construction of \cref{thm:termtohyp-image}
-    and allowing the component made of symmetries and identities to also contain
-    the copy and discard generator: by \cref{lem:ccomon-term} a term in
-    \(\ccomon\) can be retrieved from this.
+    and allowing the first component to be partial left-monogamous; by
+    \cref{lem:ccomon-term} a term in \(\ccomon\) can be retrieved from this.
 \end{proof}

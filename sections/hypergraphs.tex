@@ -2,47 +2,56 @@
 \section{Monoidal theories and hypergraphs}
 
 When modelling a system using monoidal categories, its components and
-properties is specified using a \emph{monoidal theory}.
+properties are specified using a \emph{monoidal theory}.
+A class of SMC particularly interesting to us is that of
+\emph{props}~\cite{maclane1965categorical} (`categories of \emph{PRO}ducts and
+\emph{P}ermutations'), which have natural numbers as objects and addition as
+tensor product.
 
 \begin{definition}[Symmetric monoidal theory]
     A \emph{(single-sorted) symmetric monoidal theory} (SMT) is a tuple \(
         (\generators,\equations)
-    \) where \(\generators\) is a set of \emph{generators} and \(\equations\)
-    is a set of \(\equations\).
+    \) where \(\generators\) is a set of \emph{generators} with associated
+    (co)arities in \(\nat\) and \(\equations\) is a set of equations.
     Given a SMT \((\generators,\equations)\), let \(
         \smc{\generators}
     \) be the symmetric monoidal category freely generated over \(\generators\)
     and let \(
         \smc{\generators,\equations}
     \) be \(\smc{\generators}\) quotiented by the equations in \(\equations\).
-    We write \(\smc{} := \smc{\emptyset}\), for the SMC with terms
-    constructed solely from identities and symmetries.
+    We write \(\smc{} := \smc{\emptyset}\) for the SMC with terms constructed
+    solely from identities and symmetries.
 \end{definition}
+
+\begin{remark}
+    One can also define a \emph{multi-sorted} SMT, in which wires can be of
+    multiple colours.
+    For brevity, we will only consider the single-sorted case, but the results
+    generalise easily using the results
+    of~\cite{bonchi2022string,bonchi2022string}.
+\end{remark}
 
 While one could reason using one-dimensional text strings representing morphisms
 in \(\smc{\generators.\equations}\), it is more intuitive to reason with
 \emph{string diagrams}~\cite{joyal1991geometry,selinger2011survey}, which
 represent \emph{equivalence classes} of terms up to the axioms of SMCs.
-In the language of string diagrams, a generator \(\morph{\phi}{X}{Y}\) is drawn
+In the language of string diagrams, a generator \(\morph{\phi}{m}{n}\) is drawn
 as a box \(
-    \iltikzfig{strings/category/f}[\phi][white][X][Y]
+    \iltikzfig{strings/category/generator}[\phi][white][m][n]
 \), the identity \(\id[x]\) as \(
-    \iltikzfig{strings/category/identity}[white][X]
-\), the symmetry \(\swap{X}{Y}\) as \(
-    \iltikzfig{strings/symmetric/symmetry}[white][X][Y]
-\), (diagrammatic order) composition \(f \seq g\) as horizontal juxtaposition \(
-    \iltikzfig{strings/category/composition}[f][g][white][X][Y][Z]
+    \iltikzfig{strings/category/identity}[white][x]
+\), and the symmetry \(\swap{X}{Y}\) as \(
+    \iltikzfig{strings/symmetric/symmetry}[white][x][y]
+\).
+Composite terms will be illustrated as wider boxes \(
+    \iltikzfig{strings/category/f}[f][white][m][n]
+\) to distinguish them from generators: then (diagrammatic order) composition
+\(f \seq g\) is defined as horizontal juxtaposition \(
+    \iltikzfig{strings/category/composition}[f][g][white][x][y][z]
 \) and tensor \(f \tensor g\) as vertical juxtaposition \(
-    \iltikzfig{strings/monoidal/tensor}[f][g][white][X][Y][Z][W]
+    \iltikzfig{strings/monoidal/tensor}[f][g][white][x][y][z][w]
 \).
 When clear from context, wire labels may be omitted.
-
-A class of SMC particularly interesting to us is that of
-\emph{props}~\cite{maclane1965categorical} (`categories of \emph{PRO}ducts and
-\emph{P}ermutations'), which have natural numbers as objects and addition as
-tensor product.
-In a prop, a morphism \(m \to n\) can be drawn as a box with \(m\) input wires
-and \(n\) output wires.
 
 \begin{example}\label{ex:frobenius}
     The symmetric monoidal theory of
@@ -56,9 +65,20 @@ and \(n\) output wires.
             \iltikzfig{strings/structure/comonoid/discard}[white]
         \}
     \) and the equations of \(\equations[\frob]\) are listed in
-    \cref{app:equations}, \cref{fig:frobenius-equations}.
+    \cref{app:equations},
+    \cref{fig:monoid-equations,fig:comonoid-equations,fig:frobenius-equations}.
     We write \(\frob := \smc{\generators[\frob], \equations[\frob]}\).
 \end{example}
+
+\begin{remark}
+    It is important to distinguish between the \emph{syntactic} categories
+    \(\smc{\generators}\) and the \emph{semantic} categories
+    \(\smc{\generators,\equations}\).
+    In the former, only `structural' equalities of the axioms of SMCs hold:
+    moving boxes around while retaining connectivity.
+    In the latter, more equations hold that mean terms with completely different
+    boxes and connectivity are equal.
+\end{remark}
 
 Reasoning equationally using string diagrams is certainly attractive
 as a pen-and-paper method, but for larger systems it quickly becomes intractible
@@ -70,7 +90,7 @@ Fortunately, this has been well studied
 recently, first with
 \emph{string graphs}~\cite{dixon2013opengraphs,kissinger2012pictures}
 and later with
-\emph{hypergraphs}~\cite{bonchi2022string,bonchi2021string,bonchi2022stringa},
+\emph{hypergraphs}~\cite{bonchi2022string,bonchi2022stringa,bonchi2022stringb},
 a generalisation of regular graphs in which edges can be the source or target of
 an arbitrary number of vertices.
 In this paper we are concerned in the latter.
@@ -80,7 +100,7 @@ Hypergraphs are formally defined as objects in a functor category.
 \begin{definition}[Hypergraph]
     Let \(\mathbf{X}\) be the category containing objects \((k, l)\) for
     \(k, l \in \nat\) and one additional object \(\star\).
-    For each \((k, l)\) there are \(k + l\) morphisms from \((k, l) \to \star\).
+    For each \((k, l)\) there are \(k + l\) morphisms \((k, l) \to \star\).
     Let \(\hyp\) be the functor category \([\mathbf{X},\set]\).
 \end{definition}
 
@@ -89,13 +109,12 @@ a set of hyperedges with \(k\) sources and \(l\) targets,
 Given a hypergraph \(F \in \hyp\), we write \(\vertices{F}\) for its set of
 vertices and \(\edges{F}{k}{l}\) for the set of edges with \(k\) sources and
 \(l\) targets.
-
 A morphism of hypergraphs \(\morph{f}{F}{G} \in \hyp\) consists of functions
 \(\vertices{f}\) and \(\edges{f}{k}{l}\) for each \(k,l \in \nat\) preserving
 sources and targets in the obvious way.
 With such morphisms a hypergraph can be \emph{labelled}.
 
-\begin{definition}[Slice category]
+\begin{definition}[Slice category~\cite{lawvere1963functorial}]
     For a category \(\mathbf{C}\) and an object \(C \in \mathbf{C}\), the
     \emph{slice category} \(\mathbb{C} / C\) is the category with objects the
     morphisms of \(\mathbf{C}\) with target \(C\), and morphisms \(
@@ -116,7 +135,7 @@ With such morphisms a hypergraph can be \emph{labelled}.
     \).
 \end{definition}
 
-\begin{definition}[Labelled hypergraph]
+\begin{definition}[Labelled hypergraph~\cite{bonchi2022string}]
     For a monoidal signature \(\Sigma\), let the category \(\hypsigma\) be
     defined as the slice category \(\hyp \setminus \hypsignature{\Sigma}\).
 \end{definition}
@@ -125,14 +144,14 @@ While (labelled) hypergraphs may have dangling vertices, they do not have
 \emph{interfaces}.
 These can be provided using \emph{cospans}.
 
-\begin{definition}[Categories of cospans~\cite{bonchi2021string}]\label{def:cospans}
+\begin{definition}[Categories of cospans~\cite{bonchi2022stringa}]\label{def:cospans}
     For a finitely cocomplete category \(\mathbf{C}\), a \emph{cospan} from
     \(X \to Y\) is a pair of arrows \(X \to A \leftarrow Y\).
     A \emph{cospan morphism} \(
         (\cospan{X}[f]{A}[g]{Y}) \to (\cospan{X}[h]{B}[k]{Y})
     \) is a morphism \(\morph{\alpha}{A}{B} \in \mathbf{C}\)%
     \iftoggle{conf}{
-        such that \(f \seq \alpha = g\) and \(h \seq \alpha = k\).
+        such that \(f \seq \alpha = h\) and \(g \seq \alpha = k\).
     }{
         such that the following diagram commutes:
         \begin{center}
@@ -162,13 +181,12 @@ These can be provided using \emph{cospans}.
 
 The interfaces of a hypergraph can be specified as cospans by having the `legs'
 of the cospan pick vertices in the graph at the apex.
-For this purpose a special type of hypergraph is required.
 
 \begin{definition}[Discrete hypergraph]
     A hypergraph is called \emph{discrete} if it has no edges.
 \end{definition}
 
-A discrete hypergraph \(F\) with \(|\vertices{F}| = n\) is often written as
+A discrete hypergraph \(F\) with \(|\vertices{F}| = n\) is written as
 \(n\) when clear from context.
 Morphisms from discrete hypergraphs to a main graph pick out the vertices in the
 interface, but there is still the notion of \emph{ordering} to consider.
