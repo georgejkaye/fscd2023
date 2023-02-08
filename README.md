@@ -9,21 +9,30 @@ Potential submission to FSCD 2023.
 * `main-conf.tex` The conference version of the paper: double column `lipics`
 * `main-arxiv.tex` The arxiv version of the paper: single column `article`
 
-## Makefile commands
+## Compilation
+
+First initialise the submodules:
 
 ```sh
-# Initialises submodules
-make init
-# Generates both the conference and arxiv pdfs
+git submodule update --init
+```
+
+Then compile with `make`:
+
+```sh
+# Generates both pdfs
 make
 # Generates just the conference pdf
 make conf
 # Generates just the arxiv pdf
 make arxiv
-# Deletes all generated files except pdfs
-make tidy
-# Deletes all generated files including pdfs
-make clean
+```
+
+Or just `latexmk`:
+
+```sh
+latexmk -pdf main-conf.tex
+latexmk -pdf main-arxiv.tex
 ```
 
 ## Submodules
