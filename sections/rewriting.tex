@@ -287,12 +287,10 @@ This data must also be captured by the pushout complement.
 The merging of vertices by \(f\) with degree \((0, 0)\) is an important edge
 case, as it corresponds to rewriting modulo the \emph{yanking} axiom of traced
 categories.
-It is this case that yields a \emph{choice} of traced boundary complement,
+This yields a \emph{choice} of traced boundary complement,
 which unlike regular boundary complements need not be unique.
-This is not an issue: in \cite{heumuller2011construction}, a method for
-enumerating all possible pushout complements for a given rule and matching is
-presented.
-This means we can inspect each one and choose the rewrite we want.
+This is not an issue, as all pushout complements can be enumerated for a given
+rule and matching~\cite{heumuller2011construction}.
 
 \begin{example}
     Consider the rule and its interpretation.
@@ -345,10 +343,7 @@ This means we can inspect each one and choose the rewrite we want.
     \end{gather*}
 \end{example}
 
-When vertices are merged in this way, the choice of traced boundary complement
-dictates the position on the yanked wires to apply the rewrite.
-Although there are multiple to choose from, there are still properties enforced
-by partial monogamy.
+All valid pushout complements in this situation still have some properties.
 
 \begin{lemma}
     In a traced boundary complement, let \(v \in i\) and
@@ -378,10 +373,9 @@ by partial monogamy.
 
 Rewriting modulo yanking also eliminates another foible of rewriting modulo
 (non-traced) symmetric monoidal structure.
-In the latter, matchings must be \emph{convex}: there cannot be a path from the
-outputs of a match back to its inputs.
-However, in the traced case this is not necessary, as this example from
-\cite{bonchi2022stringa} will show.
+In the latter, the image of the matching must be \emph{convex}: any path between
+vertices must also be in the image.
+This is not necessary in the traced case.
 
 \begin{example}
     Consider the following rewrite rule and its interpretation.
@@ -432,7 +426,7 @@ However, in the traced case this is not necessary, as this example from
 We are almost ready to show the soundness and completeness of this DPO rewriting
 system.
 The final prerequisite is a decomposition lemma, akin to a similar result
-in~\cite{bonchi2022string} for the symmetric monoidal case.
+in~\cite{bonchi2022string}.
 
 \begin{lemma}[Traced decomposition]\label{lem:traced-decomposition}
     Given partial monogamous cospans \(\cospan{m}[p_1]{G}[p_2]{n}\) and \(
@@ -500,10 +494,10 @@ in~\cite{bonchi2022string} for the symmetric monoidal case.
 
 We write \(
     \foldinterfaces[\tracedtosymandfrob[\mcr]{\Sigma}]
-\) for the map on rewrite systems with pointwise action \(
+\) for the pointwise map \(
     (
-        \iltikzfig{strings/category/f}[l][white][i][j],
-        \iltikzfig{strings/category/f}[r][white][i][j]
+        \iltikzfig{strings/category/f}[l][white],
+        \iltikzfig{strings/category/f}[r][white]
     )
     \mapsto
     (
@@ -584,8 +578,8 @@ boundary complement conditions need to be weakened to the case of
         \spann{L}{i+j}{G} \in \mcr
     \) and cospan \(
         \cospan{i+j}{C}{n+m} \in \hypsigma
-    \) such that diagram in \cref{def:dpo} commutes, \(i+j \to C\) is a traced
-    left-boundary complement and \(\morph{f}{L}{G}\) is an offcut matching.
+    \) such that diagram in \cref{def:dpo} commutes and \(i+j \to C\) is a
+    traced left-boundary complement.
 \end{definition}
 
 \begin{lemma}[Traced comonoid decomposition]\label{lem:traced-comonoid-decomposition}
