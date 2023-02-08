@@ -8,37 +8,37 @@
     \label{fig:roadmap}
 \end{figure}
 
-We have shown how the existing frameworks for rewriting string diagrams modulo
+We have shown how the frameworks for rewriting string diagrams modulo
 Frobenius~\cite{bonchi2022string} and symmetric
-monoidal~\cite{bonchi2022stringa} structure can also be adapted for rewriting
-modulo traced comonoid structure, by looking at graphs that sit between
-the two settings.
+monoidal~\cite{bonchi2022stringa} structure using hypergraphs can also be
+adapted for rewriting modulo traced comonoid structure, by using
+hypergraphs that sit between the two settings.
 
 Graphical languages for traced categories have seen many applications, such as
 to illustrate cyclic lambda calculi~\cite{hasegawa1997recursion}, or to reason
 graphically about programs~\cite{schweimeier1999categorical}.
-The presentation as \emph{string diagrams} has existed since the
-90s~\cite{joyal1991geometry,joyal1996traced}; a soundness and completeness
-theorem for traced string diagrams, while folklore for many years but only
-proven for certain signatures~\cite{selinger2011survey}, was finally shown
-in~\cite{kissinger2014abstract}.
+The presentation of traced categories as \emph{string diagrams} has existed
+since the 90s~\cite{joyal1991geometry,joyal1996traced}; a soundness and
+completeness theorem for traced string diagrams,folklore for many years
+but only proven for certain signatures~\cite{selinger2011survey}, was finally
+shown in~\cite{kissinger2014abstract}.
 Combinatorial languages predate even this, having existed since at least the 80s
 in the guise of
 \emph{flowchart schemes}~\cite{stefanescu1990feedback,cazanescu1990new,cazanescu1994feedback}
 These diagrams have also been used to show the completeness of finite dimensional
-vector spaces~\cite{hasegawa2008finite} and, when equipped with a dagger,
-Hilbert spaces~\cite{selinger2012finite}.
+vector spaces~\cite{hasegawa2008finite} with respect to traced categories and,
+when equipped with a dagger, Hilbert spaces~\cite{selinger2012finite}.
 
 We are not just concerned with diagrammatic languages as a standalone concept:
-we are interested in performing \emph{graph rewriting} with them in order to
-reason about monoidal theories.
-This has been been studied in the context of traced categories before with
+we are interested in performing \emph{graph rewriting} with them to reason about
+monoidal theories.
+This has been been studied in the context of traced categories before using
 \emph{string graphs}~\cite{kissinger2012pictures,dixon2013opengraphs}.
 We have instead opted to use the \emph{hypergraph} framework
-of~\cite{bonchi2022string,bonchi2022stringa,bonchi2022stringb} as a basis for our
-rewriting framework, as it allows rewriting modulo \emph{yanking}, is more
-extensible for rewriting modulo comonoid structure, and there is less hassle
-involved with wire homeomorphisms.
+of~\cite{bonchi2022string,bonchi2022stringa,bonchi2022stringb} instead, as it
+allows rewriting modulo \emph{yanking}, is more extensible for rewriting modulo
+comonoid structure, and one does not need to awkwardly reason modulo wire
+homeomorphisms.
 
 As mentioned during the case studies, there are still elements of the rewriting
 framework that are somewhat informal.
@@ -48,20 +48,17 @@ DPO rewriting.
 However, if we performed rewriting with
 \emph{hierarchical hypergraphs}~\cite{alvarez-picallo2021functorial}, in
 which edges can have hypergraphs as labels, we could `compress' the subgraph
-into a single edge that can be rewritten.
+into a single edge that can be rewritten: this is future work.
 
-In situations such as the sequential circuits study in \cref{sec:digital-circuits},
-wires of width greater than one often represent bundles (or \emph{buses}) of
-wires.
-In regular PROP notation this is merely syntactic sugar to avoid drawing
-multiple wires in parallel: moreover, when interpreted as hypergraphs a vertex
-is created for each wire.
-This means that simple circuits can quickly get very large.
-Usefully, the results of \cite{bonchi2022stringa} are also shown to extend to the
-multi-sorted case, in which vertices are labelled in addition to wires; we could
-use this in combination with the \emph{strictifiers} of~\cite{wilson2022string}
-which can transform buses of wires into thinner or thicker ones in order to
-drastically reduce the number of elements in a hypergraph, ideal from a
-computational point of view.
+In regular PROP notation, wires are annotated with numbers in order to avoid
+drawing multiple wires in parallel: when interpreted as hypergraphs a vertex is
+created for each wire, and simple diagrams can quickly get very large.
+The results of \cite{bonchi2022stringa} also extend to the multi-sorted case, in
+which vertices are labelled in addition to wires.
+We could use this in combination with the \emph{strictifiers}
+of~\cite{wilson2022string}: these are additional generators for transforming
+buses of wires into thinner or thicker ones.
+This could drastically reduce the number of elements in a hypergraph, which is
+ideal from a computational point of view.
 Work has already begun on implementing the rewriting system for digital circuits
 using these techniques.

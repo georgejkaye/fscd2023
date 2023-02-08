@@ -23,7 +23,7 @@ inputs of a circuit to its outputs.
 \begin{center}
     \(
         \trace{X}[A][B]{\iltikzfig{strings/traced/trace-lhs}[F][white][X][A][B]}
-        \xrightarrow{\text{def}}
+        \stackrel{\text{def}}{=}
         \iltikzfig{strings/traced/trace-rhs}[F][white][A][B]
     \)
 \end{center}
@@ -43,25 +43,31 @@ Traced monoidal categories are not the only kind of category in which wires can
 \end{definition}
 
 Dual objects are conventionally drawn as wires flowing the `other way', but in
-this paper all compact closed categories will be \emph{self-dual} so there will
-no distinction between them.
+this paper this will not be necessary as all categories will be
+\emph{self-dual}: any object \(X\) is isomorphic to \(\dual{X}\).
 
 \begin{proposition}[Canonical trace (\cite{joyal1996traced}, Prop. 3.1)]
     \label{prop:canonical-trace}
     Any compact closed category has a trace called the \emph{canonical trace} \(
         \trace{X}[A][B]{\iltikzfig{strings/category/f-2-2}[f][white][X][A][X][B]}
     \) defined for the self-dual case as \[
-        \iltikzfig{strings/compact-closed/cup}[white][X][X]
-        \tensor
-        \iltikzfig{strings/category/identity}[white][A]
+        \left(
+            \iltikzfig{strings/compact-closed/cup}[white][X][X]
+            \tensor
+            \iltikzfig{strings/category/identity}[white][A]
+        \right)
         \seq
-        \iltikzfig{strings/category/identity}[white][X]
-        \tensor
-        \iltikzfig{strings/category/f-2-2}[f][white][X][A][X][B]
+        \left(
+            \iltikzfig{strings/category/identity}[white][X]
+            \tensor
+            \iltikzfig{strings/category/f-2-2}[f][white][X][A][X][B]
+        \right)
         \seq
-        \iltikzfig{strings/compact-closed/cap}[white][X][X]
-        \tensor
-        \iltikzfig{strings/category/identity}[white][B].
+        \left(
+            \iltikzfig{strings/compact-closed/cap}[white][X][X]
+            \tensor
+            \iltikzfig{strings/category/identity}[white][B]
+        \right).
     \]
 \end{proposition}
 
@@ -71,7 +77,8 @@ already contains the structure necessary to define a trace.
 \begin{definition}[Hypergraph category \cite{fong2019hypergraph}]
     A \emph{hypergraph category} is a symmetric monoidal category in which
     each object \(X\) has a special commutative Frobenius structure in the sense
-    of \cref{ex:frobenius}.
+    of \cref{ex:frobenius} satisfying the equations in \cref{app:equations},
+    \cref{fig:hypergraph-category}.
 \end{definition}
 
 \begin{proposition}[\cite{rosebrugh2005generic}]
@@ -127,17 +134,20 @@ However, the category of \emph{cospans} of hypergraphs is such a category.
     \(\cspdhyp\) has a trace.
 \end{corollary}
 
-Even though \(\cspdhyp\) has a trace, we must be cautious as there are terms in
-a CCC which are not valid traced terms, such as those where
-outputs of generators are connected to outputs.
-In the next section we will confirm that, when restricting the type of
-hypergraphs we use, using the canonical trace does not lead to degeneracies.
+This means that a STMC freely generated over a signature faithfully embeds into
+a CCC generated over the same signature, mapping the trace in the former to the
+canonical trace in the latter.
+However, this mapping is not \emph{full}: there are terms in a CCC that are not
+terms in a STMC, such as \(\iltikzfig{strings/traced/invalid}\).
+This means we must still restrict the cospans of hypergraphs in \(\cspdhyp\) we
+use for \emph{traced} terms.
 
 \subsection{Monogamy}
 
 In~\cite{bonchi2016rewriting}, it is shown that terms in a (non-traced)
-symmetric monoidal category are interpreted as a certain sub-PROP of
-\(\cspdhyp\), in which all hypergraphs are \emph{acyclic}.
+symmetric monoidal category are interpreted via a faithful functor into a
+sub-PROP of \(\cspdhyp\).
+One condition on this sub-PROP is that all hypergraphs are \emph{acyclic}.
 Clearly, to model trace this condition must be dropped.
 
 However, there is also another condition known as \emph{monogamy}: informally,
@@ -278,15 +288,10 @@ This means that the partial monogamous hypergraphs form a sub-PROP of
     partial monogamous cospans of hypergraphs.
 \end{definition}
 
-Crucially, while we leave \(\pmcspdhyp\) in order to construct the trace by
-composing the cup and cap, we step back before finishing, so the construction is
-not degenerate.
+Crucially, while we leave \(\pmcspdhyp\) in order to construct the trace using
+the cup and cap, the resulting cospan \emph{is} in \(\pmcspdhyp\).
 
 \subsection{From terms to graphs}
-
-For \(\pmcspfihyp\) to be suitable for reasoning with traced categories, it must
-be \emph{sound and complete}: there must be a two-way correspondence between
-terms in a traced monoidal theory and interfaced hypergraphs.
 
 \begin{definition}
     For a SMT \((\generators,\equations)\), let
@@ -298,6 +303,11 @@ terms in a traced monoidal theory and interfaced hypergraphs.
 
 A \emph{(traced) PROP morphism} is a strict (traced) symmetric monoidal functor
 between PROPs.
+For \(\pmcspfihyp\) to be suitable for reasoning with a traced category
+\(\stmc{\Sigma}\) for some given signature, there must be a
+\emph{fully complete} PROP morphism \(\stmc{\Sigma} \to \pmcspfihyp\): a full
+and faithful functor from terms to cospans of hypergraphs.
+
 Since \(\stmc{\Sigma}\) and \(\pmcspdhyp\) are freely generated, to define a
 PROP morphism between them it suffices to define it on the generators in the
 former.

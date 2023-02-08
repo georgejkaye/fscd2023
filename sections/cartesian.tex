@@ -14,7 +14,7 @@ category admits a fixpoint operator~\cite[Thm. 3.1]{hasegawa1997recursion}.
 \end{definition}
 
 As a result of this, the unit is a terminal object in any Cartesian category,
-and any object becomes a comonoid.
+and any object has a comonoid structure.
 Cartesian categories can also be expressed as a monoidal theory:
 
 \begin{definition}
@@ -37,7 +37,8 @@ DPO rewrite rule is required for every combination of generators as in
 \begin{remark}
     The combination of Cartesian equations with the underlying compact closed
     structure of \(\cspdhyp\) may prompt alarm bells, as it is well known that
-    a compact closed category with products is trivial.
+    a compact closed category in which the tensor is the Cartesian product is
+    trivial.
     However, it is important to note that \(\cspdhyp\) is \emph{not} subject to
     these equations: it is only being used as a setting for performing graph
     rewrites.
@@ -45,9 +46,9 @@ DPO rewrite rule is required for every combination of generators as in
 
 \begin{remark}
     A naive attempt to define a finite set of Cartesian rewrite rules might be
-    to imagine the edge as `syntax sugar' for a subgraph, but this also has
-    nuance: for example, what do the vertices in the interface mean if the subgraph is just a
-    single vertex?
+    to assume that the edge actually represents any possible graph, but this
+    also has nuance: for example, what do the sources and targets of this edge
+    mean if we would like to match on a single vertex?
     One solution would be to use the \emph{hierarchical hypergraphs}
     of~\cite{alvarez-picallo2022rewriting} to replace the concrete generator
     edge with a single edge representing an arbitrary subgraph: this remains

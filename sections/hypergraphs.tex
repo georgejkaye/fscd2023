@@ -3,7 +3,7 @@
 
 When modelling a system using monoidal categories, its components and
 properties are specified using a \emph{monoidal theory}.
-A class of SMC particularly interesting to us is that of
+A class of SMCs particularly interesting to us is that of
 \emph{PROPs}~\cite{maclane1965categorical} (`categories of \emph{PRO}ducts and
 \emph{P}ermutations'), which have natural numbers as objects and addition as
 tensor product.
@@ -28,11 +28,11 @@ tensor product.
     multiple colours.
     For brevity, we will only consider the single-sorted case, but the results
     generalise easily using the results
-    of~\cite{bonchi2022string,bonchi2022string}.
+    of~\cite{bonchi2022string,bonchi2022stringa}.
 \end{remark}
 
-While one could reason using one-dimensional text strings representing morphisms
-in \(\smc{\generators.\equations}\), it is more intuitive to reason with
+While one could reason in \(\smc{\generators}\) using the
+one-dimensional categorical term language, it is more intuitive to reason with
 \emph{string diagrams}~\cite{joyal1991geometry,selinger2011survey}, which
 represent \emph{equivalence classes} of terms up to the axioms of SMCs.
 In the language of string diagrams, a generator \(\morph{\phi}{m}{n}\) is drawn
@@ -77,7 +77,7 @@ When clear from context, wire labels may be omitted.
     In the former, only `structural' equalities of the axioms of SMCs hold:
     moving boxes around while retaining connectivity.
     In the latter, more equations hold that mean terms with completely different
-    boxes and connectivity are equal.
+    boxes and connectivity can be potentially equal.
 \end{remark}
 
 Reasoning equationally using string diagrams is certainly attractive
@@ -137,11 +137,11 @@ With such morphisms a hypergraph can be \emph{labelled}.
 
 \begin{definition}[Labelled hypergraph~\cite{bonchi2022string}]
     For a monoidal signature \(\Sigma\), let the category \(\hypsigma\) be
-    defined as the slice category \(\hyp \setminus \hypsignature{\Sigma}\).
+    defined as the slice category \(\hyp / \hypsignature{\Sigma}\).
 \end{definition}
 
 While (labelled) hypergraphs may have dangling vertices, they do not have
-\emph{interfaces}.
+\emph{interfaces} specifying the order of inputs and outputs.
 These can be provided using \emph{cospans}.
 
 \begin{definition}[Categories of cospans~\cite{bonchi2022stringa}]\label{def:cospans}
@@ -189,7 +189,8 @@ of the cospan pick vertices in the graph at the apex.
 A discrete hypergraph \(F\) with \(|\vertices{F}| = n\) is written as
 \(n\) when clear from context.
 Morphisms from discrete hypergraphs to a main graph pick out the vertices in the
-interface, but there is still the notion of \emph{ordering} to consider.
+interface: to assign an order to these vertices some more categorical machinery
+is required.
 
 \begin{theorem}[\cite{bonchi2022string}, Thm. 3.6]
     Let \(\mathbb{X}\) be a PROP whose monoidal product is a coproduct,
