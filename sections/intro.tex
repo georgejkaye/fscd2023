@@ -1,48 +1,17 @@
 \section{Introduction}
 
-\begin{itemize}
-    \item We want to reason/rewrite in traced categories with comonoid structure
-            (e.g. dataflow categories are traced comonoid + cartesian,
-            digital circuits is traced + comonoid + circuit axioms)
-    \item Previous work on rewriting for traced monoidal categories with
-            \emph{string diagrams} \cite{kissinger2012pictures,dixon2013opengraphs}
-            but for these you have to work with rewriting modulo wire homeomorphisms
-            which is a pain
-    \item More recent work on rewriting with \emph{Frobenius} \cite{bonchi2022string}
-            structure with hypergraphs, and subsequently for \emph{symmetric monoidal}
-            by restricting the type of graphs and rewrites \cite{bonchi2022stringa}
-    \item Comonoid structure is `half' Frobenius, (co)monoid structure has been studied
-        too \cite{fritz2022free,milosavljevic2022string}
-    \item The trace sits in the middle of compact closed/frobenius and symmetric
-        monoidal (notion of causal vs relational)
-    \item The trace can be constructed using the Frobenius structure (and this
-        is fine in the land of hypergraphs because e.g. Cartesian equations do
-        not hold by default, and since we do the trace all in one go we don't
-        end up with degeneracies)
-    \item \textbf{Contribution 1:} show that a subclass of cospans of hypergraphs
-        called \emph{partial monogamous} are in correspondence with
-        traced terms, and \emph{partial left-monogamous} cospans are in
-        correspondence with traced comonoid terms.
-    \item \textbf{Design choice:} what precisely should a partial monogamous
-        hypergraph be? Sticking point e.g. how to represent trace of the
-        identity (closed loop). In the frobenius realm this is a disconnected
-        vertex not in the interfaces: is this okay for traced? When adding
-        comonoid structure does this still work with the trace of the fork?
-    \item When rewriting with Frobenius, every pushout complement is valid.
-        When rewriting with symmetric monoidal, exactly one pushout complement
-        is valid.
-        In the traced case, \emph{some} are valid.
-    \item \textbf{Contribution 2:} show that \emph{traced boundary complements}
-        correspond to valid traced rewrites
-    \item \textbf{Example}: there is a pushout complement below that is valid
-        in Frobenius because it uses the monoid structure, but not in a
-        traced or even traced comonoid setting
-    \begin{center}
+String diagrams constitute a useful and elegant conceptual bridge between term rewriting and graph rewriting. We will not reprise here, for lack of space, the by now impressive body of theoretical and applied work for and with string diagrams but will take it as a given. The survey [???] is a suitable starting point into the literature. 
+
+The purpose of this paper is to support reasoning (via graph rewrite) in \emph{traced categories with a comonoid structure} but without a monoid structure. Prior art on this topic exists~\cite{kissinger2012pictures,dixon2013opengraphs}, but it is based on the framework of ``frame point graphs'' which requires rewriting modulo so called \emph{wire homeomorphisms}. This style of rewriting is awkward and is increasingly considered as obsolete as compared to more recent work on rewriting with hypergraphs~\cite{bonchi2022stringa}, possibly modulo \emph{Frobenius} structure~\cite{bonchi2022string}. 
+The variation to just a (co) monoid structure (``half a Frobenius'') has been studied as well~ \cite{fritz2022free,milosavljevic2022string}.
+
+The study of rewriting for traced categories with a comonoid structure is motivated by an important application, \emph{dataflow categories} [???], which represent a categorical foundation for the semantics of digital circuits [???]. It is also technically challenging, as it falls in a gap between compact closed structures constructible via Frobenius and symmetric monoidal categories (without trace) so `off the shelf' solutions cannot be currently used. In fact the gap between the kind of semantic models which use an underlying compact closed structure and those which use a traced monoidal structure is significant: the former have a \emph{relational} nature with subtle causality (e.g. quantum or electrical circuits) whereas the latter are \emph{functional} with clear input-output causality (e.g. digital or logical circuits) so it is not surprising that the underlying rewrite frameworks should differ. 
+
+A key feature of compact closed categories is that the Cartesian product, if it exists, is degenerate and identified with the co-product. So it would not be surprising if combining the two in the rewriting framework leads to inconsistencies. However, the problems run deeper. Even without invoking copying, we will see how trying to perform rewriting in a traced category with a comonoid structure, where the trace is constructing using Frobenius, also leads to inconsistencies. This is a firm indication that a bespoke rewriting framework needs to be constructed to fill this particular situation. 
+\\[1.5ex]
+\emph{Contributions.} This paper makes two distinct technical contributions. The first is to show that one subclass of cospans of hypergraphs (``partial monogamous'') are in correspondence with traced terms, and another class (``partial left-monogamous'') correspond to traced comonoid terms. The challenge is not so much in proving the correctness of the construction but in defining precisely what these combinatorial structures should be. In particular, the extremal point of tracing the identity \emph{SMALL DIAGRAM}, corresponding graphically to a closed loop, provides a litmus test. The way this is resolved must be robust enough to handle the addition of the comonoid structure, which graphically coresponds to ``tracing a forking wire'' \emph{SMALL DIAGRAM}. To put it in a graph rewriting perspective, when rewriting with Frobenius every pushout complement is valid whereas rewriting with symmetric monoidal structure exactly one pushout complement is valid. For the traced case some pushout complements are valid and some are not. 
+The second contribution is to show that the traced boundary complements correspond to valid traced rewrites. This is best illustrated with an example, seen below, where there is a pushout complement that is valid in Frobenius, because it uses the monoid structure, but it is not valid neither in a traced, nor even in a traced comonoid setting. 
+
         \emph{I will draw picture later}
-    \end{center}
-    \item \textbf{Design choices:} what precisely is a traced boundary
-        complement? In the end it turned out to be very similar to the symmetric
-        monoidal case but everything was partial monogamous instead of vanilla
-        monogamous. What happens when we make the matching non-mono (it is mono
-        for symmetric monoidal)
-\end{itemize}
+
+Here again the challenge is precisely identifying the concept of traced boundary complement mathematically. The solution, although not immediately obvious, is not complicated, requiring a generalisation from monogamy to ``partial monogamy''. \emph{DAN: I DON'T UNDERSTAND YOUR COMMENT HERE: What happens when we make the matching non-mono (it is mono for symmetric monoidal)}
