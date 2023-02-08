@@ -1,3 +1,4 @@
+% !TeX root = ../main-conf.tex
 \section{Introduction}
 
 \begin{itemize}
@@ -37,9 +38,35 @@
     \item \textbf{Example}: there is a pushout complement below that is valid
         in Frobenius because it uses the monoid structure, but not in a
         traced or even traced comonoid setting
+    \begin{itemize}
+        \item Imagine we have a rule \(\rrule{
+            \iltikzfig{graphs/dpo/non-valid/rule-lhs}
+        }{
+            \iltikzfig{graphs/dpo/non-valid/rule-rhs}
+        }\) and a term \(
+            \iltikzfig{graphs/dpo/non-valid/term}
+        \).
+        When performing graph rewriting modulo \emph{Frobenius}, the following
+        DPO rewrite is valid:
+    \end{itemize}
     \begin{center}
-        \emph{I will draw picture later}
+        \includestandalone{figures/graphs/dpo/non-valid/rewrite}
     \end{center}
+    This corresponds to the term rewrite \(
+        \iltikzfig{graphs/dpo/non-valid/term}
+        =
+        \iltikzfig{graphs/dpo/non-valid/term-rewriting}
+        =
+        \iltikzfig{graphs/dpo/non-valid/term-rewritten}
+    \), which holds in a Frobenius setting, but not a setting without a
+    commutative monoid structure.
+    On the other hand, the rewriting system for symmetric monoidal categories~\cite{bonchi2022stringa}
+    is too restricting, and prevents matchings such as \(
+        \iltikzfig{graphs/dpo/matchings/trace-rule}
+    \) in \(
+        \iltikzfig{graphs/dpo/matchings/trace-match}
+    \).
+    We need something in the middle.
     \item \textbf{Design choices:} what precisely is a traced boundary
         complement? In the end it turned out to be very similar to the symmetric
         monoidal case but everything was partial monogamous instead of vanilla
