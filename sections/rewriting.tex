@@ -192,11 +192,11 @@ We will use a weakening of this definition.
 
 Unlike~\cite{bonchi2022stringa}, we do not enforce that the matching is mono,
 as restricting to these matchings actually cuts off potential rewrites in the
-\emph{traced} setting, such as the occurrence of a rewrite rule inside a loop:
-\begin{center}
-    \iltikzfig{graphs/dpo/matchings/non-mono-matching}
-\end{center}
-
+\emph{traced} setting, such as the occurrence of a rewrite rule inside a loop: \(
+    \iltikzfig{graphs/dpo/matchings/trace-l}
+    \to
+    \iltikzfig{graphs/dpo/matchings/trace-g}
+\).
 % However, there may be matchings for which the pushout complement is a traced
 % boundary complement but do not correspond to a valid rewrite.
 % This can arise when the morphism merges edges.
