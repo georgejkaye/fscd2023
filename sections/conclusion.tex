@@ -1,11 +1,11 @@
 % !TeX root = ../main-conf.tex
 \section{Conclusion, related and further work}
 
-We have shown how the framework for rewriting string diagrams modulo Frobenius
-structure~\cite{bonchi2022string} and symmetric monoidal
-structure~\cite{bonchi2022stringa} can also be adapted for rewriting modulo
-traced comonoid structure, by looking at graphs that sit `in between' the two
-settings.
+We have shown how the existing frameworks for rewriting string diagrams modulo
+Frobenius~\cite{bonchi2022string} and symmetric
+monoidal~\cite{bonchi2022stringa} structure can also be adapted for rewriting
+modulo traced comonoid structure, by looking at graphs that sit between
+the two settings.
 
 Graphical languages for traced categories have seen many applications, such as
 to illustrate cyclic lambda calculi~\cite{hasegawa1997recursion}, or to reason
@@ -46,7 +46,7 @@ into a single edge that can be rewritten.
 In situations such as the sequential circuits study in \cref{sec:digital-circuits},
 wires of width greater than one often represent bundles (or \emph{buses}) of
 wires.
-In regular prop notation this is merely syntactic sugar to avoid drawing
+In regular PROP notation this is merely syntactic sugar to avoid drawing
 multiple wires in parallel: moreover, when interpreted as hypergraphs a vertex
 is created for each wire.
 This means that simple circuits can quickly get very large.
@@ -56,11 +56,13 @@ use this in combination with the \emph{strictifiers} of~\cite{wilson2022string}
 which can transform buses of wires into thinner or thicker ones in order to
 drastically reduce the number of elements in a hypergraph, ideal from a
 computational point of view.
+We are already working on implementing the rewriting system for digital circuits
+using these techniques.
 
 
 \begin{figure}
     \centering
     \includestandalone{figures/graphs/roadmap}
-    \caption{The various prop morphisms at play.}
+    \caption{The various PROP morphisms at play.}
     \label{fig:roadmap}
 \end{figure}

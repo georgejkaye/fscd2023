@@ -15,11 +15,10 @@ category admits a fixpoint operator~\cite[Thm. 3.1]{hasegawa1997recursion}.
 
 As a result of this, the unit is a terminal object in any Cartesian category,
 and any object becomes a comonoid.
-The notion of (traced) Cartesian categories can also be expressed as a monoidal
-theory:
+Cartesian categories can also be expressed as a monoidal theory:
 
 \begin{definition}
-    For a given base prop \(\stmc{\Sigma_\mathbf{C}}\) with a comonoid
+    For a given base PROP \(\stmc{\Sigma_\mathbf{C}}\) with a comonoid
     structure, the monoidal theory \((
         \generators[\mathbf{Cart}_\mathbf{C}],
         \equations[\mathbf{Cart}_\mathbf{C}]
@@ -47,12 +46,12 @@ DPO rewrite rule is required for every combination of generators as in
 \begin{remark}
     A naive attempt to define a finite set of Cartesian rewrite rules might be
     to imagine the edge as `syntax sugar' for a subgraph, but this also has
-    nuance: what do the vertices in the interface mean if the subgraph is just a
-    single vertex, for example?
-    One possible solution would be to formalise this using the
-    \emph{hierarchical hypergraphs} of~\cite{alvarez-picallo2022rewriting} to
-    replace the concrete generator edge with a single edge representing an
-    arbitrary subgraph, but this remains as future work.
+    nuance: for example, what do the vertices in the interface mean if the subgraph is just a
+    single vertex?
+    One solution would be to use the \emph{hierarchical hypergraphs}
+    of~\cite{alvarez-picallo2022rewriting} to replace the concrete generator
+    edge with a single edge representing an arbitrary subgraph: this remains
+    as future work.
 \end{remark}
 
 

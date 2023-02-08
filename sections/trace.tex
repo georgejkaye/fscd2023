@@ -136,7 +136,7 @@ hypergraphs we use, using the canonical trace does not lead to degeneracies.
 \subsection{Monogamy}
 
 In~\cite{bonchi2016rewriting}, it is shown that terms in a (non-traced)
-symmetric monoidal category are interpreted as a certain sub-prop of
+symmetric monoidal category are interpreted as a certain sub-PROP of
 \(\cspdhyp\), in which all hypergraphs are \emph{acyclic}.
 Clearly, to model trace this condition must be dropped.
 
@@ -157,8 +157,8 @@ This is depicted as a closed loop \(
 \).
 This is \emph{not} always the case, such as in the category of finite
 dimensional vector spaces~\cite[Sec. 6.1]{hasegawa1997recursion}.
-Closed loops must therefore be represented in the hypergraph framework:
-there is a natural representation of such a loop as a lone vertex disconnected
+These closed loops must be represented in the hypergraph framework:
+there is a natural representation as a lone vertex disconnected
 from either interface.
 In fact, this is exactly how the canonical trace applied to an identity is
 interpreted in \(\cspdhyp\).
@@ -270,17 +270,17 @@ interpreted in \(\cspdhyp\).
     \end{proof}
 }{}
 
-This means that the partial monogamous hypergraphs form a sub-prop of
+This means that the partial monogamous hypergraphs form a sub-PROP of
 \(\cspdhyp\).
 
 \begin{definition}
-    Let \(\pmcspdhyp\) be the sub-prop of \(\cspdhyp\) containing only the
+    Let \(\pmcspdhyp\) be the sub-PROP of \(\cspdhyp\) containing only the
     partial monogamous cospans of hypergraphs.
 \end{definition}
 
-Crucially, while we step outside \(\pmcspdhyp\) in order to construct
-the trace by composing the cup and cap, we step back before finishing,
-so the construction is not degenerate.
+Crucially, while we leave \(\pmcspdhyp\) in order to construct the trace by
+composing the cup and cap, we step back before finishing, so the construction is
+not degenerate.
 
 \subsection{From terms to graphs}
 
@@ -296,10 +296,10 @@ terms in a traced monoidal theory and interfaced hypergraphs.
     by equations in \(\equations\).
 \end{definition}
 
-A \emph{(traced) prop morphism} is a strict (traced) symmetric monoidal functor
-between props.
+A \emph{(traced) PROP morphism} is a strict (traced) symmetric monoidal functor
+between PROPs.
 Since \(\stmc{\Sigma}\) and \(\pmcspdhyp\) are freely generated, to define a
-prop morphism between them it suffices to define it on the generators in the
+PROP morphism between them it suffices to define it on the generators in the
 former.
 
 \begin{definition}[\cite{bonchi2022string}]\label{def:hyp-morphisms}
@@ -319,7 +319,7 @@ former.
             :=
         \cospan{m+n}[[\id,\id]]{m+n}[[\id,\id]]{n+m}
     \end{gather*}
-    Let \(\morph{\frobtohyp{\Sigma}}{\frob}{\cspdhyp}\) be a prop morphism
+    Let \(\morph{\frobtohyp{\Sigma}}{\frob}{\cspdhyp}\) be a PROP morphism
     defined as in \cref{prop:frobenius-map}.
     Then, let \(
         \morph{\termandfrobtohypsigma}{\smc{\Sigma} + \frob}{\cspdhyp}
@@ -328,7 +328,7 @@ former.
 \end{definition}
 
 We exploit the interplay between compact closed and traced categories in
-order to use these existing prop morphisms for the traced case.
+order to use these existing PROP morphisms for the traced case.
 
 \begin{lemma}\label{lem:smc-core}
     Let \(\iltikzfig{strings/category/f}[f][white][m][n]\) be a term in
@@ -349,23 +349,19 @@ order to use these existing prop morphisms for the traced case.
 }{}
 
 \begin{proposition}\label{prop:trace-to-sym-frob}
-    There exists a faithful prop morphism \(
+    There exists a faithful PROP morphism \(
         \morph{\tracedtosymandfrob{\Sigma}}{\stmc{\Sigma}}{\smc{\Sigma} + \frob}
     \).
 \end{proposition}
 \begin{proof}
     \cref{lem:smc-core} is used to isolate a term in \(\smc{\Sigma}\).
-    The corresponding term in \(\smc{\Sigma} + \frob\) can be read as
-    the canonical trace as defined in \cref{prop:canonical-trace} on top of this
-    term.
-    While there may be many such terms in \(\smc{\Sigma}\), the canonical trace
-    being a trace means that any choice of resulting term in
-    \(\smc{\Sigma} + \frob\) is equal if and only if the original terms were
-    equal in \(\stmc{\Sigma}\).
-    Moreover, the additional equations of \(\frob\) do not merge any morphisms
-    since the only use of the generators of \(\frob\) in the image of
-    \(\tracedtosymandfrob{\Sigma}\) is in the canonical trace, to
-    which the Frobenius equations do not apply.
+    The corresponding term in \(\smc{\Sigma} + \frob\) is then the canonical
+    trace of this term.
+    There may be many such terms in \(\smc{\Sigma}\), but the canonical trace
+    being a trace means that any possible outcomes post-trace are all equal.
+    The equations of \(\frob\) do not merge any morphisms
+    since the only use of the generators of \(\frob\) is in the canonical trace,
+    to which the Frobenius equations do not apply.
 \end{proof}
 
 \iftoggle{conf}{}{
@@ -382,7 +378,7 @@ In particular, there is a correspondence between \(\smc{}\) and
 \emph{bijective} functions.
 
 \begin{definition}
-    Let \(\perms\) be the sub-prop of \(\finset\) containing only the
+    Let \(\perms\) be the sub-PROP of \(\finset\) containing only the
     bijective functions.
 \end{definition}
 
@@ -443,8 +439,6 @@ In particular, there is a correspondence between \(\smc{}\) and
     \end{proof}
 }{}
 
-We now proceed to the first main result.
-
 \begin{theorem}\label{thm:termtohyp-image}
     A cospan \(\cospan{m}{F}{n}\) is in the image of \(
         \termandfrobtohypsigma \circ \tracedtosymandfrob{\Sigma}\) if
@@ -471,7 +465,6 @@ We now proceed to the first main result.
         where \(V\) is all the vertices in \(F\), \(L\) is the vertices with
         degree \((0, 0)\) not in the image of the interfaces, and \(E\) is the
         all the hyperedges in \(F\).
-        The morphisms then connect the components appropriately.
         The first component corresponds to a term in \(\smc{}\) by
         \cref{lem:symmetries-prop}, and the stack of edges to a tensor of
         generators in \(\stmc{\Sigma}\).

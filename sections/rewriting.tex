@@ -9,7 +9,7 @@ actually rewrite the components of the graph.
 In the syntactic realm this is performed with \emph{term rewriting}.
 
 \begin{definition}[Term rewriting]\label{def:term-rewriting}
-    A \emph{rewriting system} \(\mcr\) for a traced prop \(\stmc{\Sigma}\)
+    A \emph{rewriting system} \(\mcr\) for a traced PROP \(\stmc{\Sigma}\)
     consists of a set of \emph{rewrite rules} \(
         \rrule{
             \iltikzfig{strings/category/f}[l][white][i][j]
@@ -197,20 +197,6 @@ as restricting to these matchings actually cuts off potential rewrites in the
     \to
     \iltikzfig{graphs/dpo/matchings/trace-g}
 \).
-% However, there may be matchings for which the pushout complement is a traced
-% boundary complement but do not correspond to a valid rewrite.
-% This can arise when the morphism merges edges.
-% We must restrict morphisms such that only the vertices in the interfaces can be
-% merged to create loops.
-% In the interests of consistency, we borrow terminology
-% from~\cite{milosavljevic2022string}.
-
-% \begin{definition}[Offcut matching]
-%     Given partial monogamous cospans \(\cospan{i}[a_1]{L}[a_2]{j}\) and
-%     \(\cospan{m}{G}{n}\), a matching \(\morph{f}{L}{G}\) is called a
-%     \emph{traced rewrite candidate} if is injective on edges and vertices not
-%     in the image of \([a_1,a_2]\).
-% \end{definition}
 
 \begin{definition}[Traced DPO]
     For morphisms \(G \leftarrow m+n\) and \(H \leftarrow m+n\) in
@@ -649,7 +635,7 @@ boundary complement conditions need to be weakened to the case of
 
 \begin{example}
     As with the traced case, there may be multiple valid rewrites given a
-    particular offcut matching and interface.
+    particular interface.
     The comonoid structure adds more possibilities, as there are the equations
     of commutative comonoids to consider.
     Consider the following rule and its interpretation.
