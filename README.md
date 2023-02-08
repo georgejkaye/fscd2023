@@ -1,6 +1,6 @@
 # fscd2023
 
-Potential submission to FSCD 2023.
+Submission to FSCD 2023, 'Rewriting modulo traced comonoid structure'.
 
 * **[Latest release](https://github.com/georgejkaye/fscd2023/releases/latest)**
 
