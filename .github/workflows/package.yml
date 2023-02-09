@@ -21,11 +21,11 @@ jobs:
       - name: Package the conference latex file
         uses: xu-cheng/texlive-action/full@v1
         with:
-          run: python3 ./scripts/src/package.py ${{ github.event.repository.name }}-conf . main-conf
+          run: python3 ./scripts/src/package.py . main-conf ${{ github.event.repository.name }}-conf
       - name: Package the arxiv latex file
         uses: xu-cheng/texlive-action/full@v1
         with:
-          run: python3 ./scripts/src/package.py ${{ github.event.repository.name }}-arxiv . main-arxiv
+          run: python3 ./scripts/src/package.py . main-arxiv ${{ github.event.repository.name }}-arxiv
       - name: Zip up the conference package
         uses: montudor/action-zip@v1
         with:
