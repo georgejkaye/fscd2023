@@ -36,25 +36,22 @@ DPO rewrite rule is required for every combination of generators as in
 
 \begin{remark}
     The combination of Cartesian equations with the underlying compact closed
-    structure of \(\cspdhyp\) may prompt alarm bells, as it is well known that
-    a compact closed category in which the tensor is the Cartesian product is
-    trivial.
+    structure of \(\cspdhyp\) may prompt alarm bells, as a compact closed
+    category in which the tensor is the Cartesian product is trivial.
     However, it is important to note that \(\cspdhyp\) is \emph{not} subject to
-    these equations: it is only being used as a setting for performing graph
+    these equations: it is only a setting for performing graph
     rewrites.
 \end{remark}
 
 \begin{remark}
-    A naive attempt to define a finite set of Cartesian rewrite rules might be
-    to assume that the edge actually represents any possible graph, but this
-    also has nuance: for example, what do the sources and targets of this edge
-    mean if we would like to match on a single vertex?
+    One might define a finite set of Cartesian rewrite rules by assuming that
+    the edge actually represents a subgraph, but what do the sources and targets
+    of this edge mean if we would like to match on a single vertex?
     One solution would be to use the \emph{hierarchical hypergraphs}
     of~\cite{alvarez-picallo2022rewriting} to replace the concrete generator
     edge with a single edge representing an arbitrary subgraph: this remains
     as future work.
 \end{remark}
-
 
 \begin{figure}
     \centering

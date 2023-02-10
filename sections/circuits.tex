@@ -18,6 +18,7 @@ interest to us is the \emph{local theory of sequential circuits} from
             \iltikzfig{circuits/components/gates/and},
             \iltikzfig{circuits/components/gates/or},
             \iltikzfig{circuits/components/gates/not},
+            \iltikzfig{strings/structure/monoid/init}[comb]
             \iltikzfig{strings/structure/comonoid/copy}[comb],
             \iltikzfig{strings/structure/monoid/merge}[comb],
             \iltikzfig{strings/structure/comonoid/discard}[comb],
@@ -28,7 +29,9 @@ interest to us is the \emph{local theory of sequential circuits} from
         \}
     \] and the equations of \(
         \equations[\mathbf{SCirc}]
-    \) are listed in \cref{app:equations}, \cref{fig:circuit-equations}, where
+    \) are listed in \cref{app:equations},
+    \cref{fig:monoid-equations,fig:comonoid-equations,fig:bialgebra-equations,fig:circuit-equations},
+    where
     \(
         \gateinterpretation
     \) maps gates to the corresponding truth table in \cref{app:belnap},
@@ -47,10 +50,9 @@ interest to us is the \emph{local theory of sequential circuits} from
 \end{definition}
 
 The generators in \(\generators[\mathbf{SCirc}]\) are, respectively:
-\(\andgate\), \(\orgate\) and \(\notgate\) gates; constructs for forking,
-joining and stubbing wires; \emph{values} representing no signal, a true signal,
+\(\andgate\), \(\orgate\) and \(\notgate\) gates; constructs for introducing,
+forking, joining and stubbing wires; \emph{values} representing a true signal,
 a false signal, and both signals at once; and a delay of one unit of time.
-
 
 The equations of \(\equations[\mathbf{SCirc}]\) contain the equations of a
 commutative comonoid, so this is a perfect use case for rewriting modulo

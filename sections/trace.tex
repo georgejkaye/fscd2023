@@ -36,9 +36,9 @@ Traced monoidal categories are not the only kind of category in which wires can
     which every object \(X\) has a \emph{dual} \(\dual{X}\) equipped with
     morphisms called the \emph{unit} \(
         \iltikzfig{strings/compact-closed/cup}[white][\dual{X}][X]
-    \) and the \emph{counit} \(
+    \) (`cup') and the \emph{counit} \(
         \iltikzfig{strings/compact-closed/cap}[white][X][\dual{X}]
-    \) satisfying the equations of CCCs listed in \cref{app:equations},
+    \) (`cap') satisfying the equations of CCCs listed in \cref{app:equations},
     \cref{fig:ccc-axioms}.
 \end{definition}
 
@@ -48,9 +48,9 @@ object \(X\) is isomorphic to \(\dual{X}\).
 
 \begin{proposition}[Canonical trace (\cite{joyal1996traced}, Prop. 3.1)]
     \label{prop:canonical-trace}
-    Any compact closed category has a trace called the \emph{canonical trace} \(
+    Any compact closed category has a trace \(
         \trace{X}[A][B]{\iltikzfig{strings/category/f-2-2}[f][white][X][A][X][B]}
-    \) defined for the self-dual case as \[
+    \) called the \emph{canonical trace}, defined for the self-dual case as \[
         \left(
             \iltikzfig{strings/compact-closed/cup}[white][X][X]
             \tensor
@@ -308,7 +308,10 @@ For \(\pmcspfihyp\) to be suitable for reasoning with a traced category
 \emph{fully complete} PROP morphism \(\stmc{\Sigma} \to \pmcspfihyp\): a full
 and faithful functor from terms to cospans of hypergraphs.
 
-Since \(\stmc{\Sigma}\) and \(\pmcspdhyp\) are freely generated, to define a
+We exploit the interplay between compact closed and traced categories in
+order to use the existing PROP morphisms from~\cite{bonchi2022string} for the
+traced case.
+Since \(\smc{\Sigma}\) and \(\pmcspdhyp\) are freely generated, to define a
 PROP morphism between them it suffices to define it on the generators in the
 former.
 
@@ -336,9 +339,6 @@ former.
     \)
     be the copairing of \(\termtohyp{\Sigma} + \frobtohyp{\Sigma}\).
 \end{definition}
-
-We exploit the interplay between compact closed and traced categories in
-order to use these existing PROP morphisms for the traced case.
 
 \begin{lemma}\label{lem:smc-core}
     Let \(\iltikzfig{strings/category/f}[f][white][m][n]\) be a term in
@@ -482,7 +482,7 @@ In particular, there is a correspondence between \(\smc{}\) and
 }
 
 \begin{proposition}[\cite{bonchi2022string}]
-    \(\termtohypsigma\) is faithful.
+    \(\termtohypsigma\) and \(\frobtohyp{\Sigma}\) are faithful.
 \end{proposition}
 
 \begin{corollary}\label{cor:stmc-graph-iso}

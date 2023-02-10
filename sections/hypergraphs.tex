@@ -12,7 +12,8 @@ tensor product.
     A \emph{(single-sorted) symmetric monoidal theory} (SMT) is a tuple \(
         (\generators,\equations)
     \) where \(\generators\) is a set of \emph{generators} with associated
-    (co)arities in \(\nat\) and \(\equations\) is a set of equations.
+    (co)arities in \(\dom,\cod \in \nat\) and \(\equations\) is a set of
+    equations.
     Given a SMT \((\generators,\equations)\), let \(
         \smc{\generators}
     \) be the symmetric monoidal category freely generated over \(\generators\)
@@ -22,6 +23,16 @@ tensor product.
     We write \(\smc{} := \smc{\emptyset}\) for the SMC with terms constructed
     solely from identities and symmetries.
 \end{definition}
+
+\begin{remark}
+    It is important to distinguish between the \emph{syntactic} category
+    \(\smc{\generators}\) and the \emph{semantic} category
+    \(\smc{\generators,\equations}\).
+    In the former, only `structural' equalities of the axioms of SMCs hold:
+    moving boxes around while retaining connectivity.
+    In the latter, more equations hold that mean terms with completely different
+    boxes and connectivity can be potentially equal.
+\end{remark}
 
 \begin{remark}
     One can also define a \emph{multi-sorted} SMT, in which wires can be of
@@ -70,22 +81,12 @@ When clear from context, wire labels may be omitted.
     We write \(\frob := \smc{\generators[\frob], \equations[\frob]}\).
 \end{example}
 
-\begin{remark}
-    It is important to distinguish between the \emph{syntactic} categories
-    \(\smc{\generators}\) and the \emph{semantic} categories
-    \(\smc{\generators,\equations}\).
-    In the former, only `structural' equalities of the axioms of SMCs hold:
-    moving boxes around while retaining connectivity.
-    In the latter, more equations hold that mean terms with completely different
-    boxes and connectivity can be potentially equal.
-\end{remark}
-
 Reasoning equationally using string diagrams is certainly attractive
 as a pen-and-paper method, but for larger systems it quickly becomes intractible
 to do this by hand.
 Instead, it is desirable to perform equational reasoning \emph{computationally}.
-Unfortunately, string diagrams as topological objects are not particular suited
-for this purpose: instead, we require a combinatorial representation.
+Unfortunately, string diagrams as topological objects are not particularly
+suited for this purpose; instead, we require a combinatorial representation.
 Fortunately, this has been well studied
 recently, first with
 \emph{string graphs}~\cite{dixon2013opengraphs,kissinger2012pictures}
@@ -93,7 +94,7 @@ and later with
 \emph{hypergraphs}~\cite{bonchi2022string,bonchi2022stringa,bonchi2022stringb},
 a generalisation of regular graphs in which edges can be the source or target of
 an arbitrary number of vertices.
-In this paper we are concerned in the latter.
+In this paper we are concerned with the latter.
 
 Hypergraphs are formally defined as objects in a functor category.
 
@@ -151,7 +152,7 @@ These can be provided using \emph{cospans}.
         (\cospan{X}[f]{A}[g]{Y}) \to (\cospan{X}[h]{B}[k]{Y})
     \) is a morphism \(\morph{\alpha}{A}{B} \in \mathbf{C}\)%
     \iftoggle{conf}{
-        such that \(f \seq \alpha = h\) and \(g \seq \alpha = k\).
+        such that \(\alpha \circ f = h\) and \(\alpha \seq g = k\).
     }{
         such that the following diagram commutes:
         \begin{center}
@@ -226,9 +227,8 @@ is required.
     discrete hypergraphs.
 \end{definition}
 
-\noindent
 From this we define the category \(\cspdhyp\) with objects
 \emph{discrete cospans of hypergraphs}.
 Since the legs of each cospan are discrete hypergraphs containing some number of
 vertices, the objects of this category can be viewed as natural numbers, making
-this another prop.
+this another PROP.

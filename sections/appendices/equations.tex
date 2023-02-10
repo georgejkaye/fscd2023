@@ -7,6 +7,15 @@ Equations that hold in any symmetric traced monoidal category are listed in
 These axioms were originally presented in~\cite{joyal1996traced}: an additional
 vanishing axiom was originally also included but it was shown in
 \cite{hasegawa2009traced} that this was redundant.
+Equations that hold in any compact closed category are listed in
+\cref{fig:ccc-axioms}.
+
+Equations for commutative monoids are listed in \cref{fig:monoid-equations}.
+Equations for cocommutative comonoids are listed in \cref{fig:comonoid-equations}.
+Equations for special commutative Frobenius algebras are listed in
+\cref{fig:frobenius-equations}.
+Equations for hypergraph categories are listed in \cref{fig:hypergraph-category}.
+Equations for bialgebras are listed in \cref{fig:bialgebra-equations}.
 
 Equations in the monoidal theory of gate-level sequential circuits are listed in
 \cref{fig:circuit-equations}.
@@ -115,6 +124,75 @@ equations of a commutative comonoid.
 \end{figure}
 \begin{figure}[p]
     \centering
+    \begin{minipage}{0.52\textwidth}
+        \begin{align*}
+            \tag{\(\mathsf{Tighten}\)}
+            \iltikzfig{strings/traced/naturality-lhs}
+            &=
+            \iltikzfig{strings/traced/naturality-rhs}
+            \label{eq:tightening}
+            \\[0.75em]
+            \tag{\(\mathsf{Slide}\)}
+            \iltikzfig{strings/traced/sliding-lhs}
+            &=
+            \iltikzfig{strings/traced/sliding-rhs}
+            \label{eq:sliding}
+            \\[0.75em]
+            \tag{\(\mathsf{Vanish}\)}
+            \iltikzfig{strings/traced/vanishing-lhs}
+            &=
+            \iltikzfig{strings/traced/vanishing-rhs}
+            \label{eq:vanishing}
+        \end{align*}
+    \end{minipage}
+    \hspace{-1em}
+    \begin{minipage}{0.455\textwidth}
+        \begin{align*}
+            \tag{\(\mathsf{Superpose}\)}
+            \iltikzfig{strings/traced/superposing-lhs}
+            &=
+            \iltikzfig{strings/traced/superposing-rhs}
+            \label{eq:superposing}
+            \\[0.75em]
+            \tag{\(\mathsf{Yank}\)}
+            \iltikzfig{strings/traced/yanking-lhs}
+            &=
+            \iltikzfig{strings/traced/yanking-rhs}
+            \label{eq:yanking}
+        \end{align*}
+    \end{minipage}
+    \caption{
+        Equations that hold in any \emph{symmetric traced monoidal category.}
+    }
+    \label{fig:stmc-axioms}
+\end{figure}
+\begin{figure}[p]
+    \centering
+    \begin{minipage}{0.29\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{CC1}\)}
+            \iltikzfig{strings/compact-closed/snake-l}[X]
+            =
+            \iltikzfig{strings/compact-closed/snake-c}[X]
+            \label{eq:snake-l}
+        \end{equation}
+    \end{minipage}
+    \begin{minipage}{0.29\textwidth}
+        \begin{equation}
+            \tag{\(\mathsf{CC2}\)}
+            \iltikzfig{strings/compact-closed/snake-r}[X]
+            =
+            \iltikzfig{strings/compact-closed/snake-c}[X]
+            \label{eq:snake-r}
+        \end{equation}
+    \end{minipage}
+    \caption{
+        Equations that hold in any \emph{compact closed category}.
+    }
+    \label{fig:ccc-axioms}
+\end{figure}
+\begin{figure}[p]
+    \centering
     \begin{minipage}{0.35\textwidth}
         \begin{equation}
             \tag{\(\mathsf{H1}\)}
@@ -202,75 +280,6 @@ equations of a commutative comonoid.
         \cref{fig:monoid-equations,fig:comonoid-equations}.
     }
     \label{fig:bialgebra-equations}
-\end{figure}
-\begin{figure}[p]
-    \centering
-    \begin{minipage}{0.52\textwidth}
-        \begin{align*}
-            \tag{\(\mathsf{Tighten}\)}
-            \iltikzfig{strings/traced/naturality-lhs}
-            &=
-            \iltikzfig{strings/traced/naturality-rhs}
-            \label{eq:tightening}
-            \\[0.75em]
-            \tag{\(\mathsf{Slide}\)}
-            \iltikzfig{strings/traced/sliding-lhs}
-            &=
-            \iltikzfig{strings/traced/sliding-rhs}
-            \label{eq:sliding}
-            \\[0.75em]
-            \tag{\(\mathsf{Vanish}\)}
-            \iltikzfig{strings/traced/vanishing-lhs}
-            &=
-            \iltikzfig{strings/traced/vanishing-rhs}
-            \label{eq:vanishing}
-        \end{align*}
-    \end{minipage}
-    \hspace{-1em}
-    \begin{minipage}{0.455\textwidth}
-        \begin{align*}
-            \tag{\(\mathsf{Superpose}\)}
-            \iltikzfig{strings/traced/superposing-lhs}
-            &=
-            \iltikzfig{strings/traced/superposing-rhs}
-            \label{eq:superposing}
-            \\[0.75em]
-            \tag{\(\mathsf{Yank}\)}
-            \iltikzfig{strings/traced/yanking-lhs}
-            &=
-            \iltikzfig{strings/traced/yanking-rhs}
-            \label{eq:yanking}
-        \end{align*}
-    \end{minipage}
-    \caption{
-        Equations that hold in any \emph{symmetric traced monoidal category.}
-    }
-    \label{fig:stmc-axioms}
-\end{figure}
-\begin{figure}[p]
-    \centering
-    \begin{minipage}{0.29\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{CC1}\)}
-            \iltikzfig{strings/compact-closed/snake-l}[X]
-            =
-            \iltikzfig{strings/compact-closed/snake-c}[X]
-            \label{eq:snake-l}
-        \end{equation}
-    \end{minipage}
-    \begin{minipage}{0.29\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{CC2}\)}
-            \iltikzfig{strings/compact-closed/snake-r}[X]
-            =
-            \iltikzfig{strings/compact-closed/snake-c}[X]
-            \label{eq:snake-r}
-        \end{equation}
-    \end{minipage}
-    \caption{
-        Equations that hold in any \emph{compact closed category}.
-    }
-    \label{fig:ccc-axioms}
 \end{figure}
 \begin{figure}[p]
     \centering
