@@ -1,3 +1,4 @@
+% !TeX root = main-arxiv.tex
 % force arxiv to compile to pdf
 \pdfoutput=1
 
@@ -12,7 +13,6 @@
 \usepackage{amsthm}
 \usepackage{thmtools}
 \usepackage{stmaryrd}
-\usepackage{authblk}
 
 \usepackage{etoolbox}
 \usepackage{xparse}
@@ -57,10 +57,29 @@
 \settoggle{conf}{false}
 \settoggle{proofs}{true}
 
-\author{Dan R. Ghica}
-\author{George Kaye}
-\affil{School of Computer Science, University of Birmingham}
-\affil{\texttt{\{d.r.ghica, g.j.kaye, d.sprunger\}@cs.bham.ac.uk}}
+\title{\huge{Rewriting modulo traced comonoid structure}}
+\author{
+    Dan R. Ghica \\
+    \small{School of Computer Science} \\
+    \small{University of Birmingham, UK} \\
+    \small{
+        \href{
+            mailto:d.r.ghica@bham.ac.uk
+        }{
+            \texttt{d.r.ghica@bham.ac.uk}}
+        }
+    \and
+    George Kaye \\
+    \small{School of Computer Science} \\
+    \small{University of Birmingham, UK} \\
+    \small{
+        \href{
+            mailto:g.j.kaye@pgr.bham.ac.uk
+        }{
+            \texttt{g.j.kaye@pgr.bham.ac.uk}
+        }
+    }
+}
 \date{}
 
 \input{main}

@@ -12,8 +12,6 @@
 \input{figures/circuits.tikzdefs}
 \input{figures/circuits.tikzstyles}
 
-\title{Rewriting modulo traced comonoid structure}
-
 \begin{document}
 
     \maketitle
@@ -35,7 +33,6 @@
         We also show how the framework of double pushout rewriting (DPO) can be
         adapted for traced comonoid categories by characterising the valid
         pushout complements for rewriting in our setting.
-
         We conclude by presenting a case study in the form of recent work on
         an equational theory for \emph{sequential circuits}: circuits built from
         primitive logic gates with delay and feedback.
@@ -62,5 +59,7 @@
 
     \input{sections/appendices/equations}
     \input{sections/appendices/belnap}
-    \input{sections/appendices/omitted-proofs}
+    \iftoggle{conf}{
+        \input{sections/appendices/omitted-proofs}
+    }{}
 \end{document}
