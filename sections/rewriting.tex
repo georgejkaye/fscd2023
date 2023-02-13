@@ -1,4 +1,4 @@
-% !TeX root = ../main-conf.tex
+% !TeX root = ../main-arxiv.tex
 \section{Graph rewriting}
 
 We have now shown that we can reason up to the axioms of symmetric traced
@@ -401,41 +401,7 @@ in~\cite{bonchi2022string}.
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
-        Let \(C\) be defined as a traced boundary complement of \(
-            i+j \xrightarrow{[a_1,a_2]} L \xrightarrow{f} G
-        \), which exists as the no-dangling and no-identification condition is
-        satisfied.
-        We assign names to the various cospans in play, and reason string
-        diagrammatically:
-        \begin{align*}
-            \iltikzfig{graphs/dpo/lhat} &:= \cospan{i}{L}{j}
-            &
-            \iltikzfig{graphs/dpo/ltilde} &:= \cospan{0}{L}{i+j} \\
-            \iltikzfig{graphs/dpo/chat} &:= \cospan{j+m}{L}{i+n}
-            &
-            \iltikzfig{graphs/dpo/ctilde} &:= \cospan{i+j}{C}{m+n} \\
-            \iltikzfig{graphs/dpo/ghat} &:= \cospan{m}{G}{n}
-            &
-            \iltikzfig{graphs/dpo/gtilde} &:= \cospan{0}{G}{m+n}
-        \end{align*}
-        By using the compact closed structure of \(\cspfihyp\), we also have that \(
-            \iltikzfig{graphs/dpo/ltilde} = \iltikzfig{graphs/dpo/lhat-bent}
-        \), \(
-            \iltikzfig{graphs/dpo/ctilde} = \iltikzfig{graphs/dpo/chat-bent}
-        \) and \(
-            \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/ghat-bent}
-        \).
-        Since \(
-            \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/lctilde}
-        \), it follows that \(
-            \iltikzfig{graphs/dpo/ghat-bent} = \iltikzfig{graphs/dpo/lchat-bent}
-        \) and subsequently \(
-            \iltikzfig{graphs/dpo/ghat} = \iltikzfig{graphs/dpo/lchat}
-        \).
-        The `loop' is constructed in the same manner as the canonical trace on
-        \(\cspfihyp\), so this is a term in the form of (\ref{gath:decomposition}).
-        Moreover, all cospans involved are partial monogamous by definition of
-        rewrite rules and traced boundary complements.
+        \input{proofs/rewriting/traced-decomposition}
     \end{proof}
 }{}
 
@@ -545,7 +511,8 @@ boundary complement conditions need to be weakened to the case of
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
-
+        As \cref{lem:traced-decomposition}, but with partial left-monogamous
+        cospans.
     \end{proof}
 }{}
 
