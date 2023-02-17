@@ -1,4 +1,6 @@
-Let \(C\) be defined as a traced boundary complement of \(
+Let \(
+    i + j \xrightarrow{[c_1, c_2]} C \xleftarrow{[d_1, d_2]} m+n
+\) be defined as a traced boundary complement of \(
     i+j \xrightarrow{[a_1,a_2]} L \xrightarrow{f} G
 \), which exists as the no-dangling and no-identification condition is
 satisfied.
@@ -7,34 +9,64 @@ diagrammatically:
 \begin{align*}
     \iltikzfig{strings/category/f}[l][white][i][j] &:= \cospan{i}{L}{j}
     &
-    \iltikzfig{strings/category/f-0-2}[\hat{l}][white][i][j] &:= \cospan{0}{L}{i+j} \\
-    \iltikzfig{strings/category/f-2-2}[c][white][j][m][i][n] &:= \cospan{j+m}{L}{i+n}
-    &
-    \iltikzfig{strings/category/f-2-2}[\hat{c}][white][i][j][m][n] &:= \cospan{i+j}{C}{m+n} \\
-    \iltikzfig{strings/category/f}[g][white][m][n] &:= \cospan{m}{G}{n}
-    &
-    \iltikzfig{strings/category/f-0-2}[\hat{g}][white][m][n] &:= \cospan{0}{G}{m+n}
-\end{align*}
-By using the compact closed structure of \(\cspdhyp\), we also have that \(
     \iltikzfig{strings/category/f-0-2}[\hat{l}][white][i][j]
-    =
-    \iltikzfig{strings/compact-closed/f-bent-input}[l][white][i][j]
-\), \(
+    &:=
+    \cospan{0}{L}{i+j}
+    \\
+    \iltikzfig{strings/category/f-2-2}[c][white][j][m][i][n]
+    &:=
+    \cospan{j+m}[[c_2, d_1]]{C}[[c_1, d_2]]{i+n}
+    &
     \iltikzfig{strings/category/f-2-2}[\hat{c}][white][i][j][m][n]
+    &:=
+    \cospan{i+j}[[c_1, c_2]]{C}[[d_1, d_2]]{m+n}
+    \\
+    \iltikzfig{strings/category/f}[g][white][m][n]
+    &:=
+    \cospan{m}{G}{n}
+    &
+    \iltikzfig{strings/category/f-0-2}[\hat{g}][white][m][n]
+    &:=
+    \cospan{0}{G}{m+n}
+\end{align*}
+Note that the cospans in the left column are partial monogamous by definition
+of rewrite rules and traced boundary complements.
+We will show that  \(
+    \iltikzfig{strings/category/f}[g][white]
+\) can be decomposed into a form using the two cospans \(
+    \iltikzfig{strings/category/f}[l][white]
+\) and \(
+    \iltikzfig{strings/category/f-2-2}[c][white]
+\), along with identities.
+
+By using the compact closed structure of \(\cspdhyp\), we have that \(
+    \iltikzfig{strings/category/f}[g][white][m][n]
+    =
+    \iltikzfig{graphs/dpo/g-bent}
+\), \(
+    \iltikzfig{strings/category/f-2-2}[c][white][i][j][m][n]
     =
     \iltikzfig{graphs/dpo/chat-bent}
 \) and \(
-    \iltikzfig{strings/category/f-0-2}[\hat{g}][white][i][j]
+    \iltikzfig{strings/category/f-0-2}[\hat{l}][white][i][j]
     =
-    \iltikzfig{strings/compact-closed/f-bent-input}[g][white][i][j]
+    \iltikzfig{strings/compact-closed/f-bent-input}[l][white][i][j]
 \).
-Since \(
-    \iltikzfig{graphs/dpo/gtilde} = \iltikzfig{graphs/dpo/lctilde}
-\), it follows that \(
-    \iltikzfig{graphs/dpo/ghat-bent} = \iltikzfig{graphs/dpo/lchat-bent}
-\) and subsequently \(
-    \iltikzfig{graphs/dpo/ghat} = \iltikzfig{graphs/dpo/lchat}
+Since \(G\) is the pushout of \(
+    L \xleftarrow{[a_1, a_2]} i+j \xrightarrow{[c_1, c_2]} C
+\) and pushout is cospan composition, we have \(
+    \iltikzfig{strings/category/f-0-2}[\hat{g}][white]
+    =
+    \iltikzfig{graphs/dpo/lctilde}
 \).
+
+Putting this all together we have that
+\begin{gather*}
+    \iltikzfig{strings/category/f}[g][white]
+    =
+    \iltikzfig{graphs/dpo/g-bent}
+    =
+\end{gather*}
 The `loop' is constructed in the same manner as the canonical trace on
 \(\cspfihyp\), so this is a term in the form of (\ref{gath:decomposition}).
 Moreover, all cospans involved are partial monogamous by definition of

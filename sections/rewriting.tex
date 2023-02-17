@@ -373,13 +373,15 @@ The final prerequisite is a decomposition lemma, akin to a similar result
 in~\cite{bonchi2022string}.
 
 \begin{lemma}[Traced decomposition]\label{lem:traced-decomposition}
-    Given partial monogamous cospans \(\cospan{m}[p_1]{G}[p_2]{n}\) and \(
+    Given partial monogamous cospans \(
+        \cospan{m}[d_1]{G}[d_2]{n}
+    \) and \(
         \cospan{i}[a_1]{L}[a_2]{j}
     \), along with a morphism \(
         L \xrightarrow{f} G
     \) such that \(i+j \rightarrow L \rightarrow G\) satisfies the no-dangling
     and no-identification conditions, then there exists \(
-        \cospan{j+m}[c_2,d_1]{C}[c_1,d_2]{i+n}
+        \cospan{j+m}[[c_2,d_1]]{C}[[c_1,d_2]]{i+n}
     \) such that \(
         \cospan{m}{G}{n}
     \) can be factored as
@@ -391,7 +393,7 @@ in~\cite{bonchi2022string}.
                 \cospan{m}{m}{m}
             \end{array}
             \seq
-            \cospan{j+m}[c_2,d_1]{C}[c_1,d_2]{i+n}
+            \cospan{j+m}[[c_2,d_1]]{C}[[c_1,d_2]]{i+n}
         }
         \label{gath:decomposition}
     \end{gather}
