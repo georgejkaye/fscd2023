@@ -1,11 +1,12 @@
-% !TeX root = ../main-conf.tex
+% !TeX root = ../main-arxiv.tex
 \section{Hypergraphs for traced categories}
 
 We wish to use the hypergraph framework for a setting with a \emph{trace}.
 
 \begin{definition}[Symmetric tracd monoidal category \cite{joyal1996traced,hasegawa2009traced}]
     A \emph{symmetric traced monoidal category} (STMC) is a symmetric monoidal
-    category \(\mathbf{C}\) equipped with a family of functions \(
+    category \(\mathbf{C}\) equipped with \iftoggle{conf}{a family of }{}
+    functions \(
         \morph{
             \trace{X}[A][B]{-}
         }{
@@ -14,11 +15,15 @@ We wish to use the hypergraph framework for a setting with a \emph{trace}.
             \mathbf{C}(A, B)
         }
     \) for any objects \(A,B\) and \(X\) satisfying the axioms of STMCs listed
-    in \cref{app:equations}, \cref{fig:stmc-axioms}.
+    in \iftoggle{conf}{\cref{app:equations},}{} \cref{fig:stmc-axioms}.
 \end{definition}
 
+\iftoggle{conf}{}{
+    \input{floats/stmc}
+}
+
 In the string diagram notation, the trace is represented by joining some of the
-inputs of a circuit to its outputs.
+inputs of a term to its outputs.
 %
 \begin{center}
     \(
@@ -38,9 +43,14 @@ Traced monoidal categories are not the only kind of category in which wires can
         \iltikzfig{strings/compact-closed/cup}[white][\dual{X}][X]
     \) (`cup') and the \emph{counit} \(
         \iltikzfig{strings/compact-closed/cap}[white][X][\dual{X}]
-    \) (`cap') satisfying the equations of CCCs listed in \cref{app:equations},
+    \) (`cap') satisfying the equations of CCCs listed in
+    \iftoggle{conf}{\cref{app:equations},}{}
     \cref{fig:ccc-axioms}.
 \end{definition}
+
+\iftoggle{conf}{}{
+    \input{floats/ccc}
+}
 
 Dual objects are conventionally drawn as wires flowing the `other way', but in
 this paper this is not necessary as all categories will be \emph{self-dual}: any
@@ -48,7 +58,7 @@ object \(X\) is isomorphic to \(\dual{X}\).
 
 \begin{proposition}[Canonical trace (\cite{joyal1996traced}, Prop. 3.1)]
     \label{prop:canonical-trace}
-    Any compact closed category has a trace \(
+    Any CCC has a trace \(
         \trace{X}[A][B]{\iltikzfig{strings/category/f-2-2}[f][white][X][A][X][B]}
     \) called the \emph{canonical trace}, defined for the self-dual case as \[
         \left(
@@ -77,9 +87,14 @@ already contains the structure necessary to define a trace.
 \begin{definition}[Hypergraph category \cite{fong2019hypergraph}]
     A \emph{hypergraph category} is a symmetric monoidal category in which
     each object \(X\) has a special commutative Frobenius structure in the sense
-    of \cref{ex:frobenius} satisfying the equations in \cref{app:equations},
+    of \cref{ex:frobenius} satisfying the equations in
+    \iftoggle{conf}{\cref{app:equations},}{}
     \cref{fig:hypergraph-category}.
 \end{definition}
+
+\iftoggle{conf}{}{
+    \input{floats/hypergraph}
+}
 
 \begin{proposition}[\cite{rosebrugh2005generic}]
     Any hypergraph category is self-dual compact closed.

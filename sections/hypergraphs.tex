@@ -76,10 +76,16 @@ When clear from context, wire labels may be omitted.
             \iltikzfig{strings/structure/comonoid/discard}[white]
         \}
     \) and the equations of \(\equations[\frob]\) are listed in
-    \cref{app:equations},
+    \iftoggle{conf}{\cref{app:equations},}{}
     \cref{fig:monoid-equations,fig:comonoid-equations,fig:frobenius-equations}.
     We write \(\frob := \smc{\generators[\frob], \equations[\frob]}\).
 \end{example}
+
+\iftoggle{conf}{}{
+    \input{floats/monoids}
+    \input{floats/comonoids}
+    \input{floats/frobenius}
+}
 
 Reasoning equationally using string diagrams is certainly attractive
 as a pen-and-paper method, but for larger systems it quickly becomes intractible
