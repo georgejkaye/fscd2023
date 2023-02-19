@@ -3,9 +3,9 @@
 
 We wish to use the hypergraph framework for a setting with a \emph{trace}.
 
-\begin{definition}[Symmetric tracd monoidal category \cite{joyal1996traced,hasegawa2009traced}]
+\begin{definition}[Symmetric traced monoidal category \cite{joyal1996traced,hasegawa2009traced}]
     A \emph{symmetric traced monoidal category} (STMC) is a symmetric monoidal
-    category \(\mathbf{C}\) equipped with \iftoggle{conf}{a family of }{}
+    category \(\mathbf{C}\) with \iftoggle{conf}{a family of }{}
     functions \(
         \morph{
             \trace{X}[A][B]{-}
@@ -22,14 +22,14 @@ We wish to use the hypergraph framework for a setting with a \emph{trace}.
     \input{floats/stmc}
 }
 
-In the string diagram notation, the trace is represented by joining some of the
-inputs of a term to its outputs.
+In string diagrams, the trace is represented by joining some of the inputs of a
+term to its outputs.
 %
 \begin{center}
     \(
-        \trace{X}[A][B]{\iltikzfig{strings/traced/trace-lhs}[F][white][X][A][B]}
+        \trace{X}[A][B]{\iltikzfig{strings/traced/trace-lhs}[f][white][X][A][B]}
         \stackrel{\text{def}}{=}
-        \iltikzfig{strings/traced/trace-rhs}[F][white][A][B]
+        \iltikzfig{strings/traced/trace-rhs}[f][white][A][B]
     \)
 \end{center}
 
@@ -230,15 +230,15 @@ interpreted in \(\cspdhyp\).
 \iftoggle{conf}{}{
     \begin{lemma}\label{lem:trace-degree}
         Given a cospan \(\cospan{x+m}[h+f]{F}[k+g]{x+n} \in \cspdhyp\), let \(p\) be
-        the map sending vertices in \(\vertices{F}\) to where they are sent by
-        the pushouts constructing \(\trace{x}{\cospan{x+m}{F}{x+n}}\).
-        Then if the degree of \(h(i)\) is \((p_1, q_1)\) and the degree of
-        \(k(i)\) is \((p_2, q_2)\), then the degree of \(p(h(i)) = p(k(i))\) is
-        \((p_1 + p_2, q_1 + q_2)\).
+        the map sending vertices in \(\vertices{F}\) to the corresponding
+        vertices after constructing \(\trace{x}{\cospan{x+m}{F}{x+n}}\).
+        Then if the degree of \(h(i)\) is \((i_1, j_1)\) and the degree of
+        \(k(i)\) is \((i_2, j_2)\), then the degree of \(p(h(i)) = p(k(i))\) is
+        \((i_1 + i_2, j_1 + j_2)\).
     \end{lemma}
     \iftoggle{proofs}{
         \begin{proof}
-
+            By computing the pushouts.
         \end{proof}
     }{}
 }
@@ -349,10 +349,17 @@ former.
     \end{gather*}
     Let \(\morph{\frobtohyp{\Sigma}}{\frob}{\cspdhyp}\) be a PROP morphism
     defined as in \cref{prop:frobenius-map}.
-    Then, let \(
-        \morph{\termandfrobtohypsigma}{\smc{\Sigma} + \frob}{\cspdhyp}
-    \)
-    be the copairing of \(\termtohyp{\Sigma} + \frobtohyp{\Sigma}\).
+    \iftoggle{conf}{
+        Then, let \(
+            \morph{\termandfrobtohypsigma}{\smc{\Sigma} + \frob}{\cspdhyp}
+        \)
+        be the copairing of \(\termtohyp{\Sigma} + \frobtohyp{\Sigma}\).
+    }{
+        Then, let \[
+            \morph{\termandfrobtohypsigma}{\smc{\Sigma} + \frob}{\cspdhyp}
+        \]
+        be the copairing of \(\termtohyp{\Sigma} + \frobtohyp{\Sigma}\).
+    }
 \end{definition}
 
 \begin{lemma}\label{lem:smc-core}
@@ -389,18 +396,9 @@ former.
     to which the Frobenius equations do not apply.
 \end{proof}
 
-\iftoggle{conf}{}{
-    Recall one of the key theorems from~\cite{bonchi2022stringa}.
-
-    \begin{theorem}[\cite{bonchi2022stringa}, Corollary 20]\label{thm:smc-graph-iso}
-        \(\smc{\Sigma} \cong \macspfihyp\).
-    \end{theorem}
-}
-
 Before progressing to the main theorem, we must show a result about terms in
-\(\smc{}\), i.e.\ terms constructed from just symmetries and identities.
-In particular, there is a correspondence between \(\smc{}\) and
-\emph{bijective} functions.
+\(\smc{}\), i.e.\ terms constructed from just symmetries and identities: there
+is a correspondence between \(\smc{}\) and \emph{bijective} functions.
 
 \begin{definition}
     Let \(\perms\) be the sub-PROP of \(\finset\) containing only the

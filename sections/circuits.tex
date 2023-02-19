@@ -1,4 +1,4 @@
-% !TeX root = ../main-conf.tex
+% !TeX root = ../main-arxiv.tex
 
 \subsection{Digital circuits}
 \label{sec:digital-circuits}
@@ -29,7 +29,7 @@ interest to us is the \emph{local theory of sequential circuits} from
         \}
     \] and the equations of \(
         \equations[\mathbf{SCirc}]
-    \) are listed in \cref{app:equations},
+    \) are listed in \iftoggle{conf}{\cref{app:equations},}{}
     \cref{fig:monoid-equations,fig:comonoid-equations,fig:bialgebra-equations,fig:circuit-equations},
     where
     \(
@@ -49,6 +49,12 @@ interest to us is the \emph{local theory of sequential circuits} from
     \).
 \end{definition}
 
+\iftoggle{conf}{}{
+    \input{floats/bialgebra}
+    \input{floats/circuits}
+    \input{floats/cycle}
+}
+
 The generators in \(\generators[\mathbf{SCirc}]\) are, respectively:
 \(\andgate\), \(\orgate\) and \(\notgate\) gates; constructs for introducing,
 forking, joining and stubbing wires; \emph{values} representing a true signal,
@@ -60,7 +66,7 @@ trace commutative comonoid structure.
 Using graph rewriting, we can sketch out an \emph{operational semantics} for
 sequential circuits.
 For the interests of brevity, we will only consider circuits of the form \(
-    \iltikzfig{circuits/productivity/mealy-form-verbose}[F][v][m][n]
+    \iltikzfig{circuits/productivity/mealy-form-verbose}[f][v][m][n]
 \): circuits with no `non-delay-guarded feedback' in which the registers of the
 circuit have been isolated from a core containing only `blue'
 (\emph{combinational}) components, which models a function.
@@ -68,7 +74,8 @@ Any sequential circuit can be translated into such a form by the equational
 theory.
 
 We can `apply' such a circuit to an input as shown in the left-hand side of
-\cref{app:equations}, \cref{fig:cycle}; the equations in
+\iftoggle{conf}{\cref{app:equations},}{}
+\cref{fig:cycle}; the equations in
 \(\equations[\mathbf{SCirc}]\) can be used to derive the right-hand side.
 The equations \eqref{eq:gate}, \eqref{eq:fork}, \eqref{eq:join} and
 \eqref{eq:stub} can then be applied to reduce the two `new' cores down to

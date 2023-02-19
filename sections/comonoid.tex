@@ -1,4 +1,4 @@
-% !TeX root = ../main-conf.tex
+% !TeX root = ../main-arxiv.tex
 \section{Hypergraphs for traced commutative comonoid categories}
 
 We are interested in another element of structure in addition to the trace: the
@@ -39,27 +39,6 @@ condition does not lead to any degeneracies.
     \).
 \end{remark}
 
-\iftoggle{conf}{}{
-    \begin{lemma}
-        \label{lem:trace-in-degree}
-        Given a partial left-monogamous cospan \(\cospan{x+m}[f+h]{K}[g+k]{x+n}\)
-        and its trace \(\cospan{m}[h \seq p]{pK}[k \seq p]{n}\), let vertices
-        \(v_0, v_1, \cdots, v_n\) such that each \(v_i\) is in the image of \(g\)
-        and \(p(v_0) = p(v_1) = \cdots = p(v_n)\).
-        Then, there exists at most one \(v_i\) with in-degree \(1\).
-    \end{lemma}
-    \iftoggle{proofs}{
-        \begin{proof}
-            Assume that there exist vertices \(g(i),g(j)\) with in-degree \(1\).
-            For \(p(g(i)) = p(g(j))\) to hold, then there must either exist a sequence
-            \(f(i) = g(i_0), f(i_0) = g(i_1), \cdots, f(i_n) = g(j)\), or vice versa.
-            But \(f(i_n) = g(j)\) must have in-degree \(0\) by partial left-monogamy, a
-            contradiction.
-            Therefore at most one \(v_i\) can have in-degree \(1\).
-        \end{proof}
-    }{}
-}
-
 \begin{lemma}
     \label{lem:partial-monogamous-ops}
     Let \(\cospan{m}{F}{n}\), \(\cospan{n}{G}{p}\), \(\cospan{p}{H}{q}\) and
@@ -78,35 +57,30 @@ condition does not lead to any degeneracies.
     \begin{proof}
         Identities and symmetries are monogamous, and as such they are also
         partial left-monogamous.
-        For composition, the vertices in the image of \(g\) and \(h\) are
-        identified.
-        Let \(v = p(g(i)) = p(h(i))\).
-        We must show that \(v\) has in-degree \(0\) if it is in the image of
-        \(f\), and \(0\) or \(1\) otherwise.
-        \(h(i)\) has in-degree \(1\) by definition, so the in-degree of \(v\) is
-        entirely determined by \(g(i)\).
-        If \(v\) is in the image of \(f\), then \(g(i)\) must also be in the
-        image of \(f\), so it has in-degree \(0\), and hence so does \(v\).
-        Conversely, if \(v\) is not in the image of \(f\), \(g(i)\) has
-        in-degree of either \(0\) or \(1\), and hence so does \(v\).
-
+        For the operations, we only need to check the in-degrees of vertices, as
+        the out-degree can be arbitrary.
+        For composition, only the vertices in the image of \(n \to F\) and
+        \(n \to G\) have their in-degrees modified.
+        By partial left-monogamy we can conclude that:
+        \begin{itemize}
+            \item the in-degree of vertices in the image of \(n \to F\) is
+                    \(0\) if they are in the image of \(m \to F\), and \(0\) or
+                    \(1\) otherwise; and
+            \item the in-degree of vertices in the image of \(n \to G\) is
+                    \(0\).
+        \end{itemize}
+        This means that vertices in the image of \(m \to F \seq G\) will have
+        in-degree \(0\), and the other vertices will have \(0\) or \(1\)
+        otherwise.
         For tensor, the elements of the original two graphs are unaffected so
         the degrees remain unchanged.
-
-        For trace, let \(v = p(f(i)) = p(g(i))\).
-        \(v\) cannot be in the image of \(h \seq p\) as this would mean that
-        \(f + h\) is not mono.
-        Therefore we must show that \(v\) has either degree of either \((0,m)\)
-        or \((1,m)\).
-        The degree of \(v\) is the sum of the degrees of each \(v_{fi}\) and
-        \(v_{gi}\).
-        Let \(v_{f0},\cdots,v_{fn}\) be the vertices in the image of \(f\) such
-        that \(p(v_{fi}) = v\), and similarly for \(v_{gi}\).
-        The in-degree of each \(v_{fi}\) must be \(0\) so all the in-degree is
-        contributed by each \(v_{gi}\).
-        By \cref{lem:trace-in-degree}, at most \(v_{fi}\) can have in-degree
-        \(1\), so the in-degree of \(v\) can either be \(0\) or \(1\).
-        Therefore the cospan is partial left-monogamous.
+        For trace, we must show that for any set of vertices in the image
+        of \(x + n \to K\) merged by the trace, at most one of them can have
+        in-degree \(1\).
+        But this must be the case because any image in the image of
+        \(x + m \to K\) must have in-degree \(0\), and \(x + m \to K\) is
+        moreover mono so it cannot merge vertices in the image of
+        \(x + n \to K\).
     \end{proof}
 }{}
 
@@ -117,63 +91,30 @@ condition does not lead to any degeneracies.
 
 This category can be equipped with a comonoid structure.
 
-\iftoggle{conf}{
-    \begin{definition}
-        Let \(
-            \morph{
-                \comonoidtofrob
-            }{
-                \ccomon
-            }{
-                \frob
-            }
-        \) be the obvious embedding of \(\ccomon\) into \(\frob\), and let \(
-            \morph{
-                \tracedandcomonoidtofrob{\Sigma}
-            }{
-                \stmc{\Sigma} + \comon
-            }{
-                \smc{\Sigma} + \frob
-            }
-        \) be the copairing of \(\tracedtosymandfrob{\Sigma}\) and
-        \(\comonoidtofrob\).
-    \end{definition}
-}{
-    \begin{proposition}[\cite{lack2004composing}, Example 5.2]
-        \label{prop:ccomon-iso-finsetop}
-        \(\ccomon \cong \op{\finset}\).
-    \end{proposition}
-
-    \iftoggle{conf}{}{
-        The following is a corollary of \cref{thm:cospan-homomorphism}.
-    }
-
-    \begin{corollary}
-        \label{cor:prop-homomorphism-finset}
-        There is a faithful PROP homomorphism \(
-            \morph{\tilde{D}}{\csp{\op{\finset}}}{\csp[D]{\hypsigma}}
-        \).
-    \end{corollary}
-
-    \begin{definition}
-        Let \(\morph{\comonoidtohyp{\Sigma}}{\ccomon}{\cspdhyp}\) be the homomorphism
-        obtained by composing the isomorphism of \cref{prop:ccomon-iso-finsetop}
-        with the homomorphism of \cref{cor:prop-homomorphism-finset}.
-        Concretely, it is defined on objects in the obvious way and on morphisms as
-        \(
-            \comonoidtohyp[\iltikzfig{strings/structure/comonoid/copy}[white]]
-            :=
-            \cospan{1}{1}{2}
-        \) and \(
-            \comonoidtohyp[\iltikzfig{strings/structure/comonoid/discard}[white]]
-            :=
-            \cospan{1}{1}{0}
-        \).
-    \end{definition}
-}
+\begin{definition}
+    Let \(
+        \morph{
+            \comonoidtofrob
+        }{
+            \ccomon
+        }{
+            \frob
+        }
+    \) be the obvious embedding of \(\ccomon\) into \(\frob\), and let \(
+        \morph{
+            \tracedandcomonoidtofrob{\Sigma}
+        }{
+            \stmc{\Sigma} + \comon
+        }{
+            \smc{\Sigma} + \frob
+        }
+    \) be the copairing of \(\tracedtosymandfrob{\Sigma}\) and
+    \(\comonoidtofrob\).
+\end{definition}
 
 \begin{lemma}
-    The image of \(\frobtohyp{\Sigma} \circ \comonoidtofrob\) is in \(\plmcspdhyp\)
+    The image of \(\frobtohyp{\Sigma} \circ \comonoidtofrob\) is in
+    \(\plmcspdhyp\)
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
@@ -187,6 +128,12 @@ This category can be equipped with a comonoid structure.
     \) is in \(\plmcspdhyp\).
 \end{corollary}
 
+\iftoggle{conf}{}{
+    \begin{lemma}[\cite{lack2004composing}]\label{lem:finop-ccomon}
+        \(\ccomon \cong \op{\finset}\).
+    \end{lemma}
+}
+
 \begin{lemma}\label{lem:ccomon-term}
     Given a partial left-monogamous cospan \(\cospan{m}[f]{m}[g]{n}\), there
     exists a unique term \(\morph{h}{m}{n} \in \ccomon\) up to the axioms of
@@ -198,7 +145,11 @@ This category can be equipped with a comonoid structure.
 \end{lemma}
 \iftoggle{proofs}{
     \begin{proof}
-
+        Given a partial left-monogamous cospan \(\cospan{m}[f]{m}[g]{n}\), there
+        exists a unique function \(\morph{h}{[n]}{[m]}\) such that \(h(i) = j\) if
+        \(g(i) = f(j)\).
+        Since \(\finset \cong \op{\finset}\), by \cref{lem:finop-ccomon}, there
+        exists a corresponding term in \(\ccomon\).
     \end{proof}
 }{}
 
@@ -207,7 +158,7 @@ This category can be equipped with a comonoid structure.
 \end{theorem}
 \begin{proof}
     Since \(\termandfrobtohypsigma\) and \(\comonoidtohyp{\Sigma}\) are faithful,
-    it suffices to show that every cospan \(\cospan{m}{F}{n}\) in
+    it suffices to show that a cospan \(\cospan{m}{F}{n}\) in
     \(\plmcspdhyp\) can be decomposed in such a way that each component is in
     the image of either \(\termandfrobtohypsigma\) or
     \(\comonoidtohyp{\Sigma}\).
