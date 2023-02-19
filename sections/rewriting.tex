@@ -431,33 +431,66 @@ We write \(
 
 \begin{theorem}\label{thm:traced-rewriting}
     Let \(\mcr\) be a rewriting system on \(\stmcsigma\).
-    Then, \(
-        \iltikzfig{strings/category/f}[g][white][m][n]
-        \rewrite[\mcr]
-        \iltikzfig{strings/category/f}[h][white][m][n]
-    \) if and only if \(
-        \termandfrobtohypsigma[
-            \foldinterfaces[
-                \tracedtosymandfrob[
-                    \iltikzfig{strings/category/f}[g][white]
-                ]{\Sigma}
-            ]
-        ]
-        \grewrite[
+    \iftoggle{conf}{
+        Then, \(
+            \iltikzfig{strings/category/f}[g][white][m][n]
+            \rewrite[\mcr]
+            \iltikzfig{strings/category/f}[h][white][m][n]
+        \) if and only if \(
             \termandfrobtohypsigma[
                 \foldinterfaces[
-                    \tracedtosymandfrob[\mcr]{\Sigma}
+                    \tracedtosymandfrob[
+                        \iltikzfig{strings/category/f}[g][white]
+                    ]{\Sigma}
                 ]
             ]
-        ]
-        \termandfrobtohypsigma[
-            \foldinterfaces[
-                \tracedtosymandfrob[
-                    \iltikzfig{strings/category/f}[h][white]
-                ]{\Sigma}
+            \grewrite[
+                \termandfrobtohypsigma[
+                    \foldinterfaces[
+                        \tracedtosymandfrob[\mcr]{\Sigma}
+                    ]
+                ]
             ]
-        ].
-    \)
+            \termandfrobtohypsigma[
+                \foldinterfaces[
+                    \tracedtosymandfrob[
+                        \iltikzfig{strings/category/f}[h][white]
+                    ]{\Sigma}
+                ]
+            ].
+        \)
+    }{
+        Then,
+        \begin{gather*}
+            \iltikzfig{strings/category/f}[g][white][m][n]
+            \rewrite[\mcr]
+            \iltikzfig{strings/category/f}[h][white][m][n]
+            \quad
+            \text{if and only if}
+            \quad
+            \termandfrobtohypsigma[
+                \foldinterfaces[
+                    \tracedtosymandfrob[
+                        \iltikzfig{strings/category/f}[g][white]
+                    ]{\Sigma}
+                ]
+            ]
+            \grewrite[
+                \termandfrobtohypsigma[
+                    \foldinterfaces[
+                        \tracedtosymandfrob[\mcr]{\Sigma}
+                    ]
+                ]
+            ]
+            \termandfrobtohypsigma[
+                \foldinterfaces[
+                    \tracedtosymandfrob[
+                        \iltikzfig{strings/category/f}[h][white]
+                    ]{\Sigma}
+                ]
+            ].
+        \end{gather*}
+    }
 \end{theorem}
 \iftoggle{proofs}{
     \begin{proof}
