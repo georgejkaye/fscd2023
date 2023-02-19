@@ -39,35 +39,42 @@ We will show that  \(
     \iltikzfig{strings/category/f-2-2}[c][white]
 \), along with identities.
 
-By using the compact closed structure of \(\cspdhyp\), we have that \(
+By using the compact closed structure of \(\cspdhyp\), we have the following:
+\begin{gather*}
     \iltikzfig{strings/category/f}[g][white][m][n]
     =
     \iltikzfig{graphs/dpo/g-bent}
-\), \(
-    \iltikzfig{strings/category/f-2-2}[c][white][i][j][m][n]
+    \quad
+    \iltikzfig{strings/category/f-2-2}[\hat{c}][white][i][j][m][n]
     =
-    \iltikzfig{graphs/dpo/chat-bent}
-\) and \(
+    \iltikzfig{graphs/dpo/cprime-as-c}
+    \quad
     \iltikzfig{strings/category/f-0-2}[\hat{l}][white][i][j]
     =
     \iltikzfig{strings/compact-closed/f-bent-input}[l][white][i][j]
-\).
+\end{gather*}
 Since \(G\) is the pushout of \(
     L \xleftarrow{[a_1, a_2]} i+j \xrightarrow{[c_1, c_2]} C
-\) and pushout is cospan composition, we have \(
-    \iltikzfig{strings/category/f-0-2}[\hat{g}][white]
+\) and pushout is cospan composition, we also have that \(
+    \iltikzfig{strings/category/f-0-2}[\hat{g}][white][m][n]
     =
     \iltikzfig{graphs/dpo/lctilde}
 \).
 
-Putting this all together we have that
+Putting this all together we can show that
 \begin{gather*}
-    \iltikzfig{strings/category/f}[g][white]
+    \iltikzfig{strings/category/f}[g][white][m][n]
     =
     \iltikzfig{graphs/dpo/g-bent}
     =
+    \iltikzfig{graphs/dpo/l-c-bent}
+    =
+    \iltikzfig{graphs/dpo/l-c-bent-1}
+    =
+    \iltikzfig{graphs/dpo/lc-bent-2}
+    =
+    \iltikzfig{strings/rewriting/rewrite-l}[m][n]
 \end{gather*}
-The `loop' is constructed in the same manner as the canonical trace on
-\(\cspfihyp\), so this is a term in the form of (\ref{gath:decomposition}).
-Moreover, all cospans involved are partial monogamous by definition of
-rewrite rules and traced boundary complements.
+Since the `loop' is constructed in the same manner as the canonical trace on
+\(\cspdhyp\) (and is therefore identical in the graphical notation), this is a
+term in the form of (\ref{gath:decomposition}).
