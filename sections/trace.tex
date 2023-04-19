@@ -1,4 +1,4 @@
-% !TeX root = ../main-arxiv.tex
+% !TeX root = ../main-conf.tex
 \section{Hypergraphs for traced categories}
 
 We wish to use the hypergraph framework for a setting with a \emph{trace}.
@@ -15,15 +15,13 @@ We wish to use the hypergraph framework for a setting with a \emph{trace}.
             \mathbf{C}(A, B)
         }
     \) for any objects \(A,B\) and \(X\) satisfying the axioms of STMCs listed
-    in \iftoggle{conf}{\cref{app:equations},}{} \cref{fig:stmc-axioms}.
+    in \cref{fig:stmc-axioms}.
 \end{definition}
 
-\iftoggle{conf}{}{
-    \input{floats/stmc}
-}
+\input{floats/stmc}
 
-In string diagrams, the trace is represented by joining some of the inputs of a
-term to its outputs.
+In string diagrams, the trace is represented by joining some of the inputs to
+the outputs of a term.
 %
 \begin{center}
     \(
@@ -43,14 +41,10 @@ Traced monoidal categories are not the only kind of category in which wires can
         \iltikzfig{strings/compact-closed/cup}[white][\dual{X}][X]
     \) (`cup') and the \emph{counit} \(
         \iltikzfig{strings/compact-closed/cap}[white][X][\dual{X}]
-    \) (`cap') satisfying the equations of CCCs listed in
-    \iftoggle{conf}{\cref{app:equations},}{}
-    \cref{fig:ccc-axioms}.
+    \) (`cap') satisfying the equations of CCCs listed in \cref{fig:ccc-axioms}.
 \end{definition}
 
-\iftoggle{conf}{}{
-    \input{floats/ccc}
-}
+\input{floats/ccc}
 
 Dual objects are conventionally drawn as wires flowing the `other way', but in
 this paper this is not necessary as all categories will be \emph{self-dual}: any
@@ -88,13 +82,10 @@ already contains the structure necessary to define a trace.
     A \emph{hypergraph category} is a symmetric monoidal category in which
     each object \(X\) has a special commutative Frobenius structure in the sense
     of \cref{ex:frobenius} satisfying the equations in
-    \iftoggle{conf}{\cref{app:equations},}{}
     \cref{fig:hypergraph-category}.
 \end{definition}
 
-\iftoggle{conf}{}{
-    \input{floats/hypergraph}
-}
+\input{floats/hypergraph}
 
 \begin{proposition}[\cite{rosebrugh2005generic}]
     Any hypergraph category is self-dual compact closed.
@@ -227,6 +218,10 @@ interpreted in \(\cspdhyp\).
     \end{center}
 \end{definition}
 
+\begin{example}
+    Examples of monogamous and non-monogamous cospans
+\end{example}
+
 \iftoggle{conf}{}{
     \begin{lemma}\label{lem:trace-degree}
         Given a cospan \(\cospan{x+m}[h+f]{F}[k+g]{x+n} \in \cspdhyp\), let \(p\) be
@@ -310,7 +305,7 @@ the cup and cap, the resulting cospan \emph{is} in \(\pmcspdhyp\).
 
 \begin{definition}
     For a SMT \((\generators,\equations)\), let
-    \(\stmc{\generators}\) be the STMC freely generated over the
+    \(\stmc{\generators}\) be the strict STMC freely generated over the
     generators in \(\generators\).
     Let \(\stmc{\generators, \equations}\) be \(\stmc{\generators}\) quotiented
     by equations in \(\equations\).
@@ -342,7 +337,7 @@ former.
         \termtohyp[\iltikzfig{strings/category/identity}[white][n][n]]{\Sigma}
         :=
         \cospan{n}[\id]{n}[\id]{n}
-        \quad
+        \qquad
         \termtohyp[\iltikzfig{strings/symmetric/symmetry}[white][m][n]]{\Sigma}
             :=
         \cospan{m+n}[[\id,\id]]{m+n}[[\id,\id]]{n+m}
@@ -353,12 +348,12 @@ former.
         Then, let \(
             \morph{\termandfrobtohypsigma}{\smc{\Sigma} + \frob}{\cspdhyp}
         \)
-        be the copairing of \(\termtohyp{\Sigma} + \frobtohyp{\Sigma}\).
+        be the copairing of \(\termtohyp{\Sigma}\) and \(\frobtohyp{\Sigma}\).
     }{
         Then, let \[
             \morph{\termandfrobtohypsigma}{\smc{\Sigma} + \frob}{\cspdhyp}
         \]
-        be the copairing of \(\termtohyp{\Sigma} + \frobtohyp{\Sigma}\).
+        be the copairing of \(\termtohyp{\Sigma}\) and \(\frobtohyp{\Sigma}\).
     }
 \end{definition}
 

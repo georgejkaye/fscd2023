@@ -1,4 +1,4 @@
-% !TeX root = ../main-arxiv.tex
+% !TeX root = ../main-conf.tex
 \section{Monoidal theories and hypergraphs}
 
 When modelling a system using monoidal categories, its components and
@@ -11,15 +11,15 @@ tensor product.
 \begin{definition}[Symmetric monoidal theory]
     A \emph{(single-sorted) symmetric monoidal theory} (SMT) is a tuple \(
         (\generators,\equations)
-    \) where \(\generators\) is a set of \emph{generators} with associated
-    (co)arities in \(\dom,\cod \in \nat\) and \(\equations\) is a set of
-    equations.
+    \) where \(\generators\) is a set of \emph{generators} in which each
+    generator \(\phi \in \generators\) has an associated \emph{arity}
+    \(\dom[\phi]\) and \emph{coarity} \(\cod[\phi]\), and \(\equations\) is a
+    set of equations.
     Given a SMT \((\generators,\equations)\), let \(
         \smc{\generators}
-    \) be the symmetric monoidal category freely generated over \(\generators\)
-    and let \(
-        \smc{\generators,\equations}
-    \) be \(\smc{\generators}\) quotiented by the equations in \(\equations\).
+    \) be the strict symmetric monoidal category freely generated over
+    \(\generators\) and let \(\smc{\generators,\equations}\) be
+    \(\smc{\generators}\) quotiented by the equations in \(\equations\).
     We write \(\smc{} := \smc{\emptyset}\) for the SMC with terms constructed
     solely from identities and symmetries.
 \end{definition}
@@ -51,7 +51,7 @@ as a box \(
     \iltikzfig{strings/category/generator}[\phi][white][m][n]
 \), the identity \(\id[x]\) as \(
     \iltikzfig{strings/category/identity}[white][x]
-\), and the symmetry \(\swap{X}{Y}\) as \(
+\), and the symmetry \(\swap{x}{y}\) as \(
     \iltikzfig{strings/symmetric/symmetry}[white][x][y]
 \).
 Composite terms will be illustrated as wider boxes \(
@@ -75,16 +75,13 @@ Composite terms will be illustrated as wider boxes \(
             \iltikzfig{strings/structure/comonoid/discard}[white]
         \}
     \) and the equations of \(\equations[\frob]\) are listed in
-    \iftoggle{conf}{\cref{app:equations},}{}
     \cref{fig:monoid-equations,fig:comonoid-equations,fig:frobenius-equations}.
     We write \(\frob := \smc{\generators[\frob], \equations[\frob]}\).
 \end{example}
 
-\iftoggle{conf}{}{
-    \input{floats/monoids}
-    \input{floats/comonoids}
-    \input{floats/frobenius}
-}
+\input{floats/monoids}
+\input{floats/comonoids}
+\input{floats/frobenius}
 
 Reasoning equationally using string diagrams is certainly attractive
 as a pen-and-paper method, but for larger systems it quickly becomes intractible
@@ -134,9 +131,9 @@ With such morphisms a hypergraph can be \emph{labelled}.
     For a given monoidal signature \(\signature\), its corresponding
     \emph{hypergraph signature} \(\hypsignature{\Sigma}\) is the hypergraph with
     edges \(
-        e_\phi \in \edges{\hypsignature{\Sigma}}{\dom{\phi}}{\cod{\phi}}
+        e_\phi \in \edges{\hypsignature{\Sigma}}{\dom[\phi]}{\cod[\phi]}
     \) for each \(\phi \in \Sigma\), and a vertex \(v\).
-    For a hyperedge \(e_\phi\), \(i < \dom{\phi}\) and \(j < \cod{\phi}\), \(
+    For a hyperedge \(e_\phi\), \(i < \dom[\phi]\) and \(j < \cod{\phi}\), \(
         \sources{i}(e_\phi) = \targets{j}(e_\phi) = v
     \).
 \end{definition}

@@ -1,4 +1,4 @@
-% !TeX root = ../main-arxiv.tex
+% !TeX root = ../main-conf.tex
 
 \subsection{Digital circuits}
 \label{sec:digital-circuits}
@@ -29,13 +29,13 @@ interest to us is the \emph{local theory of sequential circuits} from
         \}
     \] and the equations of \(
         \equations[\mathbf{SCirc}]
-    \) are listed in \iftoggle{conf}{\cref{app:equations},}{}
+    \) are listed in
     \cref{fig:monoid-equations,fig:comonoid-equations,fig:bialgebra-equations,fig:circuit-equations},
     where
     \(
         \gateinterpretation
-    \) maps gates to the corresponding truth table in \cref{app:belnap},
-    \(\ljoin\) is the join in the information lattice in \cref{app:belnap}, and
+    \) maps gates to the corresponding truth table, \(\ljoin\) is the join in
+    the information lattice, and
     \(
         \iltikzfig{circuits/components/circuits/f-1-2}[F^n][comb][m][x][n]
     \) is defined inductively as \(
@@ -49,11 +49,9 @@ interest to us is the \emph{local theory of sequential circuits} from
     \).
 \end{definition}
 
-\iftoggle{conf}{}{
-    \input{floats/bialgebra}
-    \input{floats/circuits}
-    \input{floats/cycle}
-}
+\input{floats/bialgebra}
+\input{floats/circuits}
+\input{floats/cycle}
 
 The generators in \(\generators[\mathbf{SCirc}]\) are, respectively:
 \(\andgate\), \(\orgate\) and \(\notgate\) gates; constructs for introducing,
@@ -74,7 +72,6 @@ Any sequential circuit can be translated into such a form by the equational
 theory.
 
 We can `apply' such a circuit to an input as shown in the left-hand side of
-\iftoggle{conf}{\cref{app:equations},}{}
 \cref{fig:cycle}; the equations in
 \(\equations[\mathbf{SCirc}]\) can be used to derive the right-hand side.
 The equations \eqref{eq:gate}, \eqref{eq:fork}, \eqref{eq:join} and
