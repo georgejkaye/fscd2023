@@ -45,38 +45,20 @@ DPO rewrite rule is required for every combination of generators as in
 
 \begin{figure}
     \centering
-    \begin{minipage}{0.45\textwidth}
-        \begin{equation}
-            \tag{\(\mathsf{Copy}\)}
-            \iltikzfig{strings/structure/cartesian/naturality-copy-lhs}[f][white][m][n]
-            =
-            \iltikzfig{strings/structure/cartesian/naturality-copy-rhs}[f][white][m][n]
-            \label{eq:cartesian-copy}
-        \end{equation}
-    \end{minipage}
-    \qquad
-    \begin{minipage}{0.4\textwidth}
-        \centering
-        \begin{equation}
-            \tag{\(\mathsf{Discard}\)}
-            \iltikzfig{strings/structure/cartesian/naturality-discard-lhs}[f][white][m]
-            =
-            \iltikzfig{strings/structure/cartesian/naturality-discard-rhs}[m]
-            \label{eq:cartesian-discard}
-        \end{equation}
-    \end{minipage}
-
-    \begin{minipage}{0.45\textwidth}
-        \begin{center}
-            \includestandalone{figures/graphs/dpo/cartesian/copy/rule}
-        \end{center}
-    \end{minipage}
-    \begin{minipage}{0.4\textwidth}
-        \begin{center}
-            \includestandalone{figures/graphs/dpo/cartesian/discard/rule}
-        \end{center}
-    \end{minipage}
-
+    \renewcommand{\arraystretch}{3}
+    \begin{tabular}{cc}
+        \iltikzfig{strings/structure/cartesian/naturality-copy-lhs}[f][white][m][n]
+        \(=\)
+        \iltikzfig{strings/structure/cartesian/naturality-copy-rhs}[f][white][m][n]
+        &
+        \iltikzfig{strings/structure/cartesian/naturality-discard-lhs}[f][white][m]
+        \(=\)
+        \iltikzfig{strings/structure/cartesian/naturality-discard-rhs}[m]
+        \\
+        \includestandalone{figures/graphs/dpo/cartesian/copy/rule}
+        &
+        \raisebox{1em}{\includestandalone{figures/graphs/dpo/cartesian/discard/rule}}
+    \end{tabular}
     \caption{
         Equations of the monoidal theory \(\mathbf{Cart}_\mathcal{C}\),
         where \(\iltikzfig{strings/category/f}[f][white][m][n]\) is an arbitrary

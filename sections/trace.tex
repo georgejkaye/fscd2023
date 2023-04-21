@@ -5,7 +5,7 @@ We wish to use the hypergraph framework for a setting with a \emph{trace}.
 
 \begin{definition}[Symmetric traced monoidal category \cite{joyal1996traced,hasegawa2009traced}]
     A \emph{symmetric traced monoidal category} (STMC) is a symmetric monoidal
-    category \(\mathbf{C}\) with \iftoggle{conf}{a family of }{}
+    category \(\mathbf{C}\) equipped with \iftoggle{conf}{a family of }{}
     functions \(
         \morph{
             \trace{X}[A][B]{-}
@@ -20,8 +20,8 @@ We wish to use the hypergraph framework for a setting with a \emph{trace}.
 
 \input{floats/stmc}
 
-In string diagrams, the trace is represented by joining some of the inputs to
-the outputs of a term.
+In string diagrams, the trace is represented by joining output wires to input
+wires:
 %
 \begin{center}
     \(
