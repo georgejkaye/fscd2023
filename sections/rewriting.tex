@@ -1,4 +1,4 @@
-% !TeX root = ../main-arxiv.tex
+% !TeX root = ../main-conf.tex
 \section{Graph rewriting}
 
 We have now shown that we can reason up to the axioms of symmetric traced
@@ -539,7 +539,7 @@ boundary complement conditions need to be weakened to the case of
 \begin{lemma}[Traced comonoid decomposition]\label{lem:traced-comonoid-decomposition}
     \cref{lem:traced-decomposition} holds when all cospans are partial
     left-monogamous and \(
-        \cospan{j+m}[c_2,d_1]{C}[c_1,d_2]{i+n}
+        \cospan{j+m}[[c_2,d_1]]{C}[[c_1,d_2]]{i+n}
     \) is a traced left-boundary complement.
 \end{lemma}
 \iftoggle{proofs}{
@@ -590,16 +590,15 @@ boundary complement conditions need to be weakened to the case of
     The comonoid structure adds more possibilities, as there are the equations
     of commutative comonoids to consider.
     Consider the following rule and its interpretation.
-    \begin{gather}
+    \begin{gather*}
         \rrule{
             \iltikzfig{graphs/dpo/non-unique-comonoid/rule-lhs}
         }{
             \iltikzfig{graphs/dpo/non-unique-comonoid/rule-rhs}
         }
         \qquad
-        \raisebox{-1.7em}{\includestandalone{figures/graphs/dpo/non-unique-comonoid/rule}}
-        \label{gath:non-unique-rule-comonoid}
-    \end{gather}
+        \raisebox{-2em}{\includestandalone{figures/graphs/dpo/non-unique-comonoid/rule}}
+    \end{gather*}
     Two valid rewrites are as follows:
     \begin{center}
         \includestandalone{figures/graphs/dpo/non-unique-comonoid/rewrite-1}
