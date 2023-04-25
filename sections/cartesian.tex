@@ -5,8 +5,9 @@
 
 One important class of categories with a traced comonoid structure are
 \emph{traced Cartesian categories}~\cite{cazanescu1990new,hasegawa1997recursion}.
-These categories are interesting because any traced Cartesian
-category admits a fixpoint operator~\cite[Thm. 3.1]{hasegawa1997recursion}.
+These categories are interesting when considering \emph{data flow} because any
+traced Cartesian category admits a fixpoint
+operator~\cite[Thm. 3.1]{hasegawa1997recursion}.
 
 \begin{definition}[Cartesian category~\cite{fox1976coalgebras}]
     A monoidal category is \emph{Cartesian} if its tensor is given by the
@@ -29,10 +30,13 @@ Cartesian categories can also be expressed as a monoidal theory:
     \) as the equations in \cref{fig:cartesian-equations}.
 \end{definition}
 
-As the equations in \(\equations[\mathbf{Cart}_\mathbf{C}]\) are parameterised
-over any morphism \(\iltikzfig{strings/category/f}[f][white][m][n]\), a separate
+Note that as the equations in \(\equations[\mathbf{Cart}_\mathbf{C}]\) are
+parameterised over any morphism
+\(\iltikzfig{strings/category/f}[f][white][m][n]\), a separate
 DPO rewrite rule is required for every combination of generators as in
 \cref{fig:cartesian-equations}.
+However, as is the case in the next section, it is often possible to
+characterise the copying behaviour through a finite number of equations.
 
 \begin{remark}
     The combination of Cartesian equations with the underlying compact closed
@@ -66,3 +70,43 @@ DPO rewrite rule is required for every combination of generators as in
     }
     \label{fig:cartesian-equations}
 \end{figure}
+
+Fixpoints can be reasoned about using the \emph{unfolding} rule, which holds in
+any traced Cartesian category.
+
+\begin{center}
+    \iltikzfig{strings/traced/trace-rhs}[f][white][m][n][x]
+    \(=\)
+    \iltikzfig{circuits/examples/reasoning/unfolding/unfolding-1}[f][white][m][n][x]
+    \(=\)
+    \iltikzfig{circuits/examples/reasoning/unfolding/unfolding-2}[f][white][m][n][x]
+    \(=\)
+    \iltikzfig{circuits/examples/reasoning/unfolding/unfolding-3}[f][white][m][n][x]
+\end{center}
+
+In the syntactic setting, this requires the application of multiple
+equations: the two counitality equations followed by the copy equation and
+finally some axioms of STMCs for `housekeeping'.
+However, if we interpret this in the hypergraph setting, the comonoid equations
+are absorbed into the notation so only the copy equation needs to be applied.
+
+\begin{center}
+    \includestandalone{figures/graphs/dpo/unfolding/rewrite-1}
+\end{center}
+
+
+
+The dual notion of traced \emph{cocartesian}
+categories~\cite{bainbridge1976feedback} are also important in computer science:
+a trace in a traced cocartesian category corresponds to \emph{iteration} in the
+context of \emph{control flow}.
+The details of this section could also be applied to the cocartesian case by
+flipping all the directions and working with partial \emph{right}-monogamous
+cospans.
+
+However, attempting to combine the product and coproduct approaches for settings
+with a \emph{biproduct} would simply yield the category \(\cspdhyp\), a
+hypergraph category (\cref{prop:frobenius-map}) subject to the Frobenius
+equations in \cref{fig:frobenius-equations}.
+A category with biproducts is not necessarily subject to such equations, so this
+would not be a suitable approach.
