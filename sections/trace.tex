@@ -218,11 +218,29 @@ interpreted in \(\cspdhyp\).
     \end{center}
 \end{definition}
 
-\begin{example}
-    Examples of monogamous and non-monogamous cospans
+Intuitively, partial monogamy means that each vertex has exactly one `in' and
+`out' connection, be it to an edge or to an interface.
 
-    \iltikzfig{graphs/monogamy/yes-0} \(\tick\)
-    \iltikzfig{graphs/monogamy/no-0} \(\cross\)
+\begin{figure}
+    \centering
+    \[
+        \underbrace{
+            \iltikzfig{graphs/monogamy/yes-comonoid-0}
+            \iltikzfig{graphs/monogamy/yes-comonoid-1}
+        }_{\text{partial monogamous}}
+        \quad
+        \underbrace{
+            \iltikzfig{graphs/monogamy/no-comonoid-0}
+            \iltikzfig{graphs/monogamy/no-comonoid-1}
+        }_{\text{not partial monogamous}}
+    \]
+    \caption{Examples of cospans that are and are not partial monogamous.}
+    \label{fig:partial-monogamous-examples}
+\end{figure}
+
+\begin{example}
+    Examples of cospans that are and are not partial monogamous are shown
+    in \cref{fig:partial-monogamous-examples}
 \end{example}
 
 \iftoggle{conf}{}{

@@ -29,6 +29,32 @@ condition does not lead to any degeneracies.
     \((0,m)\) or \((1,m)\) otherwise, for some \(m \in \nat\).
 \end{definition}
 
+Partial left-monogamy is a weakening of partial monogamy that allows vertices
+to have multiple `out' connections, which represent the use of the comonoid
+structure to fork wires.
+
+\begin{figure}
+    \centering
+    \[
+        \underbrace{
+            \iltikzfig{graphs/monogamy/yes-comonoid-0}
+            \iltikzfig{graphs/monogamy/yes-comonoid-1}
+        }_{\text{partial left-monogamous}}
+        \quad
+        \underbrace{
+            \iltikzfig{graphs/monogamy/no-comonoid-0}
+            \iltikzfig{graphs/monogamy/no-comonoid-1}
+        }_{\text{not partial left-monogamous}}
+    \]
+    \caption{Examples of cospans that are and are not partial left-monogamous.}
+    \label{fig:partial-left-monogamous-examples}
+\end{figure}
+
+\begin{example}
+    Examples of cospans that are and are not partial left-monogamous are shown
+    in \cref{fig:partial-left-monogamous-examples}
+\end{example}
+
 \begin{remark}
     As with the vertices not in the interfaces with degree \((0, 0)\) in the
     vanilla traced case, the vertices not in the interface with degree
