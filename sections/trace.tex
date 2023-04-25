@@ -110,24 +110,24 @@ However, the category of \emph{cospans} of hypergraphs is such a category.
     \(\cspdhyp\) is a hypergraph category.
 \end{proposition}
 \begin{proof}
-    A Frobenius structure can be defined on \(\cspdhyp\) for each \(m \in \nat\)
+    A Frobenius structure can be defined on \(\cspdhyp\) for each \(n \in \nat\)
     as follows:
     \begin{gather*}
-        \iltikzfig{strings/structure/monoid/merge}[white]
+        \iltikzfig{strings/structure/monoid/merge}[white][n]
         :=
-        \cospan{m + m}{m}{m}
+        \cospan{n + n}{n}{n}
         \quad
-        \iltikzfig{strings/structure/monoid/init}[white]
+        \iltikzfig{strings/structure/monoid/init}[white][n]
         :=
-        \cospan{0}{m}{m}
+        \cospan{0}{n}{n}
         \\
-        \iltikzfig{strings/structure/comonoid/copy}[white]
+        \iltikzfig{strings/structure/comonoid/copy}[white][n]
         :=
-        \cospan{m}{m}{m+m}
+        \cospan{n}{n}{n+n}
         \quad
-        \iltikzfig{strings/structure/comonoid/discard}[white]
+        \iltikzfig{strings/structure/comonoid/discard}[white][n]
         :=
-        \cospan{m}{m}{0}
+        \cospan{n}{n}{0}
         \qedhere
     \end{gather*}
 \end{proof}
@@ -145,7 +145,7 @@ a CCC generated over the same signature, mapping the trace in the former to the
 canonical trace in the latter.
 However, this mapping is not \emph{full}: there are terms in a CCC that are not
 terms in a STMC, such as \(\iltikzfig{strings/traced/invalid}\).
-This means we must still restrict the cospans of hypergraphs in \(\cspdhyp\) we
+So we must still restrict the cospans of hypergraphs in \(\cspdhyp\) we
 use for \emph{traced} terms.
 
 \subsection{Monogamy}
@@ -218,8 +218,8 @@ interpreted in \(\cspdhyp\).
     \end{center}
 \end{definition}
 
-Intuitively, partial monogamy means that each vertex has exactly one `in' and
-`out' connection, be it to an edge or to an interface.
+Intuitively, partial monogamy means that each vertex either exactly one `in' and
+`out' connection, be it to an edge or to an interface, or none at all.
 
 \begin{figure}
     \centering
@@ -228,7 +228,7 @@ Intuitively, partial monogamy means that each vertex has exactly one `in' and
             \iltikzfig{graphs/monogamy/yes-comonoid-0}
             \iltikzfig{graphs/monogamy/yes-comonoid-1}
         }_{\text{partial monogamous}}
-        \quad
+        \qquad
         \underbrace{
             \iltikzfig{graphs/monogamy/no-comonoid-0}
             \iltikzfig{graphs/monogamy/no-comonoid-1}
@@ -421,8 +421,8 @@ former.
 \end{proof}
 
 Before progressing to the main theorem, we must show a result about terms in
-\(\smc{}\), i.e.\ terms constructed from just symmetries and identities: there
-is a correspondence between \(\smc{}\) and \emph{bijective} functions.
+\(\smc{}\): terms constructed from just symmetries and identities.
+There is a correspondence between such terms and \emph{bijective} functions.
 
 \begin{definition}
     Let \(\perms\) be the sub-PROP of \(\finset\) containing only the
@@ -474,17 +474,15 @@ is a correspondence between \(\smc{}\) and \emph{bijective} functions.
     term \(\morph{h}{m}{m} \in \smc{}\) up to the axioms of SMCs such that
     \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
 \end{lemma}
-\iftoggle{proofs}{
-    \begin{proof}
-        Since the cospan is monogamous, \(f\) and \(g\) are mono.
-        As the cospan is also discrete, there exists a (unique) bijective
-        function \(\morph{h^\prime}{[m]}{[m]}\) such that \(h^\prime(i) = j\) if
-        \(f(i) = g(j)\).
-        By \cref{lem:symmetries-prop}, there is a corresponding term
-        \(h \in \smc{}\) that is unique up to SMC axioms: a simple induction
-        shows that \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
-    \end{proof}
-}{}
+\begin{proof}
+    Since the cospan is monogamous, \(f\) and \(g\) are mono.
+    As the cospan is also discrete, there exists a (unique) bijective
+    function \(\morph{h^\prime}{[m]}{[m]}\) such that \(h^\prime(i) = j\) if
+    \(f(i) = g(j)\).
+    By \cref{lem:symmetries-prop}, there is a corresponding term
+    \(h \in \smc{}\) that is unique up to SMC axioms: a simple induction
+    shows that \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
+\end{proof}
 
 \begin{theorem}\label{thm:termtohyp-image}
     A cospan \(\cospan{m}{F}{n}\) is in the image of \(
@@ -503,17 +501,17 @@ is a correspondence between \(\smc{}\) and \emph{bijective} functions.
         read off.
         Informally, this cospan is
         \begin{gather}
-            \trace{}{
-                \cospan{x + m}{V}{x + n}
+            \trace{x + n}{
+                \cospan{x + n + m}{V}{m + x + n}
                 \seq
-                \cospan{x + n}{L + E + n}{x + n}
+                \cospan{m + x + n}{L + E + n}{m + x + n}
             }
         \end{gather}
         where \(V\) is all the vertices in \(F\), \(L\) is the vertices with
         degree \((0, 0)\) not in the image of the interfaces, and \(E\) is the
         all the hyperedges in \(F\).
         The first component corresponds to a term in \(\smc{}\) by
-        \cref{lem:symmetries-prop}, and the stack of edges to a tensor of
+        \cref{lem:monog-discrete-cospan}, and the stack of edges to a tensor of
         generators in \(\stmc{\Sigma}\).
     \end{proof}
 }

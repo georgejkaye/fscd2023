@@ -12,8 +12,8 @@ tensor product.
     A \emph{(single-sorted) symmetric monoidal theory} (SMT) is a tuple \(
         (\generators,\equations)
     \) where \(\generators\) is a set of \emph{generators} in which each
-    generator \(\phi \in \generators\) has an associated \emph{arity}
-    \(\dom[\phi]\) and \emph{coarity} \(\cod[\phi]\), and \(\equations\) is a
+    generator \(\phi \in \generators\) has an associated \emph{arity} and
+    \emph{coarity} \(\dom[\phi], \cod[\phi] \in \nat\), and \(\equations\) is a
     set of equations.
     Given a SMT \((\generators,\equations)\), let \(
         \smc{\generators}
@@ -24,15 +24,13 @@ tensor product.
     solely from identities and symmetries.
 \end{definition}
 
-\begin{remark}
-    It is important to distinguish between the \emph{syntactic} category
-    \(\smc{\generators}\) and the \emph{semantic} category
-    \(\smc{\generators,\equations}\).
-    In the former, only `structural' equalities of the axioms of SMCs hold:
-    moving boxes around while retaining connectivity.
-    In the latter, more equations hold that mean terms with completely different
-    boxes and connectivity can be potentially equal.
-\end{remark}
+It is important to distinguish between the \emph{syntactic} category
+\(\smc{\generators}\) and the \emph{semantic} category
+\(\smc{\generators,\equations}\).
+In the former, only `structural' equalities of the axioms of SMCs hold:
+moving boxes around while retaining connectivity.
+In the latter, more equations hold that mean terms with completely different
+boxes and connectivity can be potentially equal.
 
 \begin{remark}
     One can also define a \emph{multi-sorted} SMT, in which wires can be of
@@ -42,6 +40,10 @@ tensor product.
     of~\cite{bonchi2022string,bonchi2022stringa}.
 \end{remark}
 
+\input{floats/monoids}
+\input{floats/comonoids}
+\input{floats/frobenius}
+
 While one could reason in \(\smc{\generators}\) using the
 one-dimensional categorical term language, it is more intuitive to reason with
 \emph{string diagrams}~\cite{joyal1991geometry,selinger2011survey}, which
@@ -49,18 +51,25 @@ represent \emph{equivalence classes} of terms up to the axioms of SMCs.
 In the language of string diagrams, a generator \(\morph{\phi}{m}{n}\) is drawn
 as a box \(
     \iltikzfig{strings/category/generator}[\phi][white][m][n]
-\), the identity \(\id[x]\) as \(
-    \iltikzfig{strings/category/identity}[white][x]
-\), and the symmetry \(\swap{x}{y}\) as \(
-    \iltikzfig{strings/symmetric/symmetry}[white][x][y]
+\), the identity \(\id[n]\) as \(
+    \iltikzfig{strings/category/identity}[white][n]
+\), and the symmetry \(\swap{m}{n}\) as \(
+    \iltikzfig{strings/symmetric/symmetry}[white][m][n]
 \).
 Composite terms will be illustrated as wider boxes \(
     \iltikzfig{strings/category/f}[f][white][m][n]
-\) to distinguish them from generators: then (diagrammatic order) composition
-\(f \seq g\) is defined as horizontal juxtaposition \(
-    \iltikzfig{strings/category/composition}[f][g][white][x][y][z]
-\) and tensor \(f \tensor g\) as vertical juxtaposition \(
-    \iltikzfig{strings/monoidal/tensor}[f][g][white][x][y][z][w]
+\) to distinguish them from generators: then (diagrammatic order) composition \(
+    \iltikzfig{strings/category/f}[f][white][m][n]
+    \seq
+    \iltikzfig{strings/category/f}[g][white][n][p]
+\) is defined as horizontal juxtaposition \(
+    \iltikzfig{strings/category/composition}[f][g][white][m][n][p]
+\) and tensor \(
+    \iltikzfig{strings/category/f}[f][white][m][n]
+    \tensor
+    \iltikzfig{strings/category/f}[g][white][p][q]
+\) as vertical juxtaposition \(
+    \iltikzfig{strings/monoidal/tensor}[f][g][white][m][n][p][q]
 \).
 
 \begin{example}\label{ex:frobenius}
@@ -78,10 +87,6 @@ Composite terms will be illustrated as wider boxes \(
     \cref{fig:monoid-equations,fig:comonoid-equations,fig:frobenius-equations}.
     We write \(\frob := \smc{\generators[\frob], \equations[\frob]}\).
 \end{example}
-
-\input{floats/monoids}
-\input{floats/comonoids}
-\input{floats/frobenius}
 
 Reasoning equationally using string diagrams is certainly attractive
 as a pen-and-paper method, but for larger systems it quickly becomes intractible
@@ -108,14 +113,15 @@ Hypergraphs are formally defined as objects in a functor category.
 \end{definition}
 
 An object in \(\hyp\) maps \(\star\) to a set of vertices, and each \((k,l)\) to
-a set of hyperedges with \(k\) sources and \(l\) targets,
+a set of hyperedges with \(k\) sources and \(l\) targets.
 Given a hypergraph \(F \in \hyp\), we write \(\vertices{F}\) for its set of
 vertices and \(\edges{F}{k}{l}\) for the set of edges with \(k\) sources and
 \(l\) targets.
 A morphism of hypergraphs \(\morph{f}{F}{G} \in \hyp\) consists of functions
 \(\vertices{f}\) and \(\edges{f}{k}{l}\) for each \(k,l \in \nat\) preserving
 sources and targets in the obvious way.
-With such morphisms a hypergraph can be \emph{labelled}.
+Hypergraph morphisms can be used to \emph{label} hypergraphs according to a
+signature.
 
 \begin{definition}[Slice category~\cite{lawvere1963functorial}]
     For a category \(\mathbf{C}\) and an object \(C \in \mathbf{C}\), the
@@ -126,13 +132,12 @@ With such morphisms a hypergraph can be \emph{labelled}.
     \(f^\prime \circ g = f\).
 \end{definition}
 
-
 \begin{definition}[Hypergraph signature~\cite{bonchi2022string}]
     For a given monoidal signature \(\signature\), its corresponding
     \emph{hypergraph signature} \(\hypsignature{\Sigma}\) is the hypergraph with
-    edges \(
+    a single vertex \(v\) and edges \(
         e_\phi \in \edges{\hypsignature{\Sigma}}{\dom[\phi]}{\cod[\phi]}
-    \) for each \(\phi \in \Sigma\), and a vertex \(v\).
+    \) for each \(\phi \in \Sigma\).
     For a hyperedge \(e_\phi\), \(i < \dom[\phi]\) and \(j < \cod{\phi}\), \(
         \sources{i}(e_\phi) = \targets{j}(e_\phi) = v
     \).
