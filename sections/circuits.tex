@@ -3,9 +3,15 @@
 \subsection{Digital circuits}
 \label{sec:digital-circuits}
 
-A traced monoidal theory with a comonoid structure that is of particular
-interest to us is the \emph{local theory of sequential circuits} from
-\cite[Sec. VI]{ghica2022compositional}.
+As mentioned above, traced Cartesian categories are useful for reasoning in
+settings with fixpoint operators.
+One such setting is that of \emph{digital circuits} built from primitive logic
+gates: in \cite{ghica2023compositional}, digital circuits are modelled as
+morphisms in a STMC.
+Here, the trace models a feedback loop, and the comonoid structure represents
+copying wires.
+The semantics of digital circuits can be expressed as a monoidal
+theory~\cite[Sec. 6]{ghica2023compositional}.
 
 \begin{definition}[Gate-level circuits]
     Let the monoidal theory of \emph{gate-level sequential circuits} be defined
@@ -61,10 +67,13 @@ a false signal, and both signals at once; and a delay of one unit of time.
 The equations of \(\equations[\mathbf{SCirc}]\) contain the equations of a
 commutative comonoid, so this is a perfect use case for rewriting modulo
 trace commutative comonoid structure.
+Note that the Cartesian equations are \emph{not} explicitly provided as
+equations: instead they can be derived from the smaller equations.
+
 Using graph rewriting, we can sketch out an \emph{operational semantics} for
 sequential circuits.
 For the interests of brevity, we will only consider circuits of the form \(
-    \iltikzfig{circuits/productivity/mealy-form-verbose}[f][v][m][n]
+    \iltikzfig{circuits/productivity/mealy-form-verbose}[F][v][m][n]
 \): circuits with no `non-delay-guarded feedback' in which the registers of the
 circuit have been isolated from a core containing only `blue'
 (\emph{combinational}) components, which models a function.
@@ -74,8 +83,9 @@ theory.
 We can `apply' such a circuit to an input as shown in the left-hand side of
 \cref{fig:cycle}; the equations in
 \(\equations[\mathbf{SCirc}]\) can be used to derive the right-hand side.
-More equations can then be applied to reduce the two `new' cores down to
-values, representing the output and new state of the circuit.
+The four equations in the top row of \cref{fig:circuit-equations} can then be
+repeatedly applied to reduce the two `new' cores down to values, representing
+the output and new state of the circuit.
 
 When the circuits are interpreted as hypergraphs and the equations as rewrites,
 a computer could perform this sequence of rewrites in order to evaluate circuits
