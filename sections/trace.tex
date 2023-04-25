@@ -259,6 +259,9 @@ Intuitively, partial monogamy means that each vertex has exactly one `in' and
     }{}
 }
 
+In order to establish a correspondence between cospans of partial monogamous
+hypergraphs, they need to be assembled into a sub-PROP of \(\cspdhyp\).
+
 \begin{theorem}~\label{thm:partial-monogamous-ops}
     Let \(\cospan{m}{F}{n}\), \(\cospan{n}{G}{p}\), \(\cospan{p}{H}{q}\) and
     \(\cospan{x+m}{K}{x+n}\) be partial monogamous cospans in \(\cspdhyp\).
@@ -309,10 +312,15 @@ Intuitively, partial monogamy means that each vertex has exactly one `in' and
                     monogamous.
         \end{itemize}
     \end{proof}
-}{}
-
-This means that the partial monogamous hypergraphs form a sub-PROP of
-\(\cspdhyp\).
+}{
+    \begin{proof}
+        Since any monogamous hypergraph is also partial monogamous, the first
+        three points hold due to~\cite[Prop.16]{bonchi2022string}, dropping the
+        acyclicity condition.
+        The final condition is routine by case analysis on the interfaces that
+        each vertex is in the image of.
+    \end{proof}
+}
 
 \begin{definition}
     Let \(\pmcspdhyp\) be the sub-PROP of \(\cspdhyp\) containing only the
@@ -340,7 +348,7 @@ For \(\pmcspfihyp\) to be suitable for reasoning with a traced category
 and faithful functor from terms to cospans of hypergraphs.
 
 We exploit the interplay between compact closed and traced categories in
-order to use the existing PROP morphisms from~\cite{bonchi2022string} for the
+order to reuse the existing PROP morphisms from~\cite{bonchi2022string} for the
 traced case.
 Since \(\smc{\Sigma}\) and \(\pmcspdhyp\) are freely generated, to define a
 PROP morphism between them it suffices to define it on the generators in the
