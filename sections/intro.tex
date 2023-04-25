@@ -25,7 +25,7 @@ The study of rewriting for traced categories with a comonoid structure is
 motivated by an important application,
 \emph{dataflow categories}~\cite{cazanescu1990new,cazanescu1994feedback,hasegawa1997recursion},
 which represent a categorical foundation for the semantics of digital
-circuits~\cite{ghica2022compositional}.
+circuits~\cite{ghica2023compositional}.
 It is also technically challenging, as it falls in a gap between compact closed
 structures constructible via Frobenius and symmetric monoidal categories
 (without trace) so `off the shelf' solutions cannot be currently used.
@@ -47,8 +47,8 @@ constructed to fill this particular situation.
 This paper makes two distinct technical contributions.
 The first is to show that one subclass of cospans of hypergraphs (`partial
 monogamous') are fully complete for traced terms (\cref{cor:stmc-graph-iso}),
-and another class (`partial left-monogamous') fully complete for traced comonoid
-terms (\cref{thm:comonoid-fully-complete}).
+and another class (`partial left-monogamous') are fully complete for traced
+comonoid terms (\cref{thm:comonoid-fully-complete}).
 The challenge is not so much in proving the correctness of the construction but
 in defining precisely what these combinatorial structures should be.
 In particular, the extremal point of tracing the identity: \(
@@ -59,7 +59,8 @@ In particular, the extremal point of tracing the identity: \(
     \iltikzfig{strings/traced/trace-id}
 \), corresponding graphically to a closed loop, provides a litmus test.
 The way this is resolved must be robust enough to handle the addition of the
-comonoid structure, which graphically corresponds to `tracing a forking wire' \(
+comonoid structure, which graphically corresponds to `tracing a forking wire':
+\(
     \trace{}{
         \iltikzfig{strings/structure/comonoid/copy}[white]
     }
@@ -67,13 +68,17 @@ comonoid structure, which graphically corresponds to `tracing a forking wire' \(
     \iltikzfig{strings/structure/comonoid/trace-fork}
 \).
 
-When rewriting with Frobenius using double pushout (DPO) rewriting, every
-pushout complement is valid~\cite{bonchi2022string} whereas when rewriting with
-symmetric monoidal structure exactly one pushout complement is
-valid~\cite{bonchi2022stringa}.
+The key step in performing double pushout (DPO) rewriting is identifying a
+\emph{pushout complement}: the context of a rewrite step.
+For a given rule and graph, there may be multiple such pushout complements, but
+not all of these may represent a valid rewrite in a given string diagram
+setting.
+When rewriting with Frobenius, every pushout complement is
+valid~\cite{bonchi2022string} whereas when rewriting with symmetric monoidal
+structure exactly one pushout complement is valid~\cite{bonchi2022stringa}.
 For the traced case some pushout complements are valid and some are not.
 The second contribution is to characterise the valid pushout complements as
-`traced boundary complements'.
+`traced boundary complements' (\cref{def:traced-boundary-complement}).
 
 This is best illustrated with an example in which there is a pushout
 complement that is valid in a Frobenius setting because it uses the monoid
