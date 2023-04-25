@@ -16,6 +16,8 @@
 \usepackage{figures/tikzit}
 \usepackage{tikz-cd}
 
+\title{Rewriting modulo traced comonoid structure}
+\authorrunning{Dan R.\ Ghica and George Kaye}
 \author{
     Dan R.\ Ghica
 }{
@@ -34,10 +36,7 @@
 }{
     https://orcid.org/0000-0002-0515-4055
 }{}
-
-\authorrunning{Dan R.\ Ghica and George Kaye}
 \Copyright{Dan R. Ghica and George Kaye}
-
 \begin{CCSXML}
     <ccs2012>
        <concept>
@@ -48,7 +47,6 @@
      </ccs2012>
 \end{CCSXML}
 \ccsdesc[500]{Theory of computation~Equational logic and rewriting}
-
 \keywords{
     symmetric traced monoidal categories,
     string diagrams,
@@ -56,17 +54,30 @@
     comonoid structure,
     double pushout rewriting
 }
-
+\theoremstyle{definition}
+\newtheorem{notation}[theorem]{Notation}
+\bibliographystyle{plainurl}
+\relatedversiondetails{Full version}{https://arxiv.org/abs/2302.09631}
+\funding{
+    This work was supported by the Engineering and Physical Sciences Research
+    Council [grant EP/V001612/1]
+}
+\acknowledgements{Thanks to Chris Barrett for helpful comments.}
+% Volume macros
+\EventEditors{Marco Gaboardi and Femke van Raamsdonk}
+\EventNoEds{2}
+\EventLongTitle{8th International Conference on Formal Structures for Computation and Deduction (FSCD 2023)}
+\EventShortTitle{FSCD 2023}
+\EventAcronym{FSCD}
+\EventYear{2023}
+\EventDate{July 3--6, 2023}
+\EventLocation{Rome, Italy}
+\EventLogo{}
+\SeriesVolume{260}
+\ArticleNo{10}
+% toggles
 \newtoggle{conf}
 \newtoggle{proofs}
 \settoggle{conf}{true}
 \settoggle{proofs}{false}
-
-\theoremstyle{definition}
-\newtheorem{notation}[theorem]{Notation}
-
-\bibliographystyle{plainurl}
-
-\title{Rewriting modulo traced comonoid structure}
-
 \input{main}
