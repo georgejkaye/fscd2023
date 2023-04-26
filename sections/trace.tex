@@ -386,6 +386,8 @@ former.
     }
 \end{definition}
 
+A summary of these PROP morphisms is shown in \cref{fig:roadmap}.
+
 \begin{lemma}\label{lem:smc-core}
     Let \(\iltikzfig{strings/category/f}[f][white][m][n]\) be a term in
     \(\stmc{\Sigma}\).
@@ -471,8 +473,9 @@ There is a correspondence between such terms and \emph{bijective} functions.
 
 \begin{lemma}\label{lem:monog-discrete-cospan}
     Given a monogamous cospan \(\cospan{m}[f]{m}[g]{m}\), there exists a unique
-    term \(\morph{h}{m}{m} \in \smc{}\) up to the axioms of SMCs such that
-    \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
+    term \(\iltikzfig{strings/category/f}[h][white][m][m] \in \smc{}\) up to the
+    axioms of SMCs such that
+    \(\termtohyp[\iltikzfig{strings/category/f}[h][white]]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
 \end{lemma}
 \begin{proof}
     Since the cospan is monogamous, \(f\) and \(g\) are mono.
@@ -480,9 +483,19 @@ There is a correspondence between such terms and \emph{bijective} functions.
     function \(\morph{h^\prime}{[m]}{[m]}\) such that \(h^\prime(i) = j\) if
     \(f(i) = g(j)\).
     By \cref{lem:symmetries-prop}, there is a corresponding term
-    \(h \in \smc{}\) that is unique up to SMC axioms: a simple induction
-    shows that \(\termtohyp[h]{\Sigma} = \cospan{m}[f]{m}[g]{m}\).
+    \(\iltikzfig{strings/category/f}[h][white][m][m] \in \smc{}\) that is unique
+    up to SMC axioms: a simple induction shows that \(
+        \termtohyp[\iltikzfig{strings/category/f}[h][white]]{\Sigma}
+        =
+        \cospan{m}[f]{m}[g]{m}
+    \).
 \end{proof}
+
+Cospans of the form above are used in order to reconstruct a term in
+\(\stmcsigma\) given a cospan of partial monogamous hypergraphs, showing that
+partial monogamy characterises the image of \(
+    \termandfrobtohypsigma \circ \tracedtosymandfrob{\Sigma}
+\).
 
 \begin{theorem}\label{thm:termtohyp-image}
     A cospan \(\cospan{m}{F}{n}\) is in the image of \(
@@ -515,6 +528,14 @@ There is a correspondence between such terms and \emph{bijective} functions.
         generators in \(\stmc{\Sigma}\).
     \end{proof}
 }
+
+This shows that \(
+    \termandfrobtohypsigma \circ \tracedtosymandfrob{\Sigma}
+\) is a \emph{full} mapping from \(\stmcsigma\) to \(\pmcspdhyp\).
+It remains to show that it is faithful: every term in \(\stmcsigma\) has a
+\emph{unique} cospan of hypergraphs up to isomorphism.
+By definition, \(\tracedtosymandfrob{\Sigma}\) is faithful, so we only need to
+consider \(\termandfrobtohypsigma\).
 
 \begin{proposition}[\cite{bonchi2022string}]
     \(\termtohypsigma\) and \(\frobtohyp{\Sigma}\) are faithful.
