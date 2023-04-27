@@ -12,9 +12,9 @@ tensor product.
     A \emph{(single-sorted) symmetric monoidal theory} (SMT) is a tuple \(
         (\generators,\equations)
     \) where \(\generators\) is a set of \emph{generators} in which each
-    generator \(\phi \in \generators\) has an associated \emph{arity} and
-    \emph{coarity} \(\dom[\phi], \cod[\phi] \in \nat\), and \(\equations\) is a
-    set of equations.
+    generator \(\phi \in \generators\) has an associated \emph{arity}
+    \(\dom[\phi] \in \nat\) and \emph{coarity} \(\cod[\phi] \in \nat\),
+    and \(\equations\) is a set of equations.
     Given a SMT \((\generators,\equations)\), let \(
         \smc{\generators}
     \) be the strict symmetric monoidal category freely generated over
@@ -23,14 +23,6 @@ tensor product.
     We write \(\smc{} := \smc{\emptyset}\) for the SMC with terms constructed
     solely from identities and symmetries.
 \end{definition}
-
-It is important to distinguish between the \emph{syntactic} category
-\(\smc{\generators}\) and the \emph{semantic} category
-\(\smc{\generators,\equations}\).
-In the former, only `structural' equalities of the axioms of SMCs hold:
-moving boxes around while retaining connectivity.
-In the latter, more equations hold that mean terms with completely different
-boxes and connectivity can be potentially equal.
 
 \begin{remark}
     One can also define a \emph{multi-sorted} SMT, in which wires can be of
@@ -71,6 +63,14 @@ Composite terms will be illustrated as wider boxes \(
 \) as vertical juxtaposition \(
     \iltikzfig{strings/monoidal/tensor}[f][g][white][m][n][p][q]
 \).
+
+The graphical notation clearly illustrates the differences between the
+\emph{syntactic} category \(\smc{\generators}\) and the \emph{semantic} category
+\(\smc{\generators,\equations}\).
+In the former, only `structural' equalities of the axioms of SMCs hold: moving
+boxes around while retaining connectivity.
+In the latter, more equations hold so terms with completely different boxes and
+connectivity can be equal.
 
 \begin{example}\label{ex:frobenius}
     The monoidal theory of
@@ -125,10 +125,10 @@ signature.
 
 \begin{definition}[Slice category~\cite{lawvere1963functorial}]
     For a category \(\mathbf{C}\) and an object \(C \in \mathbf{C}\), the
-    \emph{slice category} \(\mathbb{C} / C\) is the category with objects the
-    morphisms of \(\mathbf{C}\) with target \(C\), and morphisms \(
+    \emph{slice category} \(\mathbf{C} / C\) is the category with objects the
+    morphisms of \(\mathbf{C}\) with target \(C\), and where a morphism \(
         (\morph{f}{X}{C}) \to (\morph{f^\prime}{X^\prime}{C})
-    \) are the morphisms \(\morph{g}{X}{X^\prime} \in \mathbf{C}\) such that
+    \) is a morphism \(\morph{g}{X}{X^\prime} \in \mathbf{C}\) such that
     \(f^\prime \circ g = f\).
 \end{definition}
 
@@ -138,7 +138,7 @@ signature.
     a single vertex \(v\) and edges \(
         e_\phi \in \edges{\hypsignature{\Sigma}}{\dom[\phi]}{\cod[\phi]}
     \) for each \(\phi \in \Sigma\).
-    For a hyperedge \(e_\phi\), \(i < \dom[\phi]\) and \(j < \cod{\phi}\), \(
+    For a hyperedge \(e_\phi\), \(i < \dom[\phi]\) and \(j < \cod[\phi]\), \(
         \sources{i}(e_\phi) = \targets{j}(e_\phi) = v
     \).
 \end{definition}
@@ -159,7 +159,7 @@ These can be provided using \emph{cospans}.
         (\cospan{X}[f]{A}[g]{Y}) \to (\cospan{X}[h]{B}[k]{Y})
     \) is a morphism \(\morph{\alpha}{A}{B} \in \mathbf{C}\)%
     \iftoggle{conf}{
-        such that \(\alpha \circ f = h\) and \(\alpha \seq g = k\).
+        such that \(\alpha \circ f = h\) and \(\alpha \circ g = k\).
     }{
         such that the following diagram commutes:
         \begin{center}

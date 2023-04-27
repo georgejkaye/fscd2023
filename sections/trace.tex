@@ -218,20 +218,20 @@ interpreted in \(\cspdhyp\).
     \end{center}
 \end{definition}
 
-Intuitively, partial monogamy means that each vertex either exactly one `in' and
-`out' connection, be it to an edge or to an interface, or none at all.
+Intuitively, partial monogamy means that each vertex has either exactly one `in'
+and one `out' connection to an edge or to an interface, or none at all.
 
 \begin{figure}
     \centering
     \[
         \underbrace{
-            \iltikzfig{graphs/monogamy/yes-comonoid-0}
-            \iltikzfig{graphs/monogamy/yes-comonoid-1}
+            \iltikzfig{graphs/monogamy/yes-0}
+            \iltikzfig{graphs/monogamy/yes-1}
         }_{\text{partial monogamous}}
         \qquad
         \underbrace{
-            \iltikzfig{graphs/monogamy/no-comonoid-0}
-            \iltikzfig{graphs/monogamy/no-comonoid-1}
+            \iltikzfig{graphs/monogamy/no-0}
+            \iltikzfig{graphs/monogamy/no-1}
         }_{\text{not partial monogamous}}
     \]
     \caption{Examples of cospans that are and are not partial monogamous.}
@@ -240,7 +240,7 @@ Intuitively, partial monogamy means that each vertex either exactly one `in' and
 
 \begin{example}
     Examples of cospans that are and are not partial monogamous are shown
-    in \cref{fig:partial-monogamous-examples}
+    in \cref{fig:partial-monogamous-examples}.
 \end{example}
 
 \iftoggle{conf}{}{
@@ -317,8 +317,8 @@ hypergraphs, they need to be assembled into a sub-PROP of \(\cspdhyp\).
         Since any monogamous hypergraph is also partial monogamous, the first
         three points hold due to~\cite[Prop.16]{bonchi2022string}, dropping the
         acyclicity condition.
-        The final condition is routine by case analysis on the interfaces that
-        each vertex is in the image of.
+        The final condition is routine by case analysis on the interfaces a
+        vertex occurs in.
     \end{proof}
 }
 
@@ -350,9 +350,8 @@ and faithful functor from terms to cospans of hypergraphs.
 We exploit the interplay between compact closed and traced categories in
 order to reuse the existing PROP morphisms from~\cite{bonchi2022string} for the
 traced case.
-Since \(\smc{\Sigma}\) and \(\pmcspdhyp\) are freely generated, to define a
-PROP morphism between them it suffices to define it on the generators in the
-former.
+Since \(\smc{\Sigma}\) is freely generated, these PROP morphisms can be defined
+solely on generators.
 
 \begin{definition}[\cite{bonchi2022string}]\label{def:hyp-morphisms}
     Let \(\morph{\termtohyp{\Sigma}}{\smc{\Sigma}}{\cspdhyp}\) be a PROP
@@ -385,8 +384,6 @@ former.
         be the copairing of \(\termtohyp{\Sigma}\) and \(\frobtohyp{\Sigma}\).
     }
 \end{definition}
-
-A summary of these PROP morphisms is shown in \cref{fig:roadmap}.
 
 \begin{lemma}\label{lem:smc-core}
     Let \(\iltikzfig{strings/category/f}[f][white][m][n]\) be a term in
@@ -421,6 +418,8 @@ A summary of these PROP morphisms is shown in \cref{fig:roadmap}.
     since the only use of the generators of \(\frob\) is in the canonical trace,
     to which the Frobenius equations do not apply.
 \end{proof}
+
+A summary of these PROP morphisms is shown in \cref{fig:roadmap}.
 
 Before progressing to the main theorem, we must show a result about terms in
 \(\smc{}\): terms constructed from just symmetries and identities.
@@ -517,12 +516,12 @@ partial monogamy characterises the image of \(
             \trace{x + n}{
                 \cospan{x + n + m}{V}{m + x + n}
                 \seq
-                \cospan{m + x + n}{L + E + n}{m + x + n}
+                \cospan{m + x + n}{L + E + n}{x + n + n}
             }
         \end{gather}
         where \(V\) is all the vertices in \(F\), \(L\) is the vertices with
         degree \((0, 0)\) not in the image of the interfaces, and \(E\) is the
-        all the hyperedges in \(F\).
+        all the hyperedges in \(F\), `stacked' in some arbitrary order.
         The first component corresponds to a term in \(\smc{}\) by
         \cref{lem:monog-discrete-cospan}, and the stack of edges to a tensor of
         generators in \(\stmc{\Sigma}\).
