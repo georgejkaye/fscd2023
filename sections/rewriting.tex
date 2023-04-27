@@ -41,9 +41,9 @@ In the syntactic realm this is performed with \emph{term rewriting}.
     \) by axioms of STMCs.
 \end{definition}
 
-The graph equivalent is \emph{graph rewriting}.
-A common framework is that of \emph{double pushout rewriting} (DPO rewriting).
-We use an extension, known as \emph{double pushout rewriting with interfaces}
+The equivalent for graphs is \emph{graph rewriting}.
+A common framework is that of \emph{double pushout rewriting} (DPO rewriting);
+we use an extension, known as \emph{double pushout rewriting with interfaces}
 (DPOI rewriting).
 
 \begin{definition}[DPO rule]
@@ -166,11 +166,10 @@ rule.
     \(\hypsigma\) is adhesive.
 \end{proposition}
 
-Since a given pushout complement uniquely determines the rewrite performed, it
-might seem advantageous to always have exactly one pushout complement.
-However, as shall be detailed later, when writing modulo traced comonoid
-structure there are settings where having multiple pushout complements is
-beneficial.
+A given pushout complement uniquely determines the rewrite performed, so it
+might seem advantageous to always have exactly one.
+However, when writing modulo traced comonoid structure there are settings where
+having multiple pushout complements is beneficial.
 
 \subsection{Rewriting with traced structure}
 
@@ -191,8 +190,8 @@ We will use a weakening of this definition.
 \end{definition}
 
 Unlike~\cite{bonchi2022stringa}, we do not enforce that the matching is mono,
-as restricting to these matchings actually cuts off potential rewrites in the
-\emph{traced} setting, such as the occurrence of a rewrite rule inside a loop: \(
+as this cuts off potential rewrites in the \emph{traced} setting, such as a
+matching inside a loop: \(
     \iltikzfig{graphs/dpo/matchings/trace-l}
     \to
     \iltikzfig{graphs/dpo/matchings/trace-g}
@@ -285,10 +284,11 @@ rule and matching~\cite{heumuller2011construction}.
 
     \begin{center}
         \includestandalone{figures/graphs/dpo/non-unique/rewrite-1}
+        \quad
         \includestandalone{figures/graphs/dpo/non-unique/rewrite-2}
     \end{center}
 
-    These derivations arise since we are rewriting modulo \emph{yanking}:
+    Once again, these derivations arise through yanking:
     \begin{gather*}
         \iltikzfig{graphs/dpo/non-unique/derivation-1}
         =
@@ -322,7 +322,7 @@ This is not necessary in the traced case.
 \begin{example}
     Consider the following rewrite rule and its interpretation.
     %
-    \begin{gather}
+    \begin{gather*}
         \rrule{
             \iltikzfig{graphs/dpo/convex/example-l}
         }{
@@ -331,25 +331,25 @@ This is not necessary in the traced case.
         \qquad
         \iltikzfig{graphs/dpo/convex/example-rule-graph}
         \label{gath:convex-rule}
-    \end{gather}
+    \end{gather*}
     %
     Now consider the following term and interpretation:
     %
-    \begin{gather}
+    \begin{gather*}
         \iltikzfig{graphs/dpo/convex/example-g}
         \qquad
         \iltikzfig{graphs/dpo/convex/example-g-graph}
         \label{gath:convex-term}
-    \end{gather}
+    \end{gather*}
     Although it is not obvious in the original string diagram, there is in fact
-    a matching of (\ref{gath:convex-rule}) in (\ref{gath:convex-term}).
+    a matching of of the former in the latter.
     Performing the DPO procedure yields the following:
     %
-    \begin{gather}
+    \begin{gather*}
         \iltikzfig{graphs/dpo/convex/example-h-graph}
         \qquad
         \iltikzfig{graphs/dpo/convex/example-h}
-    \end{gather}
+    \end{gather*}
     In a non-traced setting this is an invalid rule!
     However, it is possible with yanking.
     \begin{gather*}
@@ -580,8 +580,7 @@ boundary complement conditions need to be weakened to the case of
     \).
 \end{theorem}
 \begin{proof}
-    This is the same as for \cref{thm:traced-rewriting} but with the replacement
-    of all traced boundary complements with traced left-boundary complements.
+    As \cref{thm:traced-rewriting}, but with traced left-boundary complements.
 \end{proof}
 
 \begin{example}

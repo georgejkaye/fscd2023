@@ -9,7 +9,7 @@ One such setting is that of \emph{digital circuits} built from primitive logic
 gates: in \cite{ghica2023compositional}, digital circuits are modelled as
 morphisms in a STMC.
 Here, the trace models a feedback loop, and the comonoid structure represents
-copying wires.
+forking wires.
 The semantics of digital circuits can be expressed as a monoidal
 theory~\cite[Sec. 6]{ghica2023compositional}.
 
@@ -40,9 +40,9 @@ theory~\cite[Sec. 6]{ghica2023compositional}.
     where
     \(
         \gateinterpretation
-    \) maps gates to the corresponding truth table, \(\ljoin\) is the join in
-    the information lattice, and
-    \(
+    \) maps gates to the corresponding truth table, \(\ljoin\) is the join in a
+    lattice structure on \(\{\bullet, \belnaptrue, \belnapfalse, \belnapboth\}\),
+    and \(
         \iltikzfig{circuits/components/circuits/f-1-2}[F^n][comb][m][x][n]
     \) is defined inductively as \(
         \iltikzfig{circuits/instant-feedback/f0-box}
@@ -63,12 +63,9 @@ The generators in \(\generators[\mathbf{SCirc}]\) are, respectively:
 \(\andgate\), \(\orgate\) and \(\notgate\) gates; constructs for introducing,
 forking, joining and stubbing wires; \emph{values} representing a true signal,
 a false signal, and both signals at once; and a delay of one unit of time.
-
-The equations of \(\equations[\mathbf{SCirc}]\) contain the equations of a
-commutative comonoid, so this is a perfect use case for rewriting modulo
-trace commutative comonoid structure.
-Note that the Cartesian equations are \emph{not} explicitly provided as
-equations: instead they can be derived from the smaller equations.
+Note that while the equations in \(\equations[\mathbf{Scirc}]\) contain those
+of a commutative comonoid, they do \emph{not} explicitly contain the general
+Cartesian equations: instead, these are derived from smaller equations.
 
 Using graph rewriting, we can sketch out an \emph{operational semantics} for
 sequential circuits.
