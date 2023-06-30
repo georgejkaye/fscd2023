@@ -53,8 +53,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          release_name: ${{ steps.name.outputs.name }}
-          tag_name: ${{ steps.name.outputs.name }}
+          release_name: Latest release
+          tag_name: ${{ steps.name.outputs.name }}-draft
       - name: Upload the conference paper to the release
         uses: actions/upload-release-asset@v1
         env:
@@ -91,3 +91,11 @@ jobs:
           asset_path: ${{ github.event.repository.name }}-arxiv.zip
           asset_name: ${{ github.event.repository.name }}-${{ steps.name.outputs.name }}-arxiv.zip
           asset_content_type: zip
+      - name: Delete older releases
+        uses: dev-drprasad/delete-older-releases@v0.2.0
+        with:
+          keep_latest: 1
+          delete_tags: true
+          delete_tag_pattern: "2023"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
